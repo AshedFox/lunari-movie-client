@@ -9,6 +9,7 @@ import {
 import { PropsWithChildren } from 'react';
 import { API_URL } from '@lib/constants';
 import { removeTypenameLink } from './remove-typename-link';
+import { authLink } from '@lib/apollo/auth-link';
 
 function makeClient() {
   const httpLink = new HttpLink({
@@ -18,7 +19,7 @@ function makeClient() {
 
   return new ApolloClient({
     cache: new InMemoryCache({ addTypename: false }),
-    link: from([removeTypenameLink, httpLink]),
+    link: from([removeTypenameLink, authLink, httpLink]),
   });
 }
 
