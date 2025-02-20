@@ -11,7 +11,7 @@ const config: CodegenConfig = {
         skipTypename: true,
         dedupeFragments: true,
         scalars: {
-          DateTime: 'Date',
+          DateTime: 'string',
         },
         namingConvention: {
           enumValues: 'keep',
