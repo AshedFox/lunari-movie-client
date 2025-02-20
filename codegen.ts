@@ -7,9 +7,12 @@ const config: CodegenConfig = {
   generates: {
     './src/lib/graphql/generated/': {
       preset: 'client',
+      presetConfig: {
+        fragmentMasking: false,
+        dedupeFragments: true,
+      },
       config: {
         skipTypename: true,
-        dedupeFragments: true,
         scalars: {
           DateTime: 'string',
         },
