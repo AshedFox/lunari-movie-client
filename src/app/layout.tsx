@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
 import { ApolloWrapper } from '@lib/apollo/ApolloWrapper';
+import { Toaster } from '@components/ui/sonner';
 import { cn } from '@lib/utils';
 import { ThemeProvider } from 'next-themes';
 
@@ -62,6 +63,7 @@ export default function RootLayout({
           <ApolloWrapper>
             {children}
           </ApolloWrapper>
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>
