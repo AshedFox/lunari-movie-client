@@ -57,6 +57,8 @@ export async function middleware(req: NextRequest) {
     });
   }
 
+  res.headers.set('X-ORIGIN', req.nextUrl.origin);
+
   return res;
 }
 
