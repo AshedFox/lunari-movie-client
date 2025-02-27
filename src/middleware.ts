@@ -40,34 +40,21 @@ async function refresh(req: NextRequest, res: NextResponse): Promise<boolean> {
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-  const accessToken = req.cookies.get(ACCESS_COOKIE_KEY)?.value;
-  const refreshToken = req.cookies.get(REFRESH_COOKIE_KEY)?.value;
+  let accessToken = req.cookies.get(ACCESS_COOKIE_KEY)?.value;
 
-  if (privateRoutes.includes(req.nextUrl.pathname)) {
-    if (!accessToken) {
-      if (refreshToken && (await refresh(req, res))) {
-        return res;
-      }
-      return NextResponse.redirect(new URL('/login', req.url), {
-        headers: res.headers,
-      });
-    }
-
-    return res;
+  if (!accessToken) {
+    await refresh(req, res);
+    accessToken = res.cookies.get(ACCESS_COOKIE_KEY)?.value;
   }
 
-  if (guestRoutes.includes(req.nextUrl.pathname)) {
-    if (!accessToken && refreshToken && (await refresh(req, res))) {
-      return NextResponse.redirect(new URL('/', req.url), {
-        headers: res.headers,
-      });
-    }
-
-    if (accessToken) {
-      return NextResponse.redirect(new URL('/', req.url), {
-        headers: res.headers,
-      });
-    }
+  if (privateRoutes.includes(req.nextUrl.pathname) && !accessToken) {
+    return NextResponse.redirect(new URL('/login', req.url), {
+      headers: res.headers,
+    });
+  } else if (guestRoutes.includes(req.nextUrl.pathname) && accessToken) {
+    return NextResponse.redirect(new URL('/', req.url), {
+      headers: res.headers,
+    });
   }
 
   return res;
