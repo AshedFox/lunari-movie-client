@@ -39,6 +39,18 @@ export async function setAuthCookies(
   });
 }
 
+export async function setUserCookie(user: UserProfileFragment) {
+  const cookieStore = await cookies();
+
+  cookieStore.set(USER_COOKIE_KEY, JSON.stringify(user), {
+    sameSite: 'strict',
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 5 * 60,
+  });
+}
+
 export async function resetAuthCookies(cookiesStore?: ResponseCookies) {
   const cookieStore = cookiesStore || (await cookies());
   cookieStore.delete(ACCESS_COOKIE_KEY);
