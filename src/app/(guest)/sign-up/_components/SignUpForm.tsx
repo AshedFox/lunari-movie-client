@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import { SignUpInput } from '@lib/graphql/generated/graphql';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUp } from '@app/(guest)/sign-up/_actions';
+import Link from 'next/link';
 
 const SignUpForm = () => {
   const form = useForm<SignUpInput>({
@@ -102,9 +103,17 @@ const SignUpForm = () => {
         {form.formState.errors.root && (
           <FormMessage>{form.formState.errors.root?.message}</FormMessage>
         )}
-        <Button size="lg" type="submit">
-          Sign Up
-        </Button>
+        <div className="space-x-3">
+          <Button size="lg" type="submit">
+            Sign Up
+          </Button>
+          <span className="text-xs">
+            Already have an account?{' '}
+            <Link className="border-b border-b-current" href="/login">
+              Login
+            </Link>
+          </span>
+        </div>
       </form>
     </Form>
   );
