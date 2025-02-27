@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { ReactNode } from 'react';
+import { ReactNode, use } from 'react';
 import { ApolloWrapper } from '@lib/apollo/ApolloWrapper';
 import { Toaster } from '@components/ui/sonner';
 import { cn } from '@lib/utils';
+import { Header } from '@components/common/header';
+import { getUser } from '@lib/auth/user-dal';
 import { ThemeProvider } from 'next-themes';
 
 const geistSans = Geist({
@@ -49,10 +51,16 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const user = use(getUser());
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={cn(
+          geistSans.variable,
+          geistMono.variable,
+          'antialiased overflow-x-hidden min-h-screen grid grid-rows-[calc(var(--spacing)*16)_1fr]',
+        )}
       >
         <ThemeProvider
           enableSystem
@@ -61,6 +69,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ApolloWrapper>
+            <Header user={user} />
             {children}
           </ApolloWrapper>
           <Toaster richColors />
