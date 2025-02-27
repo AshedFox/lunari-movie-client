@@ -21,21 +21,21 @@ export async function setAuthCookies(
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 15 * 60,
+    maxAge: 5 * 60,
   });
   cookieStore.set(REFRESH_COOKIE_KEY, refreshToken, {
     sameSite: 'strict',
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 7 * 24 * 60 * 60,
+    maxAge: 14 * 24 * 60 * 60,
   });
   cookieStore.set(USER_COOKIE_KEY, JSON.stringify(user), {
     sameSite: 'strict',
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 15 * 60,
+    maxAge: 5 * 60,
   });
 }
 
