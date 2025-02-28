@@ -8,16 +8,12 @@ export const metadata: Metadata = {
 
 type Props = {
   params: Promise<{
-    token?: string;
+    token: string;
   }>;
 };
 
 const Page = ({ params }: Props) => {
   const { token } = use(params);
-
-  if (!token) {
-    return <></>;
-  }
 
   return (
     <div className="flex items-center justify-center">
