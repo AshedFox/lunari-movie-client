@@ -8,9 +8,7 @@ import { revalidatePath } from 'next/cache';
 
 const UpdatePasswordDocument = graphql(`
   mutation UpdatePassword($oldPassword: String!, $newPassword: String!) {
-    updatePassword(oldPassword: $oldPassword, newPassword: $newPassword) {
-      ...UserProfile
-    }
+    updatePassword(oldPassword: $oldPassword, newPassword: $newPassword)
   }
 `);
 
@@ -36,8 +34,6 @@ export async function updatePassword(oldPassword: string, newPassword: string) {
     return { errors: errors || [{ message: 'Something went wrong!' }] };
   }
 
-  await setUserCookie(data.updatePassword);
-  revalidatePath('/users/me', 'layout');
   return { data };
 }
 
