@@ -59,7 +59,15 @@ const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <div className="flex justify-between">
+                <FormLabel>Password</FormLabel>
+                <Link
+                  className="border-b border-b-current text-xs"
+                  href="/forgot-password"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <FormControl>
                 <Input type="password" placeholder="Password..." {...field} />
               </FormControl>
