@@ -281,7 +281,11 @@ const UpdateProfileForm = ({ user, countries }: Props) => {
         {form.formState.errors.root && (
           <FormMessage>{form.formState.errors.root?.message}</FormMessage>
         )}
-        <Button size="lg" type="submit" disabled={!form.formState.isDirty}>
+        <Button
+          size="lg"
+          type="submit"
+          disabled={!form.formState.isDirty || form.formState.isSubmitting}
+        >
           Update
         </Button>
       </form>

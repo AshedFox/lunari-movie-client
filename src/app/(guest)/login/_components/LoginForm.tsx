@@ -71,7 +71,11 @@ const LoginForm = () => {
           <FormMessage>{form.formState.errors.root?.message}</FormMessage>
         )}
         <div className="space-x-3">
-          <Button size="lg" type="submit">
+          <Button
+            size="lg"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             Login
           </Button>
           <span className="text-xs">

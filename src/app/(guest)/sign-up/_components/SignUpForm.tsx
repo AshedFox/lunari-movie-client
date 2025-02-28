@@ -104,7 +104,11 @@ const SignUpForm = () => {
           <FormMessage>{form.formState.errors.root?.message}</FormMessage>
         )}
         <div className="space-x-3">
-          <Button size="lg" type="submit">
+          <Button
+            size="lg"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             Sign Up
           </Button>
           <span className="text-xs">
