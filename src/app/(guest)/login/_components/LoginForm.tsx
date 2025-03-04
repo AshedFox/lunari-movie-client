@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { login } from '../_actions';
 import { loginSchema } from '../_validation';
 import { Input } from '@components/ui/input';
@@ -17,6 +16,8 @@ import { useForm } from 'react-hook-form';
 import { LoginInput } from '@lib/graphql/generated/graphql';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 const LoginForm = () => {
   const form = useForm<LoginInput>({
@@ -26,9 +27,14 @@ const LoginForm = () => {
       password: '',
     },
   });
+  const searchParams = useSearchParams();
+  const from = useMemo(
+    () => searchParams.get('from') ?? undefined,
+    [searchParams],
+  );
 
   const onSubmit = async (input: LoginInput) => {
-    const { errors } = await login(input);
+    const { errors } = await login(input, from);
     if (errors) {
       form.setError('root', {
         type: 'validate',
@@ -88,7 +94,10 @@ const LoginForm = () => {
           </Button>
           <span className="text-xs">
             Don&apos;t have an account?{' '}
-            <Link className="border-b border-b-current" href="/sign-up">
+            <Link
+              className="border-b border-b-current"
+              href={`/sign-up?from=${from}`}
+            >
               Sign up
             </Link>
           </span>

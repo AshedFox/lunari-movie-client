@@ -18,7 +18,7 @@ const LoginDocument = graphql(/* GraphQL */ `
   }
 `);
 
-export async function login(input: LoginInput) {
+export async function login(input: LoginInput, from?: string) {
   const { data, errors } = await getClient().mutate({
     mutation: LoginDocument,
     variables: {
@@ -37,5 +37,5 @@ export async function login(input: LoginInput) {
     data.login.user,
   );
 
-  redirect('/');
+  redirect(from ?? '/');
 }

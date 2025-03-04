@@ -18,7 +18,7 @@ const SignUpDocument = graphql(/* GraphQL */ `
   }
 `);
 
-export async function signUp(input: SignUpInput) {
+export async function signUp(input: SignUpInput, from?: string) {
   const { data, errors } = await getClient().mutate({
     mutation: SignUpDocument,
     variables: {
@@ -37,5 +37,5 @@ export async function signUp(input: SignUpInput) {
     data.signUp.user,
   );
 
-  redirect('/');
+  redirect(from ?? '/');
 }

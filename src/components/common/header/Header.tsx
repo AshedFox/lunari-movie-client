@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { usePathname } from 'next/navigation';
 import { UserProfileFragment } from '@lib/graphql/generated/graphql';
 import { HeaderLink } from '@components/common/header/HeaderLink';
@@ -32,7 +31,7 @@ export const Header = ({ user }: Props) => {
           <HeaderLink
             className="ml-auto"
             selected={pathname === '/login' || pathname === '/sign-up'}
-            href="/login"
+            href={`/login?from=${pathname}`}
           >
             Login
           </HeaderLink>

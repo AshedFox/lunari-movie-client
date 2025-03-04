@@ -48,9 +48,12 @@ export async function middleware(req: NextRequest) {
   }
 
   if (privateRoutes.includes(req.nextUrl.pathname) && !accessToken) {
-    return NextResponse.redirect(new URL('/login', req.url), {
-      headers: res.headers,
-    });
+    return NextResponse.redirect(
+      new URL(`/login?from=${req.nextUrl.pathname}`, req.url),
+      {
+        headers: res.headers,
+      },
+    );
   } else if (guestRoutes.includes(req.nextUrl.pathname) && accessToken) {
     return NextResponse.redirect(new URL('/', req.url), {
       headers: res.headers,
