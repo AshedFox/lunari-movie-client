@@ -1,4 +1,3 @@
-import React, { use } from 'react';
 import type { Metadata } from 'next';
 import ResetPasswordForm from './_components/ResetPasswordForm';
 
@@ -12,8 +11,8 @@ type Props = {
   }>;
 };
 
-const Page = ({ params }: Props) => {
-  const { token } = use(params);
+const Page = async ({ params }: Props) => {
+  const { token } = await params;
 
   return (
     <div className="flex items-center justify-center">

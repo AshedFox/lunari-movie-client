@@ -1,4 +1,3 @@
-import React, { use } from 'react';
 import { confirmEmail } from '@lib/actions/confirm-email';
 import { Frown, Smile } from 'lucide-react';
 
@@ -8,9 +7,9 @@ type Props = {
   }>;
 };
 
-const Page = ({ params }: Props) => {
-  const { token } = use(params);
-  const result = use(confirmEmail(token));
+const Page = async ({ params }: Props) => {
+  const { token } = await params;
+  const result = await confirmEmail(token);
 
   if (result?.error) {
     return (

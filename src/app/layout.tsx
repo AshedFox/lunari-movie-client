@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { ReactNode, use } from 'react';
+import { ReactNode } from 'react';
 import { ApolloWrapper } from '@lib/apollo/ApolloWrapper';
 import { Toaster } from '@components/ui/sonner';
 import { cn } from '@lib/utils';
@@ -46,12 +46,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const user = use(getUser());
+  const user = await getUser();
 
   return (
     <html lang="en" suppressHydrationWarning>
