@@ -1,0 +1,5 @@
+query GetCountries($sort: CountrySort) {
+    getAllCountries(sort: $sort) {
+        ...BaseCountry
+    }
+}
