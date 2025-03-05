@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUserScheme } from '@app/(user)/users/me/settings/_validation';
@@ -22,23 +22,11 @@ import {
   UserProfileFragment,
 } from '@lib/graphql/generated/graphql';
 import { toast } from 'sonner';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@components/ui/popover';
-import { Camera, Check, ChevronDown, Loader2 } from 'lucide-react';
+import { Camera, Loader2 } from 'lucide-react';
 import { cn } from '@movie-catalog/lib/utils';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@components/ui/command';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { updateAvatar } from '@lib/actions/update-avatar';
+import { Combobox } from '@components/ui/combobox';
 
 type Props = {
   user: UserProfileFragment;
@@ -57,6 +45,11 @@ const UpdateProfileForm = ({ user, countries }: Props) => {
   });
   const router = useRouter();
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const countriesOptions = useMemo(
+    () =>
+      countries.map((country) => ({ value: country.id, label: country.name })),
+    [countries],
+  );
 
   const onSubmit = async (input: UpdateUserInput) => {
     toast.promise(
@@ -219,61 +212,21 @@ const UpdateProfileForm = ({ user, countries }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Country</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          'justify-between',
-                          !field.value && 'text-muted-foreground',
-                        )}
-                      >
-                        {field.value
-                          ? countries.find(
-                              (country) => country.id === field.value,
-                            )?.name
-                          : 'Select country'}
-                        <ChevronDown />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="p-0">
-                    <Command>
-                      <CommandInput
-                        placeholder="Search country..."
-                        className="h-9"
-                      />
-                      <CommandList>
-                        <CommandEmpty>No country found.</CommandEmpty>
-                        <CommandGroup>
-                          {countries.map((country) => (
-                            <CommandItem
-                              value={country.id}
-                              key={country.id}
-                              onSelect={() => {
-                                form.setValue('countryId', country.id, {
-                                  shouldDirty: true,
-                                });
-                              }}
-                            >
-                              {country.name}
-                              <Check
-                                className={cn(
-                                  'ml-auto',
-                                  country.id === field.value
-                                    ? 'opacity-100'
-                                    : 'opacity-0',
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                <FormControl>
+                  <Combobox
+                    value={countriesOptions.find(
+                      (option) => option.value === field.value,
+                    )}
+                    options={countriesOptions}
+                    placeholder={'Select country...'}
+                    emptyMessage={'No countries found.'}
+                    onChange={(value) =>
+                      form.setValue('countryId', value?.value ?? '', {
+                        shouldDirty: true,
+                      })
+                    }
+                  />
+                </FormControl>
               </FormItem>
             )}
           />
