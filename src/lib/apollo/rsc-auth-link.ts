@@ -8,6 +8,9 @@ export const authLink = setContext(async (_, context) => {
   let token = (await cookies()).get(ACCESS_COOKIE_KEY)?.value;
 
   if (!token) {
+    const refrehsToken = (await cookies()).get(REFRESH_COOKIE_KEY)?.value;
+
+    if (refrehsToken) {
     const origin = (await headers()).get('x-origin');
 
     if (origin) {
@@ -16,6 +19,7 @@ export const authLink = setContext(async (_, context) => {
         credentials: 'include',
       });
       token = (await cookies()).get(ACCESS_COOKIE_KEY)?.value;
+      }
     }
   }
 
