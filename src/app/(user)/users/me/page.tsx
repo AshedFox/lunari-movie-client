@@ -1,10 +1,10 @@
-import React from 'react';
 import { getUser } from '@lib/auth/user-dal';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { CheckCircle2 } from 'lucide-react';
 import VerifyEmailButton from '@components/common/VerifyEmailButton';
+import { ISODateToLocale } from '@lib/utils/format';
 
 export const metadata: Metadata = {
   title: 'Profile',
@@ -41,7 +41,7 @@ const Page = async () => {
           {user.country && <p className="text-sm">{user.country.name}</p>}
           <p>
             <span className="font-semibold">Since: </span>
-            {new Date(user.createdAt).toLocaleDateString()}
+            {ISODateToLocale(user.createdAt)}
           </p>
         </div>
       </main>
