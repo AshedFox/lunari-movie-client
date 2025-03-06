@@ -1,0 +1,15 @@
+query GetSeriesList(
+  $limit: Int!
+  $offset: Int!
+  $sort: SeriesSort
+  $filter: SeriesFilter
+) {
+  getManySeries(limit: $limit, offset: $offset, sort: $sort, filter: $filter) {
+    nodes {
+      ...SeriesListItem
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+}

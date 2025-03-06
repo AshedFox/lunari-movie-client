@@ -1,0 +1,25 @@
+fragment SeriesListItem on Series {
+  __typename
+  id
+  title
+  ageRestriction
+  description
+  rating
+  cover {
+    url
+  }
+  genres {
+    id
+    name
+  }
+  studios {
+    id
+    name
+  }
+  countries {
+    id
+    name
+  }
+  startReleaseDate
+  endReleaseDate
+}
