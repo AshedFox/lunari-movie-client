@@ -1,0 +1,4 @@
+fragment BaseGenre on Genre {
+  id
+  name
+}
