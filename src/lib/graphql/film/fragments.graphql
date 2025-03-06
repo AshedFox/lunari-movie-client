@@ -1,0 +1,24 @@
+fragment FilmListItem on Film {
+  __typename
+  id
+  title
+  ageRestriction
+  description
+  rating
+  cover {
+    url
+  }
+  genres {
+    id
+    name
+  }
+  studios {
+    id
+    name
+  }
+  countries {
+    id
+    name
+  }
+  releaseDate
+}

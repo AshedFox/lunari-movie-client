@@ -1,0 +1,15 @@
+query GetFilms(
+  $limit: Int!
+  $offset: Int!
+  $sort: FilmSort
+  $filter: FilmFilter
+) {
+  getFilms(limit: $limit, offset: $offset, sort: $sort, filter: $filter) {
+    nodes {
+      ...FilmListItem
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+}
