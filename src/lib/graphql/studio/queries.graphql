@@ -1,0 +1,13 @@
+query GetFilterStudios($limit: Int!, $offset: Int!, $search: String, $nin: [ID!]) {
+    getStudios(limit: $limit, offset: $offset, filter: { name: { ilike: $search }, id: { nin: $nin }}) {
+        nodes {
+            ...BaseStudio
+        }
+    }
+}
+
+query GetFilterInitStudios($in: [ID!]) {
+    getAllStudios(filter: { id: { in: $in } }) {
+        ...BaseStudio
+    }
+}
