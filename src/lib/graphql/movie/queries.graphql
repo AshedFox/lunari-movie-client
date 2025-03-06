@@ -1,0 +1,21 @@
+query GetMovies(
+  $limit: Int!
+  $offset: Int!
+  $sort: MovieSort
+  $filter: MovieFilter
+) {
+  getMoviesOffset(
+    limit: $limit
+    offset: $offset
+    sort: $sort
+    filter: $filter
+  ) {
+    nodes {
+      ...SeriesListItem
+      ...FilmListItem
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+}
