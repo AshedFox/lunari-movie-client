@@ -3,6 +3,7 @@
 import { ScrollBar, ScrollArea } from '@components/ui/scroll-area';
 import { FilmListItemFragment } from '@lib/graphql/generated/graphql';
 import { ISODateToLocale } from '@lib/utils/format';
+import { Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -30,12 +31,14 @@ const FilmCard = ({ film }: Props) => {
         <div className="absolute bottom-0 left-0 bg-chart-1 text-sm font-bold rounded-tr-md px-3 py-1 text-primary-foreground drop-shadow-lg">
           film
         </div>
+        <div className="absolute bottom-0 right-0 bg-chart-3 text-sm font-bold rounded-tl-md px-3 py-1 text-primary-foreground drop-shadow-lg flex gap-2 items-center">
+          {film.rating || '-'} <Star className="size-4 fill-current" />
+        </div>
       </div>
       <div className="p-4 space-y-2 flex flex-col flex-1">
         <Link className="w-fit" href={`/films/${film.id}`}>
           <h2 className="text-xl font-semibold truncate">{film.title}</h2>
         </Link>
-
         <div className="line-clamp-4 text-sm ">{film.description}</div>
         <div className="font-bold text-sm mt-auto">
           {ISODateToLocale(film.releaseDate)}

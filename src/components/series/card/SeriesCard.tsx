@@ -1,6 +1,7 @@
 import { ScrollBar, ScrollArea } from '@components/ui/scroll-area';
 import { SeriesListItemFragment } from '@lib/graphql/generated/graphql';
 import { ISOPeriodToLocale } from '@lib/utils/format';
+import { Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -25,8 +26,11 @@ const SeriesCard = ({ series }: Props) => {
         <div className="absolute top-0 left-0 bg-primary text-sm font-bold rounded-br-md px-3 py-1 text-primary-foreground drop-shadow-lg">
           {series.ageRestriction}
         </div>
-        <div className="absolute bottom-0 left-0 bg-chart-3 text-sm font-bold rounded-tr-md px-3 py-1 text-primary-foreground drop-shadow-lg">
+        <div className="absolute bottom-0 left-0 bg-chart-1 text-sm font-bold rounded-tr-md px-3 py-1 text-primary-foreground drop-shadow-lg">
           series
+        </div>
+        <div className="absolute bottom-0 right-0 bg-chart-3 text-sm font-bold rounded-tl-md px-3 py-1 text-primary-foreground drop-shadow-lg flex gap-2 items-center">
+          {series.rating || '-'} <Star className="size-4 fill-current" />
         </div>
       </div>
       <div className="p-4 space-y-2 flex flex-col flex-1">
