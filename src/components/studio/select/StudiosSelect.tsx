@@ -1,6 +1,6 @@
 'use client';
 
-import { useSuspenseQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import {
   FormField,
   FormItem,
@@ -23,14 +23,10 @@ function StudiosSelect<T extends { studios: Option[] }>({
   onChange,
   count = 30,
 }: Props<T>) {
-  const { data: studiosData, refetch } = useSuspenseQuery(
+  const [getStudios, { data: studiosData }] = useLazyQuery(
     GetFilterStudiosDocument,
     {
       errorPolicy: 'ignore',
-      variables: {
-        limit: count,
-        offset: 0,
-      },
       context: {
         skipAuth: true,
       },
@@ -62,8 +58,12 @@ function StudiosSelect<T extends { studios: Option[] }>({
               options={studiosOptions}
               onChange={onChange}
               onSearch={async (search) => {
-                await refetch({
-                  search,
+                await getStudios({
+                  variables: {
+                    limit: count,
+                    offset: 0,
+                    search,
+                  },
                 });
               }}
             />
