@@ -82,6 +82,18 @@ const SeriesCard = ({ series }: Props) => {
 
         {/* Other */}
         <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground">
+          {/* Seasons count */}
+          <div>
+            <span className="text-muted-foreground/65">Seasons: </span>
+            {series.paginatedSeasons.pageInfo.totalCount}
+          </div>
+
+          {/* Episodes count */}
+          <div>
+            <span className="text-muted-foreground/65">Episodes: </span>
+            {series.paginatedEpisodes.pageInfo.totalCount}
+          </div>
+
           {/* Studios */}
           {series.studios.length > 0 && (
             <div className="space-y-1">

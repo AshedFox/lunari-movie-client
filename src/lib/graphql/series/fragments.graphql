@@ -20,6 +20,16 @@ fragment SeriesListItem on Series {
     id
     name
   }
+  paginatedSeasons {
+    pageInfo {
+      totalCount
+    }
+  }
+  paginatedEpisodes {
+    pageInfo {
+      totalCount
+    }
+  }
   startReleaseDate
   endReleaseDate
 }
