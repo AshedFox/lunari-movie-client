@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import {
   Popover,
   PopoverContent,
@@ -178,8 +178,6 @@ const AsyncMultiSelect = ({
   const [searchValue, setSearchValue] = React.useState('');
   const debouncedSearch = useDebounce(searchValue, 500);
   const prevSearch = useRef<string>(undefined);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [shouldFocus, setShouldFocus] = useState(false);
 
   const withoutSelected = useMemo(() => {
     return options.filter(
@@ -196,20 +194,12 @@ const AsyncMultiSelect = ({
           await onSearch?.(debouncedSearch);
         } finally {
           setIsSearching(false);
-          setShouldFocus(true);
         }
       }
     };
 
     void search();
   }, [onSearch, debouncedSearch]);
-
-  useEffect(() => {
-    if (shouldFocus) {
-      inputRef.current?.focus();
-      setShouldFocus(false);
-    }
-  }, [shouldFocus]);
 
   return (
     <Popover>
@@ -267,10 +257,12 @@ const AsyncMultiSelect = ({
       <PopoverContent className="p-0">
         <Command shouldFilter={!onSearch}>
           <CommandInput
-            ref={inputRef}
             value={searchValue}
-            onValueChange={setSearchValue}
-            disabled={isSearching}
+            onValueChange={(v) => {
+              if (!isSearching) {
+                setSearchValue(v);
+              }
+            }}
             placeholder={placeholder}
             className="h-9"
           />
