@@ -1,13 +1,18 @@
-fragment SeriesListItem on Series {
+fragment BaseSeries on Series {
   __typename
   id
   title
   ageRestriction
   description
   rating
+  startReleaseDate
+  endReleaseDate
   cover {
     url
   }
+}
+
+fragment SeriesListItem on Series {
   genres {
     id
     name
@@ -20,16 +25,7 @@ fragment SeriesListItem on Series {
     id
     name
   }
-  paginatedSeasons {
-    pageInfo {
-      totalCount
-    }
-  }
-  paginatedEpisodes {
-    pageInfo {
-      totalCount
-    }
-  }
-  startReleaseDate
-  endReleaseDate
+  seasonsCount
+  episodesCount
+  ...BaseSeries
 }

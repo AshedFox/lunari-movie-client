@@ -88,13 +88,13 @@ const SeriesCard = ({ series }: Props) => {
           {/* Seasons count */}
           <div>
             <span className="text-muted-foreground/65">Seasons: </span>
-            {series.paginatedSeasons.pageInfo.totalCount}
+            {series.seasonsCount}
           </div>
 
           {/* Episodes count */}
           <div>
             <span className="text-muted-foreground/65">Episodes: </span>
-            {series.paginatedEpisodes.pageInfo.totalCount}
+            {series.episodesCount}
           </div>
 
           {/* Studios */}
