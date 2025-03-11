@@ -19,7 +19,7 @@ const MoviesGrid = async ({ movies }: Props) => {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
       {movies.map((movie) =>
         movie.__typename === 'Film' ? (
           <FilmCard key={movie.id} film={movie} />

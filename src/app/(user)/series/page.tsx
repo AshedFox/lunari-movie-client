@@ -19,6 +19,14 @@ import { sortSchema, MoviesSort } from '@components/movie/sort';
 import { filterSchema } from '@components/movie/filter/validation';
 import SeriesGrid from './_components/SeriesGrid';
 import { PAGE_SIZE } from './_constants';
+import { Button } from '@components/ui/button';
+import {
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  Drawer,
+} from '@components/ui/drawer';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -115,8 +123,8 @@ const Page = async ({ searchParams }: Props) => {
   const movies = moviesData.getManySeries.nodes;
 
   return (
-    <div className="grid grid-cols-[calc(var(--spacing)*72)_1fr] gap-6 container py-10">
-      <aside className="p-3 rounded-lg border flex flex-col h-fit gap-4">
+    <div className="lg:grid lg:grid-cols-[calc(var(--spacing)*72)_1fr] gap-6 container py-10">
+      <aside className="p-3 rounded-lg border lg:flex flex-col h-fit gap-4 hidden">
         <h2 className="text-xl font-semibold">
           Filters
           <span className="text-xs text-muted-foreground">
@@ -136,7 +144,43 @@ const Page = async ({ searchParams }: Props) => {
         />
       </aside>
       <div className="flex flex-col gap-2">
-        <MoviesSort currentSort={sort} />
+        <div className="flex justify-between">
+          <Drawer direction="left">
+            <DrawerTrigger asChild>
+              <Button className="lg:hidden" variant="outline">
+                Filters
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle asChild>
+                  <h2 className="text-xl font-semibold">
+                    Filters
+                    <span className="text-xs text-muted-foreground">
+                      ({pageInfo.totalCount})
+                    </span>
+                  </h2>
+                </DrawerTitle>
+              </DrawerHeader>
+              <div className="px-4">
+                <MoviesFilters
+                  countries={countriesData.getAllCountries}
+                  genres={genresData.getAllGenres}
+                  formInit={{
+                    ...filter,
+                    studios: (initStudiosData?.getAllStudios ?? []).map(
+                      (v) => ({
+                        value: v.id,
+                        label: v.name,
+                      }),
+                    ),
+                  }}
+                />
+              </div>
+            </DrawerContent>
+          </Drawer>
+          <MoviesSort currentSort={sort} />
+        </div>
         <SeriesGrid movies={movies} />
         <Paginator
           className="mt-auto"
