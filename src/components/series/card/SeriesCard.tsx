@@ -2,6 +2,7 @@ import { SeriesListItemFragment } from '@lib/graphql/generated/graphql';
 import { ISOPeriodToLocale } from '@lib/utils/format';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Props = {
   series: SeriesListItemFragment;
@@ -45,7 +46,9 @@ const SeriesCard = ({ series }: Props) => {
 
           <div>
             {/* Title */}
-            <h2 className="text-2xl font-bold">{series.title}</h2>
+            <h2 className="text-2xl font-bold w-fit">
+              <Link href={`/series/${series.id}`}>{series.title}</Link>
+            </h2>
 
             {/* Release date */}
             {releasePeriod && (
