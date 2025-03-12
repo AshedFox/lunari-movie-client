@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,7 +53,7 @@ export const HeaderProfileDropdown = ({ avatarUrl, name, pathname }: Props) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <LogoutButton className="w-full font-medium" />
+          <LogoutButton className="w-full justify-start font-normal" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

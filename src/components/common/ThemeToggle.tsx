@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useTheme } from 'next-themes';
 import {
   DropdownMenu,
@@ -17,9 +16,13 @@ const ThemeToggle = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <Sun className="dark:hidden" />
-          <Moon className="hidden dark:block" />
+        <Button
+          className="font-normal px-2 has-[>svg]:px-2 rounded-sm"
+          variant="ghost"
+          size="sm"
+        >
+          <Sun className="dark:hidden text-muted-foreground" />
+          <Moon className="hidden dark:block text-muted-foreground" />
           Toggle theme
         </Button>
       </DropdownMenuTrigger>
