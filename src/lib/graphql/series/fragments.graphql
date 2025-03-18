@@ -29,3 +29,35 @@ fragment SeriesListItem on Series {
   episodesCount
   ...BaseSeries
 }
+
+fragment Series on Series {
+  paginatedEpisodes(sort: { numberInSeries: { direction: ASC } }) {
+    nodes {
+      ...EpisodeListItem
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+  paginatedSeasons(sort: { numberInSeries: { direction: ASC } }) {
+    nodes {
+      ...SeasonListItem
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+  genres {
+    id
+    name
+  }
+  studios {
+    id
+    name
+  }
+  countries {
+    id
+    name
+  }
+  ...SeriesListItem
+}
