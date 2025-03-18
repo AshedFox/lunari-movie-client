@@ -1,0 +1,14 @@
+query GetMoviePersons($id: String!, $limit: Int!, $offset: Int!) {
+  getMoviesPersons(
+    limit: $limit
+    offset: $offset
+    filter: { movieId: { eq: $id } }
+  ) {
+    nodes {
+      ...MoviePerson
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
