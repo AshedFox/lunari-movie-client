@@ -1,13 +1,21 @@
 import { Star, Calendar } from 'lucide-react';
-import { FilmFragment } from '@lib/graphql/generated/graphql';
+import {
+  FilmFragment,
+  MovieUserFragment,
+  UserProfileFragment,
+} from '@lib/graphql/generated/graphql';
 import { ISODateToLocale } from '@lib/utils/format';
 import Image from 'next/image';
+import { MovieListsButtons } from '@components/movie-user/lists-buttons';
+import WatchButton from './WatchButton';
 
 type Props = {
   film: FilmFragment;
+  movieUser: MovieUserFragment | null;
+  user: UserProfileFragment | null;
 };
 
-const FilmPage = ({ film }: Props) => {
+const FilmPage = ({ film, movieUser, user }: Props) => {
   return (
     <div className="space-y-8">
       {/* Cover */}
@@ -61,6 +69,19 @@ const FilmPage = ({ film }: Props) => {
               {genre.name}
             </span>
           ))}
+        </div>
+
+        {/* Buttons */}
+        <div className="flex gap-4">
+          <WatchButton
+            userId={user?.id}
+            filmId={film.id}
+            videoId={film.videoId ?? undefined}
+          />
+
+          {user && (
+            <MovieListsButtons movieUser={movieUser} movieId={film.id} />
+          )}
         </div>
       </div>
     </div>

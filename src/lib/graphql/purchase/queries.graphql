@@ -1,0 +1,3 @@
+query HasPurchase($movieId: String!) {
+  hasPurchase(movieId: $movieId)
+}

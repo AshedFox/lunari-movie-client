@@ -1,0 +1,5 @@
+query GetMovieUser($userId: String!, $movieId: String!) {
+  getMovieUser(userId: $userId, movieId: $movieId) {
+    ...MovieUser
+  }
+}
