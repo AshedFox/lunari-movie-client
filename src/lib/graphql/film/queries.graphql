@@ -19,3 +19,12 @@ query GetFilm($id: String!) {
     ...Film
   }
 }
+query GetFilmTabsInfo($id: String!) {
+  getFilm(id: $id) {
+    id
+    reviewsCount
+    trailersCount
+    movieImagesCount
+    moviePersonsCount
+  }
+}
