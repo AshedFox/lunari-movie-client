@@ -1,0 +1,38 @@
+fragment EpisodeListItem on Episode {
+  id
+  title
+  description
+  releaseDate
+  numberInSeason
+  numberInSeries
+  seasonId
+  seriesId
+  videoId
+  cover {
+    id
+    url
+  }
+}
+
+fragment WatchEpisode on Episode {
+  id
+  title
+  numberInSeason
+  numberInSeries
+  cover {
+    id
+    url
+  }
+  series {
+    id
+    title
+    episodesCount
+    cover {
+      id
+      url
+    }
+  }
+  video {
+    ...Video
+  }
+}

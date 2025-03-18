@@ -1,0 +1,18 @@
+fragment Video on Video {
+  id
+  subtitles {
+    id
+    language {
+      id
+      name
+    }
+    file {
+      id
+      url
+    }
+  }
+  dashManifestMedia {
+    id
+    url
+  }
+}

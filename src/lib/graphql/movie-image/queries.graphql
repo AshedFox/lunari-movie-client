@@ -1,0 +1,14 @@
+query GetMovieImages($limit: Int!, $offset: Int!, $movieId: String!) {
+  getMoviesImages(
+    filter: { movieId: { eq: $movieId } }
+    limit: $limit
+    offset: $offset
+  ) {
+    nodes {
+      ...MovieImage
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}

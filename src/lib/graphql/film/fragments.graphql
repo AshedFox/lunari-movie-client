@@ -1,13 +1,18 @@
-fragment FilmListItem on Film {
+fragment BaseFilm on Film {
   __typename
   id
   title
   ageRestriction
   description
   rating
+  releaseDate
   cover {
+    id
     url
   }
+}
+
+fragment FilmListItem on Film {
   genres {
     id
     name
@@ -20,5 +25,22 @@ fragment FilmListItem on Film {
     id
     name
   }
-  releaseDate
+  ...BaseFilm
+}
+
+fragment Film on Film {
+  videoId
+  ...FilmListItem
+}
+
+fragment WatchFilm on Film {
+  id
+  title
+  cover {
+    id
+    url
+  }
+  video {
+    ...Video
+  }
 }

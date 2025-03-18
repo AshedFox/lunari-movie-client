@@ -13,3 +13,19 @@ query GetSeriesList(
     }
   }
 }
+
+query GetOneSeries($id: String!) {
+  getOneSeries(id: $id) {
+    ...Series
+  }
+}
+
+query GetSeriesTabsInfo($id: String!) {
+  getOneSeries(id: $id) {
+    id
+    reviewsCount
+    trailersCount
+    movieImagesCount
+    moviePersonsCount
+  }
+}

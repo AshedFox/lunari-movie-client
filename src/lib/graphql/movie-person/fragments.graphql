@@ -1,0 +1,21 @@
+fragment MoviePerson on MoviePerson {
+  id
+  movieId
+  person {
+    id
+    country {
+      id
+      name
+    }
+    image {
+      id
+      url
+    }
+    name
+  }
+  role
+  type {
+    id
+    name
+  }
+}
