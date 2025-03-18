@@ -13,3 +13,9 @@ query GetFilms(
     }
   }
 }
+
+query GetFilm($id: String!) {
+  getFilm(id: $id) {
+    ...Film
+  }
+}
