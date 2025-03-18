@@ -53,7 +53,7 @@ const TabsNav = ({ id, tabsInfo }: Props) => {
   const tab = useSelectedLayoutSegment('tab');
 
   return (
-    <nav className="text-muted-foreground inline-flex items-center text-sm w-full justify-start rounded-none border-b">
+    <nav className="text-muted-foreground inline-flex items-center flex-wrap gap-y-5 text-sm w-full justify-start rounded-none border-b">
       {tabs.map(({ makeHref, label, value, countKey }) => (
         <Link
           key={value}
