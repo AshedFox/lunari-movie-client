@@ -1,6 +1,7 @@
 'use client';
 
 import { QueryRef, useReadQuery, useQueryRefHandlers } from '@apollo/client';
+import { VideoPlayer } from '@components/common/video-player';
 import { Button } from '@components/ui/button';
 import {
   GetTrailersQuery,
@@ -8,7 +9,6 @@ import {
 } from '@lib/graphql/generated/graphql';
 import { Loader2 } from 'lucide-react';
 import { useState, useTransition } from 'react';
-import VideoPlayer from '@components/common/VideoPlayer';
 
 type Props = {
   queryRef: QueryRef<GetTrailersQuery>;

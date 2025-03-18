@@ -7,25 +7,16 @@ import '@vidstack/react/player/styles/default/layouts/video.css';
 import {
   isDASHProvider,
   MediaPlayer,
-  MediaPlayerInstance,
   MediaProvider,
   MediaProviderAdapter,
   Poster,
   Track,
-  useMediaStore,
 } from '@vidstack/react';
 import {
   DefaultVideoLayout,
   defaultLayoutIcons,
 } from '@vidstack/react/player/layouts/default';
-import { useRef } from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@components/ui/dropdown-menu';
-import { cn } from '@lib/utils';
+import QualitySubmenu from './QualitySubmenu';
 
 type Props = {
   className?: string;
@@ -52,13 +43,9 @@ const VideoPlayer = ({
   posterUrl = '',
   subtitles = [],
 }: Props) => {
-  const player = useRef<MediaPlayerInstance>(null);
-  const { qualities, quality } = useMediaStore(player);
-
   return (
     <MediaPlayer
       className={className}
-      ref={player}
       onProviderChange={onProviderChange}
       src={videoUrl}
       title={title}
@@ -72,33 +59,11 @@ const VideoPlayer = ({
       <DefaultVideoLayout
         icons={defaultLayoutIcons}
         slots={{
-          beforeSettingsMenu: (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="p-2 rounded-lg hover:bg-media-button-hover-bg">
-                {quality?.height}p
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {qualities.map((quality) => (
-                  <DropdownMenuItem
-                    onClick={() => {
-                      quality.selected = true;
-                    }}
-                    className={cn({
-                      'pointer-events-none text-primary font-semibold':
-                        quality.selected,
-                    })}
-                    key={quality.id}
-                  >
-                    {quality.height}p
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ),
+          beforeSettingsMenu: <QualitySubmenu />,
         }}
       />
     </MediaPlayer>
   );
 };
 
-export default VideoPlayer;
+export { VideoPlayer };
