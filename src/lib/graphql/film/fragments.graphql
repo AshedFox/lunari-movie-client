@@ -32,3 +32,15 @@ fragment Film on Film {
   videoId
   ...FilmListItem
 }
+
+fragment WatchFilm on Film {
+  id
+  title
+  cover {
+    id
+    url
+  }
+  video {
+    ...Video
+  }
+}

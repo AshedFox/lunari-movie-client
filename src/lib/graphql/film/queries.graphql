@@ -19,6 +19,13 @@ query GetFilm($id: String!) {
     ...Film
   }
 }
+
+query GetWatchFilm($id: String!) {
+  getFilm(id: $id) {
+    ...WatchFilm
+  }
+}
+
 query GetFilmTabsInfo($id: String!) {
   getFilm(id: $id) {
     id
