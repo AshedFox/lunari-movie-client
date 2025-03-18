@@ -1,0 +1,5 @@
+mutation CreateMovieReview($input: CreateMovieReviewInput!) {
+  createMovieReview(input: $input) {
+    ...MovieReview
+  }
+}

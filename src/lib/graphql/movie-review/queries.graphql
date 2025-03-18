@@ -1,0 +1,21 @@
+query GetMovieReviews($movieId: ID!, $cursor: String, $limit: Int!) {
+  getMoviesReviewsRelay(
+    filter: { movieId: { eq: $movieId } }
+    first: $limit
+    after: $cursor
+  ) {
+    edges {
+      node {
+        ...MovieReview
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+query HasMovieReview($movieId: String!) {
+  hasMovieReview(movieId: $movieId)
+}
