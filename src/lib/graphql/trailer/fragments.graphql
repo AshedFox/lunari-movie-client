@@ -1,0 +1,9 @@
+fragment Trailer on Trailer {
+  id
+  createdAt
+  movieId
+  title
+  video {
+    ...Video
+  }
+}
