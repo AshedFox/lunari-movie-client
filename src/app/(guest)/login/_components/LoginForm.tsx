@@ -96,7 +96,7 @@ const LoginForm = () => {
             Don&apos;t have an account?{' '}
             <Link
               className="border-b border-b-current"
-              href={`/sign-up?from=${from}`}
+              href={from ? `/sign-up?from=${from}` : '/sign-up'}
             >
               Sign up
             </Link>

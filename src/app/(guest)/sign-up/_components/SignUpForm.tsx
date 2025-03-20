@@ -121,7 +121,7 @@ const SignUpForm = () => {
             Already have an account?{' '}
             <Link
               className="border-b border-b-current"
-              href={`/login?from=${from}`}
+              href={from ? `/login?from=${from}` : '/login'}
             >
               Login
             </Link>
