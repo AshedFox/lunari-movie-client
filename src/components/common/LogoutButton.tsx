@@ -3,7 +3,7 @@
 import { Button } from '@components/ui/button';
 import { logout } from '@lib/actions/logout';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { LogOut } from 'lucide-react';
 import { cn } from '@lib/utils';
 
@@ -13,6 +13,7 @@ type Props = {
 
 const LogoutButton = ({ className }: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
   const handleClick = () => {
     toast.promise(
       async () => {
@@ -25,7 +26,7 @@ const LogoutButton = ({ className }: Props) => {
       {
         loading: 'Loading...',
         success: () => {
-          router.replace('/login');
+          router.push(`/login?from=${pathname}`);
           return 'Successfully logged out';
         },
         error: (e) => e.message,
