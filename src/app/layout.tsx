@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     default: 'MovieView',
-    template: '%s | MovieView',
+    template: '%s - MovieView',
   },
   description:
     'View multiple films and series in good quality and surround sound with minimal load on your network!',
@@ -48,8 +48,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  auth,
 }: Readonly<{
   children: ReactNode;
+  auth: ReactNode;
 }>) {
   const user = await getUser();
 
@@ -71,6 +73,7 @@ export default async function RootLayout({
           <ApolloWrapper>
             <Header user={user} />
             {children}
+            {auth}
           </ApolloWrapper>
           <Toaster richColors />
         </ThemeProvider>
