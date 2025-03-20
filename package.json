@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "codegen:write": "graphql-codegen --write",
+    "codegen:watch": "graphql-codegen --watch",
+    "prebuild": "npm run codegen:write",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
