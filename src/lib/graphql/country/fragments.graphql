@@ -1,4 +1,4 @@
 fragment BaseCountry on Country {
-    id
-    name
+  id
+  name
 }

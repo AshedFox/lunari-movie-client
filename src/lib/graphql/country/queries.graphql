@@ -1,5 +1,5 @@
 query GetCountries($sort: CountrySort) {
-    getAllCountries(sort: $sort) {
-        ...BaseCountry
-    }
+  getAllCountries(sort: $sort) {
+    ...BaseCountry
+  }
 }

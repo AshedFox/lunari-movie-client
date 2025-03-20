@@ -1,17 +1,17 @@
 fragment UserProfile on User {
+  id
+  name
+  email
+  isEmailConfirmed
+  role
+  createdAt
+  updatedAt
+  country {
     id
     name
-    email
-    isEmailConfirmed
-    role
-    createdAt
-    updatedAt
-    country {
-        id
-        name
-    }
-    avatar {
-        id
-        url
-    }
+  }
+  avatar {
+    id
+    url
+  }
 }

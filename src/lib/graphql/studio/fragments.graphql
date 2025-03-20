@@ -1,4 +1,4 @@
 fragment BaseStudio on Studio {
-    id
-    name
+  id
+  name
 }
