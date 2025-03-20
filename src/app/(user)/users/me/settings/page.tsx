@@ -1,4 +1,3 @@
-import React from 'react';
 import UpdateProfileForm from './_components/UpdateProfileForm';
 import UpdatePasswordForm from './_components/UpdatePasswordForm';
 import LogoutButton from '@components/common/LogoutButton';
@@ -19,7 +18,7 @@ const Page = async () => {
   const user = await getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect('/login?from=/users/me/settings');
   }
 
   const { data } = await getClient().query({
