@@ -1,0 +1,5 @@
+query GetActivePlans {
+  getPlans(filter: { active: { eq: true } }) {
+    ...Plan
+  }
+}

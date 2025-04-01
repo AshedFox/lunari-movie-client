@@ -1,6 +1,7 @@
 import UpdateProfileForm from './_components/UpdateProfileForm';
 import UpdatePasswordForm from './_components/UpdatePasswordForm';
 import LogoutButton from '@components/common/LogoutButton';
+import ManageSubscriptionButton from './_components/ManageSubscriptionButton';
 import { getUser } from '@lib/auth/user-dal';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -33,13 +34,16 @@ const Page = async () => {
   });
 
   return (
-    <div className="py-10 flex flex-col gap-8 overflow-y-auto container">
+    <div className="py-10 flex flex-col gap-6 overflow-y-auto container">
       <h1 className="text-4xl font-bold">Settings</h1>
-      <div className="grid grid-flow-row gap-10">
+      <div className="grid grid-flow-row gap-4">
         <UpdateProfileForm user={user} countries={data.getAllCountries} />
         <UpdatePasswordForm />
       </div>
-      <LogoutButton />
+      <div className="flex flex-col gap-3">
+        <ManageSubscriptionButton />
+        <LogoutButton />
+      </div>
     </div>
   );
 };

@@ -1,0 +1,14 @@
+fragment Plan on Plan {
+  id
+  name
+  prices {
+    id
+    interval
+    amount
+    currency {
+      id
+      name
+      symbol
+    }
+  }
+}
