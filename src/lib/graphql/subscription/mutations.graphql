@@ -1,0 +1,3 @@
+mutation ActivateSubscription($sessionId: String!) {
+  activateSubscription(sessionId: $sessionId)
+}
