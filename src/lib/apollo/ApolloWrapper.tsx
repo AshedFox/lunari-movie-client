@@ -7,14 +7,14 @@ import {
   InMemoryCache,
 } from '@apollo/experimental-nextjs-app-support';
 import { PropsWithChildren } from 'react';
-import { GRAPHQL_URL } from '@lib/constants';
 import { removeTypenameLink } from './remove-typename-link';
 import { authLink } from '@lib/apollo/auth-link';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
+import { env } from '@lib/env/client';
 
 function makeClient() {
   const uploadLink = createUploadLink({
-    uri: GRAPHQL_URL,
+    uri: `${env.NEXT_PUBLIC_API_URL}/graphql`,
     headers: {
       'Apollo-Require-Preflight': 'true',
     },
