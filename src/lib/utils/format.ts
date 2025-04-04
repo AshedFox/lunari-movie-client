@@ -1,21 +1,43 @@
-export function ISODateToLocale(date?: string | null) {
+export function ISODateToLocale(date?: Date | null) {
   if (!date) {
     return null;
   }
+  const formatter = new Intl.DateTimeFormat('de', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
-  return new Date(date).toLocaleDateString();
+  return formatter.format(date);
 }
 
 export function ISOPeriodToLocale(
-  startDate?: string | null,
-  endDate?: string | null,
+  startDate?: Date | null,
+  endDate?: Date | null,
 ) {
   if (!startDate && !endDate) {
     return null;
   }
 
-  const start = startDate ? new Date(startDate).toLocaleDateString() : '...';
-  const end = endDate ? new Date(endDate).toLocaleDateString() : '...';
+  const formatter = new Intl.DateTimeFormat('de', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
-  return `${start}-${end}`;
+  if (startDate && endDate) {
+    return formatter.formatRange(startDate, endDate);
+  } else if (startDate) {
+    return `${formatter.format(startDate)} – …`;
+  } else if (endDate) {
+    return `… – ${formatter.format(endDate)}`;
+  }
+  return '… – …';
+}
+
+export function formatMoney(currencyId: string, amount: number) {
+  return new Intl.NumberFormat(undefined, {
+    currency: currencyId,
+    style: 'currency',
+  }).format(amount);
 }
