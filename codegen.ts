@@ -14,7 +14,10 @@ const config: CodegenConfig = {
       config: {
         skipTypename: true,
         scalars: {
-          DateTime: 'string',
+          DateTime: {
+            input: 'string',
+            output: 'Date',
+          },
         },
         namingConvention: {
           enumValues: 'keep',
