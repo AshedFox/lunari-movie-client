@@ -2,9 +2,9 @@
 
 import { usePathname } from 'next/navigation';
 import { UserProfileFragment } from '@lib/graphql/generated/graphql';
-import { HeaderLink } from '@components/common/header/HeaderLink';
-import { HeaderProfileDropdown } from '@components/common/header/HeaderProfileDropdown';
-import { publicLinks } from '@components/common/header/constants';
+import { publicLinks } from './constants';
+import { HeaderLink } from './HeaderLink';
+import { HeaderProfileDropdown } from './HeaderProfileDropdown';
 
 type Props = {
   user?: UserProfileFragment | null;
