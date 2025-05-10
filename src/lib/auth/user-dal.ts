@@ -7,5 +7,14 @@ import { cache } from 'react';
 
 export const getUser = cache(async (): Promise<UserProfileFragment | null> => {
   const userValue = (await cookies()).get(USER_COOKIE_KEY)?.value;
-  return userValue ? JSON.parse(userValue) : null;
+
+  if (!userValue) {
+    return null;
+  }
+
+  const parsedUser: UserProfileFragment = JSON.parse(userValue);
+  parsedUser.createdAt = new Date(parsedUser.createdAt);
+  parsedUser.updatedAt = new Date(parsedUser.updatedAt);
+
+  return parsedUser;
 });
