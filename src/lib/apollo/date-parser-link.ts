@@ -2,6 +2,7 @@ import { ApolloLink } from '@apollo/client';
 
 const dateFields = [
   'createdAt',
+  'updatedAt',
   'releaseDate',
   'startReleaseDate',
   'endReleaseDate',
