@@ -29,9 +29,11 @@ const MovieReviewListItem = ({ review, userId }: Props) => {
                 href={`/users/${userId === review.user.id ? 'me' : review.user.id}`}
               >
                 {review.user.name}
-                <span className="text-muted-foreground text-xs align-text-top">
-                  (you)
-                </span>
+                {userId === review.user.id && (
+                  <span className="text-muted-foreground text-xs align-text-top">
+                    (you)
+                  </span>
+                )}
               </Link>
             </h3>
             <div className="flex items-center gap-4">
