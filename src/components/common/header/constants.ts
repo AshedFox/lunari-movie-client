@@ -19,4 +19,9 @@ export const publicLinks = [
     href: '/series',
     children: 'Series',
   },
+  {
+    selected: (pathname: string) => pathname === '/collections',
+    href: '/collections',
+    children: 'Collections',
+  },
 ];

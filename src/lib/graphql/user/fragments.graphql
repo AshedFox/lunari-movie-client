@@ -9,7 +9,17 @@ fragment UserProfile on User {
   country {
     id
     name
+    currencyId
   }
+  avatar {
+    id
+    url
+  }
+}
+
+fragment ShortUser on User {
+  id
+  name
   avatar {
     id
     url

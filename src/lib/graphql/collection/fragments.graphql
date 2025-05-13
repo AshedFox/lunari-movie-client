@@ -1,0 +1,18 @@
+fragment CollectionListItem on Collection {
+  id
+  name
+  description
+  rating
+  isSystem
+  createdAt
+  updatedAt
+  owner {
+    ...ShortUser
+  }
+  cover {
+    id
+    url
+  }
+  reviewsCount
+  moviesCount
+}

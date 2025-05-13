@@ -1,0 +1,15 @@
+query GetCollections(
+  $limit: Int!
+  $offset: Int!
+  $sort: CollectionSort
+  $filter: CollectionFilter
+) {
+  getCollections(limit: $limit, offset: $offset, sort: $sort, filter: $filter) {
+    nodes {
+      ...CollectionListItem
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+}
