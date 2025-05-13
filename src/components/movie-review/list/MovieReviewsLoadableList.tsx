@@ -30,7 +30,7 @@ const MovieReviewsLoadableList = ({ movieId, userId, queryRef }: Props) => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {reviews.length > 0 &&
         reviews.map((review) => (
           <MovieReviewListItem
