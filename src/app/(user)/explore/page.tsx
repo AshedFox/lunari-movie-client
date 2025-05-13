@@ -9,12 +9,12 @@ import {
   SortDirectionEnum,
 } from '@lib/graphql/generated/graphql';
 import { Paginator } from '@components/common/Paginator';
+import { parseSearchToFilter, MoviesFilters } from '@components/movie/filter';
 import {
-  parseSearchToFilter,
-  MoviesFilters,
+  sortSchema,
+  MoviesSort,
   parseSearchToSort,
-} from '@components/movie/filter';
-import { sortSchema, MoviesSort } from '@components/movie/sort';
+} from '@components/movie/sort';
 import { filterSchema } from '@components/movie/filter/validation';
 import MoviesGrid from './_components/MoviesGrid';
 import { PAGE_SIZE } from './_constants';
