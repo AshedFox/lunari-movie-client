@@ -23,7 +23,7 @@ const MovieReviewListItem = ({ review, userId }: Props) => {
           </AvatarFallback>
         </Avatar>
         <div className="flex-1">
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex justify-between items-center mb-1">
             <h3 className="font-semibold">
               <Link
                 href={`/users/${userId === review.user.id ? 'me' : review.user.id}`}
