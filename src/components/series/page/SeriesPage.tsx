@@ -4,7 +4,7 @@ import {
   SeriesFragment,
   UserProfileFragment,
 } from '@lib/graphql/generated/graphql';
-import { ISODateToLocale, ISOPeriodToLocale } from '@lib/utils/format';
+import { formatDateTime, formatDateTimeRange } from '@lib/utils/format';
 import Image from 'next/image';
 import { MovieListsButtons } from '@components/movie-user/lists-buttons';
 import {
@@ -56,7 +56,7 @@ const SeriesPage = ({ series, movieUser, user }: Props) => {
             <div className="flex items-center gap-2 text-muted-foreground text-sm font-semibold">
               <Calendar size={20} />
               <span>
-                {ISOPeriodToLocale(
+                {formatDateTimeRange(
                   series.startReleaseDate,
                   series.endReleaseDate,
                 )}
@@ -112,7 +112,7 @@ const SeriesPage = ({ series, movieUser, user }: Props) => {
                         {season.startReleaseDate && (
                           <span className="flex items-center gap-1">
                             <Calendar size={14} />
-                            {ISOPeriodToLocale(
+                            {formatDateTimeRange(
                               season.startReleaseDate,
                               season.endReleaseDate,
                             )}
@@ -189,7 +189,7 @@ const SeriesPage = ({ series, movieUser, user }: Props) => {
                               {episode.releaseDate && (
                                 <div className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
                                   <Calendar size={12} />
-                                  {ISODateToLocale(episode.releaseDate)}
+                                  {formatDateTime(episode.releaseDate)}
                                 </div>
                               )}
                             </div>

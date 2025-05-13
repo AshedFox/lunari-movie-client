@@ -1,5 +1,5 @@
 import { SeriesListItemFragment } from '@lib/graphql/generated/graphql';
-import { ISOPeriodToLocale } from '@lib/utils/format';
+import { formatDateTimeRange } from '@lib/utils/format';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ type Props = {
 };
 
 const SeriesCard = ({ series }: Props) => {
-  const releasePeriod = ISOPeriodToLocale(
+  const releasePeriod = formatDateTimeRange(
     series.startReleaseDate,
     series.endReleaseDate,
   );

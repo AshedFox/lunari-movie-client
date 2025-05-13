@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { MovieReviewFragment } from '@lib/graphql/generated/graphql';
-import { ISODateToLocale } from '@lib/utils/format';
+import { formatDateTime } from '@lib/utils/format';
 import { Star } from 'lucide-react';
 import Link from 'next/link';
 
@@ -44,7 +44,7 @@ const MovieReviewListItem = ({ review, userId }: Props) => {
                 <span className="font-bold">{review.mark}</span>
               </span>
               <span className="text-sm text-muted-foreground">
-                {ISODateToLocale(review.createdAt)}
+                {formatDateTime(review.createdAt)}
               </span>
             </div>
           </div>

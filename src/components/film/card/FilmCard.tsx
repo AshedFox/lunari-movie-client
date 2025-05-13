@@ -1,7 +1,7 @@
 'use client';
 
 import { FilmListItemFragment } from '@lib/graphql/generated/graphql';
-import { ISODateToLocale } from '@lib/utils/format';
+import { formatDateTime } from '@lib/utils/format';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const FilmCard = ({ film }: Props) => {
-  const releaseDate = ISODateToLocale(film.releaseDate);
+  const releaseDate = film.releaseDate && formatDateTime(film.releaseDate);
 
   return (
     <article className="bg-card text-card-foreground rounded-xl shadow-md overflow-hidden border flex flex-col">

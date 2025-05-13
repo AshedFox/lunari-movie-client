@@ -4,7 +4,7 @@ import {
   MovieUserFragment,
   UserProfileFragment,
 } from '@lib/graphql/generated/graphql';
-import { ISODateToLocale } from '@lib/utils/format';
+import { formatDateTime } from '@lib/utils/format';
 import Image from 'next/image';
 import { MovieListsButtons } from '@components/movie-user/lists-buttons';
 import WatchButton from './WatchButton';
@@ -48,7 +48,7 @@ const FilmPage = ({ film, movieUser, user }: Props) => {
           {film.releaseDate && (
             <div className="flex items-center gap-2 text-muted-foreground text-sm font-semibold">
               <Calendar size={20} />
-              <span>{ISODateToLocale(film.releaseDate)}</span>
+              <span>{formatDateTime(film.releaseDate)}</span>
             </div>
           )}
 
