@@ -42,7 +42,10 @@ const MoviesSort = ({ currentSort }: Props) => {
       }}
     >
       <SelectTrigger
-        className={cn(buttonVariants({ variant: 'outline' }), 'ml-auto w-28')}
+        className={cn(
+          buttonVariants({ variant: 'outline' }),
+          'ml-auto w-fit min-w-28',
+        )}
       >
         <SelectValue placeholder="Sort" />
       </SelectTrigger>
