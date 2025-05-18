@@ -41,10 +41,6 @@ export function formatDateTimeRange(
   variant: DateTimeVariant = 'date',
   format: DateTimeFormat = 'short',
 ) {
-  if (!startDate && !endDate) {
-    return null;
-  }
-
   const formatter = dateTimeFormatters[variant][format];
 
   if (startDate && endDate) {
