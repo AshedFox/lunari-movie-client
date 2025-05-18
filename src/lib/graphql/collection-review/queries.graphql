@@ -1,0 +1,21 @@
+query GetCollectionReviews($collectionId: Int!, $cursor: String, $limit: Int!) {
+  getCollectionsReviewsRelay(
+    filter: { collectionId: { eq: $collectionId } }
+    first: $limit
+    after: $cursor
+  ) {
+    edges {
+      node {
+        ...CollectionReview
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+query HasCollectionReview($collectionId: Int!) {
+  hasCollectionReview(collectionId: $collectionId)
+}
