@@ -10,7 +10,7 @@ import { removeTypenameLink } from '@lib/apollo/remove-typename-link';
 import { authLink } from '@lib/apollo/rsc-auth-link';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { env } from '@lib/env/server';
-import { dateParserLink } from './date-parser-link';
+import { dateTypePolicies } from './date-type-policies';
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   const uploadLink = createUploadLink({
@@ -21,7 +21,11 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   });
 
   return new ApolloClient({
-    cache: new InMemoryCache(),
-    link: from([dateParserLink, removeTypenameLink, authLink, uploadLink]),
+    cache: new InMemoryCache({
+      typePolicies: {
+        ...dateTypePolicies,
+      },
+    }),
+    link: from([removeTypenameLink, authLink, uploadLink]),
   });
 });

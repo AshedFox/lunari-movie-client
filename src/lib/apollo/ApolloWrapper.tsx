@@ -11,7 +11,7 @@ import { removeTypenameLink } from './remove-typename-link';
 import { authLink } from '@lib/apollo/auth-link';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { env } from '@lib/env/client';
-import { dateParserLink } from './date-parser-link';
+import { dateTypePolicies } from './date-type-policies';
 
 function makeClient() {
   const uploadLink = createUploadLink({
@@ -22,8 +22,12 @@ function makeClient() {
   });
 
   return new ApolloClient({
-    cache: new InMemoryCache(),
-    link: from([dateParserLink, removeTypenameLink, authLink, uploadLink]),
+    cache: new InMemoryCache({
+      typePolicies: {
+        ...dateTypePolicies,
+      },
+    }),
+    link: from([removeTypenameLink, authLink, uploadLink]),
   });
 }
 
