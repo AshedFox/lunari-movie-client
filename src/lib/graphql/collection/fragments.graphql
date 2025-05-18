@@ -16,3 +16,11 @@ fragment CollectionListItem on Collection {
   reviewsCount
   moviesCount
 }
+
+fragment Collection on Collection {
+  ...CollectionListItem
+  movies {
+    ...SeriesListItem
+    ...FilmListItem
+  }
+}

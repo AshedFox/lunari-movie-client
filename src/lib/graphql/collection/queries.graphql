@@ -13,3 +13,9 @@ query GetCollections(
     }
   }
 }
+
+query GetCollection($id: Int!) {
+  getCollection(id: $id) {
+    ...Collection
+  }
+}

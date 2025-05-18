@@ -1,0 +1,6 @@
+fragment CollectionUser on CollectionUser {
+  isBookmarked
+  isWatched
+  collectionId
+  userId
+}

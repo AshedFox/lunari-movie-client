@@ -1,0 +1,19 @@
+mutation CreateCollectionUser($input: CreateCollectionUserInput!) {
+  createCollectionUser(input: $input) {
+    ...CollectionUser
+  }
+}
+
+mutation UpdateCollectionUser(
+  $input: UpdateCollectionUserInput!
+  $collectionId: Int!
+  $userId: String!
+) {
+  updateCollectionUser(
+    input: $input
+    collectionId: $collectionId
+    userId: $userId
+  ) {
+    ...CollectionUser
+  }
+}
