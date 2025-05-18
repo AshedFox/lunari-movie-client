@@ -19,3 +19,11 @@ query GetCollection($id: Int!) {
     ...Collection
   }
 }
+
+query GetCollectionTabsInfo($id: Int!) {
+  getCollection(id: $id) {
+    id
+    reviewsCount
+    moviesCount
+  }
+}
