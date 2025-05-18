@@ -24,6 +24,12 @@ const config: CodegenConfig = {
         },
       },
     },
+    './src/lib/apollo/date-type-policies.ts': {
+      plugins: ['./scripts/date-type-policies-plugin.js'],
+      config: {
+        scalarName: 'DateTime',
+      },
+    },
   },
   hooks: { afterAllFileWrite: ['prettier --write'] },
 };
