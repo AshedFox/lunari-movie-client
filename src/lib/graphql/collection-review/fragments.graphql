@@ -1,0 +1,10 @@
+fragment CollectionReview on CollectionReview {
+  id
+  createdAt
+  mark
+  text
+  collectionId
+  user {
+    ...ShortUser
+  }
+}

@@ -19,3 +19,22 @@ query GetMovies(
     }
   }
 }
+
+query GetCollectionMovies($collectionId: ID!, $cursor: String, $limit: Int!) {
+  getMoviesRelay(
+    filter: { collectionsConnection: { collectionId: { eq: $collectionId } } }
+    first: $limit
+    after: $cursor
+  ) {
+    edges {
+      node {
+        ...FilmListItem
+        ...SeriesListItem
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}

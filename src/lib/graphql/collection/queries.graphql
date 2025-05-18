@@ -13,3 +13,17 @@ query GetCollections(
     }
   }
 }
+
+query GetCollection($id: Int!) {
+  getCollection(id: $id) {
+    ...Collection
+  }
+}
+
+query GetCollectionTabsInfo($id: Int!) {
+  getCollection(id: $id) {
+    id
+    reviewsCount
+    moviesCount
+  }
+}
