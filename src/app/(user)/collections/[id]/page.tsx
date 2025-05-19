@@ -1,14 +1,8 @@
 import { CollectionPage } from '@components/collection/page';
-import { getClient } from '@lib/apollo/rsc-client';
 import { getUser } from '@lib/auth/user-dal';
-import {
-  CollectionFragment,
-  CollectionUserFragment,
-  GetCollectionDocument,
-  GetCollectionUserDocument,
-} from '@lib/graphql/generated/graphql';
 import { Metadata } from 'next';
 import { paramsSchema } from './_validation/params-schema';
+import { getCollection, getCollectionUser } from './_lib/api';
 
 type Props = {
   params: Promise<{
@@ -17,33 +11,6 @@ type Props = {
 };
 
 export const revalidate = 60;
-
-const getCollection = async (id: number): Promise<CollectionFragment> => {
-  const { data } = await getClient().query({
-    query: GetCollectionDocument,
-    variables: {
-      id,
-    },
-  });
-
-  return data.getCollection;
-};
-
-const getCollectionUser = async (
-  userId: string,
-  collectionId: number,
-): Promise<CollectionUserFragment | null> => {
-  const { data } = await getClient().query({
-    query: GetCollectionUserDocument,
-    variables: {
-      collectionId,
-      userId,
-    },
-    errorPolicy: 'all',
-  });
-
-  return data?.getCollectionUser ?? null;
-};
 
 export const generateMetadata = async ({
   params,
