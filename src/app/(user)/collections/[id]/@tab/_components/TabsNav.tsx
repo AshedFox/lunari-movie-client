@@ -10,7 +10,7 @@ import { ReactNode } from 'react';
 type TabsCollectionInfo = GetCollectionTabsInfoQuery['getCollection'];
 
 type TabInfo = {
-  value: string;
+  value: string | null;
   makeHref: (id: number) => string;
 } & (
   | {
@@ -24,7 +24,7 @@ const tabs: TabInfo[] = [
   {
     countKey: 'moviesCount',
     makeHref: (id) => `/collections/${id}`,
-    value: 'page$',
+    value: null,
     label: (count) => (
       <span className="flex items-center gap-1">
         <Film size={14} />
@@ -57,7 +57,7 @@ type Props = {
 };
 
 const TabsNav = ({ id, tabsInfo }: Props) => {
-  const tab = useSelectedLayoutSegment('tab');
+  const tab = useSelectedLayoutSegment();
 
   return (
     <nav className="text-muted-foreground inline-flex items-center flex-wrap gap-y-5 text-sm w-full justify-start rounded-none border-b">
