@@ -10,7 +10,6 @@ type Props = {
 };
 
 const CollectionReviewListItem = ({ review, userId }: Props) => {
-  console.log(review.createdAt);
   return (
     <div className="p-6 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4">
