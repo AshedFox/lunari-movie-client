@@ -17,7 +17,7 @@ const Page = async ({ params }: Props) => {
       query={GetCollectionMoviesDocument}
       variables={{
         limit: 20,
-        collectionId: '3',
+        collectionId: String(id),
       }}
       context={{
         skipAuth: true,
