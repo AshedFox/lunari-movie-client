@@ -75,7 +75,7 @@ export const CollectionCard = ({ collection }: Props) => {
         {/* Other */}
         <div className="space-x-2 text-xs text-muted-foreground font-bold flex flex-wrap">
           <span
-            title={`Created at ${formatDateTime(collection.createdAt, 'dateTime', 'long')}, last update at ${formatDateTime(collection.createdAt, 'dateTime', 'long')}`}
+            title={`Created at ${formatDateTime(collection.createdAt, 'dateTime', 'long')}, last update at ${formatDateTime(collection.updatedAt, 'dateTime', 'long')}`}
           >
             Last update {formatRelative(collection.updatedAt)}
           </span>
