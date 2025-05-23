@@ -3,7 +3,7 @@ import {
   SeriesListItemFragment,
 } from '@lib/graphql/generated/graphql';
 import { formatDateTime, formatDateTimeRange } from '@lib/utils/format';
-import { Clock, Star } from 'lucide-react';
+import { Clock, Film, Star, Tv } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -33,14 +33,26 @@ export const MovieListItem = ({ movie }: Props) => {
         </div>
       )}
       <div className="flex flex-col gap-1.5 py-3 px-5">
-        <h2 className="font-bold text-xl">
-          <Link
-            href={href}
-            className="hover:text-muted-foreground transition-colors"
-          >
-            {movie.title}
-          </Link>
-        </h2>
+        <div className="flex justify-between">
+          <h2 className="font-bold text-xl truncate">
+            <Link
+              href={href}
+              className="hover:text-muted-foreground transition-colors"
+            >
+              {movie.title}
+            </Link>
+          </h2>
+          {movie.__typename === 'Film' ? (
+            <div title="film">
+              <Film size={20} />
+            </div>
+          ) : (
+            <div title="series">
+              <Tv size={20} />
+            </div>
+          )}
+        </div>
+
         <div className="line-clamp-3 text-sm text-muted-foreground">
           {movie.description}
         </div>
