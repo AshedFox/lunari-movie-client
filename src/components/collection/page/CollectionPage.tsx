@@ -1,4 +1,4 @@
-import { Clock, Star } from 'lucide-react';
+import { Clock, Pencil, RefreshCw, Star } from 'lucide-react';
 import {
   CollectionFragment,
   CollectionUserFragment,
@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { CollectionListsButtons } from '@components/collection-user/lists-buttons';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
+import { buttonVariants } from '@components/ui/button';
 
 type Props = {
   collection: CollectionFragment;
@@ -35,57 +36,73 @@ const CollectionPage = ({ collection, collectionUser, user }: Props) => {
       {/* Content */}
       <div className="relative container space-y-6">
         {/* Name */}
-        <h1 className="text-5xl font-bold leading-tight">{collection.name}</h1>
-        <div className="flex flex-wrap items-center gap-6">
+        <div className="flex gap-2 justify-between items-center">
+          <h1 className="text-5xl font-bold leading-tight truncate">
+            {collection.name}
+          </h1>
+          {user && user.id === collection.owner.id && (
+            <Link
+              href={`/collections/${collection.id}/edit`}
+              className={buttonVariants({ variant: 'outline' })}
+            >
+              <Pencil />
+              Edit
+            </Link>
+          )}
+        </div>
+        <div className="flex flex-col gap-6">
           {/* Rating */}
           <div
             className="flex items-center gap-2"
             title={`${collection.reviewsCount} reviews with total rating ${collection.rating}`}
           >
             <Star className="text-yellow-500" fill="currentColor" size={24} />
-            <span className="text-2xl font-bold">
-              {collection.rating === 0 ? '-' : collection.rating.toFixed(1)}
+            <span className="text-xl font-bold">
+              {collection.rating === 0
+                ? 'No reviews'
+                : `${collection.rating.toFixed(1)} / 10`}
             </span>
           </div>
 
-          {/* Date */}
-          <div className="flex items-center text-muted-foreground text-sm">
-            <Clock className="mr-2" size={20} />
-            <span
-              title={formatDateTime(collection.createdAt, 'dateTime', 'long')}
+          <div className="flex items-center text-sm gap-4 text-muted-foreground">
+            {/* Author */}
+            <Link
+              href={`/users/${collection.owner.id}`}
+              className="flex items-center font-semibold gap-2 hover:text-muted-foreground/70 transition-colors"
             >
-              {formatDateTime(collection.createdAt)}
-            </span>
-            {collection.createdAt.getTime() ===
-              collection.updatedAt.getTime() && (
+              <Avatar className="aspect-square shrink-0 overflow-hidden rounded-full size-6 font-semibold border">
+                <AvatarImage
+                  className="object-cover"
+                  src={collection.owner.avatar?.url}
+                />
+                <AvatarFallback>
+                  {collection.owner.name
+                    .split(' ')
+                    .map((word) => word[0].toUpperCase())
+                    .join('')}
+                </AvatarFallback>
+              </Avatar>
+              {collection.owner.name}
+            </Link>
+            <span>•</span>
+            {/* Dates */}
+            <div className="flex items-center gap-2">
+              <Clock size={20} />
+              <span
+                title={formatDateTime(collection.createdAt, 'dateTime', 'long')}
+              >
+                {formatDateTime(collection.createdAt, 'date', 'long')}
+              </span>
+            </div>
+            <span>•</span>
+            <div className="flex items-center gap-2">
+              <RefreshCw size={20} />
               <span
                 title={formatDateTime(collection.updatedAt, 'dateTime', 'long')}
               >
-                , last modified {formatRelative(collection.updatedAt)}
+                Last modified {formatRelative(collection.updatedAt)}
               </span>
-            )}
-          </div>
-
-          {/* Author */}
-          <div className="flex items-center gap-2 text-muted-foreground text-sm font-bold">
-            <Avatar className="aspect-square shrink-0 overflow-hidden rounded-full size-6 text-sm font-semibold border">
-              <AvatarImage
-                className="object-cover"
-                src={collection.owner.avatar?.url}
-              />
-              <AvatarFallback>
-                {collection.owner.name
-                  .split(' ')
-                  .map((word) => word[0].toUpperCase())
-                  .join('')}
-              </AvatarFallback>
-            </Avatar>
-            <Link
-              href={`/users/${collection.owner.id}`}
-              className="transition-colors hover:text-muted-foreground/70"
-            >
-              {collection.owner.name}
-            </Link>
+            </div>
           </div>
         </div>
         {/* Buttons */}
@@ -94,6 +111,15 @@ const CollectionPage = ({ collection, collectionUser, user }: Props) => {
             collectionUser={collectionUser}
             collectionId={Number(collection.id)}
           />
+        )}
+        {/* Description */}
+        {collection.description && (
+          <div className="space-y-1">
+            <h2 className="text-xl font-semibold">Description</h2>
+            <p className="text-muted-foreground text-sm">
+              {collection.description}
+            </p>
+          </div>
         )}
       </div>
     </div>
