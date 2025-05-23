@@ -17,8 +17,13 @@ export const MovieListItem = ({ movie }: Props) => {
 
   const releaseDate =
     movie.__typename === 'Film'
-      ? movie.releaseDate && formatDateTime(movie.releaseDate)
-      : formatDateTimeRange(movie.startReleaseDate, movie.endReleaseDate);
+      ? movie.releaseDate && formatDateTime(movie.releaseDate, 'date', 'long')
+      : formatDateTimeRange(
+          movie.startReleaseDate,
+          movie.endReleaseDate,
+          'date',
+          'long',
+        );
 
   return (
     <div className="grid rounded-lg border grid-cols-[auto_1fr] auto-rows-fr overflow-hidden">
