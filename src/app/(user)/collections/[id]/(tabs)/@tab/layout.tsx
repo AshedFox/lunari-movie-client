@@ -1,7 +1,7 @@
 import { getClient } from '@lib/apollo/rsc-client';
 import { GetCollectionTabsInfoDocument } from '@lib/graphql/generated/graphql';
 import TabsNav from './_components/TabsNav';
-import { paramsSchema } from '../_validation/params-schema';
+import { paramsSchema } from '../../_validation/params-schema';
 import { ReactNode } from 'react';
 
 type Props = {

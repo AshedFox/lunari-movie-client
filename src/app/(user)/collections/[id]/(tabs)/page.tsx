@@ -1,8 +1,8 @@
 import { CollectionPage } from '@components/collection/page';
 import { getUser } from '@lib/auth/user-dal';
 import { Metadata } from 'next';
-import { paramsSchema } from './_validation/params-schema';
-import { getCollection, getCollectionUser } from './_lib/api';
+import { paramsSchema } from '../_validation/params-schema';
+import { getCollection, getCollectionUser } from '../_lib/api';
 
 type Props = {
   params: Promise<{
