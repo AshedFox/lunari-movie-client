@@ -1,7 +1,7 @@
 import { CollectionMoviesLoadableList } from '@components/collection-movie/list';
 import { PreloadQuery } from '@lib/apollo/rsc-client';
 import { GetCollectionMoviesDocument } from '@lib/graphql/generated/graphql';
-import { paramsSchema } from '../_validation/params-schema';
+import { paramsSchema } from '../../_validation/params-schema';
 
 type Props = {
   params: Promise<{

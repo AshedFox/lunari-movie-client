@@ -6,7 +6,7 @@ import {
   HasCollectionReviewDocument,
   GetCollectionReviewsDocument,
 } from '@lib/graphql/generated/graphql';
-import { paramsSchema } from '../../_validation/params-schema';
+import { paramsSchema } from '../../../_validation/params-schema';
 
 const userHasReview = async (collectionId: number): Promise<boolean | null> => {
   const { data } = await getClient().query({
