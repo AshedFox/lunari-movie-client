@@ -13,10 +13,11 @@ Discover server [here](https://github.com/AshedFox/lunari-movie-server).
 - Add movies to watched, favorite and bookmarked
 - Write reviews on movies you liked (or disliked)
 - Users profiles
-#### TODO:
 - Discover and create collections with movies
 - Purchase movies or subscribe on service
-- Users profiles with lists of movies they added to lists and with their comments
+  
+#### TODO:
+- Users profiles with lists of movies they added to lists and their comments
 - Rooms to watch movies together
 
 ## Installation
