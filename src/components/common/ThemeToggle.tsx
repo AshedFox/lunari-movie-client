@@ -17,7 +17,7 @@ const ThemeToggle = () => {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
-          className="font-normal px-2 has-[>svg]:px-2 rounded-sm"
+          className="font-normal px-2 has-[>svg]:px-2 rounded-sm w-full"
           variant="ghost"
           size="sm"
         >
