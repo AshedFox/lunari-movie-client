@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import TabsNav from './_components/TabsNav';
 import { getClient } from '@lib/apollo/rsc-client';
 import { GetFilmTabsInfoDocument } from '@lib/graphql/generated/graphql';
+import MovieVisitTracker from '@components/common/MovieVisitTracker';
 
 type Props = {
   children: ReactNode;
@@ -33,6 +34,7 @@ const Layout = async ({ children, tab, params }: Props) => {
         <TabsNav id={id} tabsInfo={filmTabsInfo} />
         <div className="py-4">{tab}</div>
       </div>
+      <MovieVisitTracker movieId={id} />
     </div>
   );
 };
