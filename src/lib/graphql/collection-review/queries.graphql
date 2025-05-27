@@ -1,6 +1,12 @@
-query GetCollectionReviews($collectionId: Int!, $cursor: String, $limit: Int!) {
+query GetCollectionReviews(
+  $collectionId: Int!
+  $cursor: String
+  $limit: Int!
+  $sort: CollectionReviewSort
+) {
   getCollectionsReviewsRelay(
     filter: { collectionId: { eq: $collectionId } }
+    sort: $sort
     first: $limit
     after: $cursor
   ) {

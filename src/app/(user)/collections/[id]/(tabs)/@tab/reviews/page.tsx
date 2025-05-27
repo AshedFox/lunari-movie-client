@@ -5,6 +5,7 @@ import { getUser } from '@lib/auth/user-dal';
 import {
   HasCollectionReviewDocument,
   GetCollectionReviewsDocument,
+  SortDirectionEnum,
 } from '@lib/graphql/generated/graphql';
 import { paramsSchema } from '../../../_validation/params-schema';
 
@@ -39,6 +40,7 @@ const Page = async ({ params }: Props) => {
         variables={{
           limit: 20,
           collectionId: id,
+          sort: { createdAt: { direction: SortDirectionEnum.DESC } },
         }}
         context={{
           fetchOptions: {
