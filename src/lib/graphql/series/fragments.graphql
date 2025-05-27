@@ -12,6 +12,24 @@ fragment BaseSeries on Series {
   }
 }
 
+fragment SeriesMiniCard on Series {
+  __typename
+  id
+  title
+  ageRestriction
+  rating
+  startReleaseDate
+  endReleaseDate
+  cover {
+    id
+    url
+  }
+  genres {
+    id
+    name
+  }
+}
+
 fragment SeriesListItem on Series {
   genres {
     id

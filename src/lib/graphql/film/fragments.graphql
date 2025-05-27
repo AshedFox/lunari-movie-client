@@ -12,6 +12,23 @@ fragment BaseFilm on Film {
   }
 }
 
+fragment FilmMiniCard on Film {
+  __typename
+  id
+  title
+  ageRestriction
+  rating
+  releaseDate
+  cover {
+    id
+    url
+  }
+  genres {
+    id
+    name
+  }
+}
+
 fragment FilmListItem on Film {
   genres {
     id

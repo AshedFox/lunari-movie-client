@@ -20,6 +20,22 @@ query GetMovies(
   }
 }
 
+query GetPopularMovies($limit: Int!, $offset: Int!) {
+  getMoviesOffset(
+    limit: $limit
+    offset: $offset
+    sort: { stats: { popularityScore: { direction: DESC, nulls: LAST } } }
+  ) {
+    nodes {
+      ...SeriesMiniCard
+      ...FilmMiniCard
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+}
+
 query GetCollectionMovies($collectionId: ID!, $cursor: String, $limit: Int!) {
   getMoviesRelay(
     filter: { collectionsConnection: { collectionId: { eq: $collectionId } } }
