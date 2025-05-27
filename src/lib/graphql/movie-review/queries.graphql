@@ -1,6 +1,12 @@
-query GetMovieReviews($movieId: ID!, $cursor: String, $limit: Int!) {
+query GetMovieReviews(
+  $movieId: ID!
+  $cursor: String
+  $limit: Int!
+  $sort: MovieReviewSort
+) {
   getMoviesReviewsRelay(
     filter: { movieId: { eq: $movieId } }
+    sort: $sort
     first: $limit
     after: $cursor
   ) {

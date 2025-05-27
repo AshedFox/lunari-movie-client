@@ -5,6 +5,7 @@ import { getUser } from '@lib/auth/user-dal';
 import {
   HasMovieReviewDocument,
   GetMovieReviewsDocument,
+  SortDirectionEnum,
 } from '@lib/graphql/generated/graphql';
 
 const userHasReview = async (filmId: string): Promise<boolean | null> => {
@@ -38,6 +39,7 @@ const Page = async ({ params }: Props) => {
         variables={{
           limit: 20,
           movieId: id,
+          sort: { createdAt: { direction: SortDirectionEnum.DESC } },
         }}
         context={{
           fetchOptions: {
