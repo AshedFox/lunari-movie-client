@@ -1,7 +1,11 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: process.env.NEXT_PUBLIC_IMAGES_URL
+      ? [new URL(process.env.NEXT_PUBLIC_IMAGES_URL)]
+      : undefined,
+  },
 };
 
 export default nextConfig;
