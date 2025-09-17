@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { Button } from '@components/ui/button';
 import {
   CreateMovieUserDocument,

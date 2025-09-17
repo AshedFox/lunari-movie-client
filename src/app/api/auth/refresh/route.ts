@@ -26,7 +26,7 @@ export async function POST() {
     return NextResponse.json({ error: 'No token provided' }, { status: 401 });
   }
 
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: RefreshDocument,
     variables: {
       token: refreshToken,
@@ -34,12 +34,12 @@ export async function POST() {
     errorPolicy: 'all',
   });
 
-  if (errors) {
+  if (error || !data) {
     await resetAuthCookies();
-    return NextResponse.json({ error: errors[0].message }, { status: 401 });
-  } else if (!data) {
-    await resetAuthCookies();
-    return NextResponse.json({ error: 'Refresh failed' }, { status: 401 });
+    return NextResponse.json(
+      { error: error?.message ?? 'Refresh failed' },
+      { status: 401 },
+    );
   }
 
   await setAuthCookies(

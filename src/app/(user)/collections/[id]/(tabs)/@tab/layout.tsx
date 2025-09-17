@@ -12,12 +12,16 @@ type Props = {
 };
 
 const getCollectionTabsInfo = async (id: number) => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetCollectionTabsInfoDocument,
     variables: {
       id,
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.getCollection;
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { MovieListItem } from '@components/movie/list-item';
 import { Button } from '@components/ui/button';
 import {

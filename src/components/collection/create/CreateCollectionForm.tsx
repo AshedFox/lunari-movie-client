@@ -17,7 +17,7 @@ import { createCollection } from './actions';
 import { toast } from 'sonner';
 import { AsyncMultiSelect } from '@components/ui/multi-select';
 import { GetMoviesDocument } from '@lib/graphql/generated/graphql';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client/react';
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';

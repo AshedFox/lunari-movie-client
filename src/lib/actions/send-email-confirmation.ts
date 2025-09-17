@@ -10,17 +10,14 @@ const SendEmailConfirmationDocument = graphql(`
 `);
 
 export async function sendEmailConfirmation() {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: SendEmailConfirmationDocument,
     errorPolicy: 'all',
   });
 
-  if (!data || errors) {
+  if (!data || error) {
     return {
-      error:
-        errors && errors[0].message
-          ? errors[0].message
-          : 'Failed to send email confirmation',
+      error: error?.message ?? 'Failed to send email confirmation',
     };
   }
 

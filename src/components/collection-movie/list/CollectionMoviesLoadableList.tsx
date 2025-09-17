@@ -1,6 +1,10 @@
 'use client';
 
-import { QueryRef, useQueryRefHandlers, useReadQuery } from '@apollo/client';
+import {
+  QueryRef,
+  useQueryRefHandlers,
+  useReadQuery,
+} from '@apollo/client/react';
 import { MovieListItem } from '@components/movie/list-item';
 import { Button } from '@components/ui/button';
 import { GetCollectionMoviesQuery } from '@lib/graphql/generated/graphql';

@@ -17,7 +17,7 @@ export async function updateCollection(
   id: number,
   input: UpdateCollectionInput,
 ) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: UpdateCollectionDocument,
     variables: {
       id,
@@ -26,7 +26,7 @@ export async function updateCollection(
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
+  if (error || !data) {
     return { error: 'Failed to update collection' };
   }
 

@@ -34,11 +34,11 @@ const LoginForm = () => {
   );
 
   const onSubmit = async (input: LoginInput) => {
-    const { errors } = await login(input, from);
-    if (errors) {
+    const { error } = await login(input, from);
+    if (error) {
       form.setError('root', {
         type: 'validate',
-        message: errors[0].message,
+        message: error.message,
       });
     }
   };

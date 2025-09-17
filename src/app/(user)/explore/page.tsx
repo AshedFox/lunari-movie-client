@@ -37,7 +37,7 @@ const getMovies = async (
   page: number,
   sort: MovieSort,
 ) => {
-  return getClient().query({
+  const { data, error } = await getClient().query({
     query: GetMoviesDocument,
     variables: {
       limit: PAGE_SIZE,
@@ -47,10 +47,16 @@ const getMovies = async (
     },
     context: { skipAuth: true },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
+
+  return data;
 };
 
 const getCountries = async () => {
-  return getClient().query({
+  const { data, error } = await getClient().query({
     query: GetCountriesDocument,
     variables: {
       sort: {
@@ -61,10 +67,16 @@ const getCountries = async () => {
     },
     context: { skipAuth: true },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
+
+  return data;
 };
 
 const getGenres = async () => {
-  return getClient().query({
+  const { data, error } = await getClient().query({
     query: GetAllGenresDocument,
     variables: {
       sort: {
@@ -75,10 +87,16 @@ const getGenres = async () => {
     },
     context: { skipAuth: true },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
+
+  return data;
 };
 
 const getInitStudios = async (ids: string[]) => {
-  return getClient().query({
+  const { data, error } = await getClient().query({
     query: GetFilterInitStudiosDocument,
     variables: {
       in: ids,
@@ -87,6 +105,12 @@ const getInitStudios = async (ids: string[]) => {
       skipAuth: true,
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
+
+  return data;
 };
 
 const Page = async ({ searchParams }: Props) => {
@@ -103,21 +127,15 @@ const Page = async ({ searchParams }: Props) => {
   const countriesPromise = getCountries();
   const genresPromise = getGenres();
   const initStudiosPromise =
-    filter.studios.length > 0
-      ? getInitStudios(filter.studios)
-      : { data: undefined };
+    filter.studios.length > 0 ? getInitStudios(filter.studios) : undefined;
 
-  const [
-    { data: moviesData },
-    { data: countriesData },
-    { data: genresData },
-    { data: initStudiosData },
-  ] = await Promise.all([
-    moviesPromise,
-    countriesPromise,
-    genresPromise,
-    initStudiosPromise,
-  ]);
+  const [moviesData, countriesData, genresData, initStudiosData] =
+    await Promise.all([
+      moviesPromise,
+      countriesPromise,
+      genresPromise,
+      initStudiosPromise,
+    ]);
 
   const pageInfo = moviesData.getMoviesOffset.pageInfo;
   const movies = moviesData.getMoviesOffset.nodes;

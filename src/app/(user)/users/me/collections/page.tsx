@@ -54,7 +54,7 @@ const getMyCollections = async (
   sort: CollectionSort,
   page: number,
 ) => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetCollectionsDocument,
     variables: {
       limit: PAGE_SIZE,
@@ -69,6 +69,10 @@ const getMyCollections = async (
     },
     context: { skipAuth: true },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return {
     collections: data.getCollections.nodes,

@@ -1,6 +1,10 @@
 'use client';
 
-import { QueryRef, useQueryRefHandlers, useReadQuery } from '@apollo/client';
+import {
+  QueryRef,
+  useQueryRefHandlers,
+  useReadQuery,
+} from '@apollo/client/react';
 import { Button } from '@components/ui/button';
 import { GetCollectionReviewsQuery } from '@lib/graphql/generated/graphql';
 import { Loader2 } from 'lucide-react';

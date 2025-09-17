@@ -21,7 +21,7 @@ const UpdateMeDocument = graphql(`
 `);
 
 export async function updatePassword(oldPassword: string, newPassword: string) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: UpdatePasswordDocument,
     variables: {
       oldPassword,
@@ -30,15 +30,15 @@ export async function updatePassword(oldPassword: string, newPassword: string) {
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
-    return { errors: errors || [{ message: 'Something went wrong!' }] };
+  if (error || !data) {
+    return { error: error?.message ?? 'Something went wrong!' };
   }
 
   return { data };
 }
 
 export async function updateProfile(input: UpdateUserInput) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: UpdateMeDocument,
     variables: {
       input,
@@ -46,9 +46,8 @@ export async function updateProfile(input: UpdateUserInput) {
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
-    console.log(errors);
-    return { errors: errors || [{ message: 'Something went wrong!' }] };
+  if (error || !data) {
+    return { error: error?.message ?? 'Something went wrong!' };
   }
 
   await setUserCookie(data.updateMe);

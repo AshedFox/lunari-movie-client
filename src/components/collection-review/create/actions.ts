@@ -8,7 +8,7 @@ import {
 import { revalidateTag } from 'next/cache';
 
 export async function createMovieReview(input: CreateCollectionReviewInput) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: CreateCollectionReviewDocument,
     variables: {
       input,
@@ -16,8 +16,8 @@ export async function createMovieReview(input: CreateCollectionReviewInput) {
     errorPolicy: 'all',
   });
 
-  if (!data || errors) {
-    return { errors };
+  if (!data || error) {
+    return { error };
   }
 
   revalidateTag(`collection-reviews-${input.collectionId}`);

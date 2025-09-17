@@ -15,7 +15,7 @@ async function refresh(req: NextRequest, res: NextResponse): Promise<boolean> {
     return false;
   }
 
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: RefreshDocument,
     variables: {
       token: refreshToken,
@@ -23,7 +23,7 @@ async function refresh(req: NextRequest, res: NextResponse): Promise<boolean> {
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
+  if (error || !data) {
     await resetAuthCookies(res.cookies);
     return false;
   }

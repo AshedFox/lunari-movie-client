@@ -11,7 +11,7 @@ const SubscribeDocument = graphql(`
 `);
 
 export async function subscribe(priceId: string) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: SubscribeDocument,
     variables: {
       priceId,
@@ -19,10 +19,9 @@ export async function subscribe(priceId: string) {
     errorPolicy: 'all',
   });
 
-  if (!data || errors) {
+  if (!data || error) {
     return {
-      error:
-        errors && errors[0].message ? errors[0].message : 'Failed to subscribe',
+      error: error?.message ?? 'Failed to subscribe',
     };
   }
 

@@ -14,7 +14,7 @@ const CreateCollectionDocument = graphql(`
 `);
 
 export async function createCollection(input: CreateCollectionInput) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: CreateCollectionDocument,
     variables: {
       input,
@@ -22,7 +22,7 @@ export async function createCollection(input: CreateCollectionInput) {
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
+  if (error || !data) {
     return { error: 'Failed to create collection' };
   }
 

@@ -13,12 +13,16 @@ type Props = {
 };
 
 const getSeriesTabsInfo = async (id: string) => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetSeriesTabsInfoDocument,
     variables: {
       id,
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.getOneSeries;
 };

@@ -33,22 +33,30 @@ const getEpisode = async (
 };
 
 const userHasSubscription = async (): Promise<boolean> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: HasActiveSubscriptionDocument,
     errorPolicy: 'all',
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.hasActiveSubscription;
 };
 
 const userHasPurchase = async (id: string): Promise<boolean> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: HasPurchaseDocument,
     variables: {
       movieId: id,
     },
     errorPolicy: 'all',
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.hasPurchase;
 };

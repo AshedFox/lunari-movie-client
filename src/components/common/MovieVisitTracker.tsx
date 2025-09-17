@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { graphql } from '@lib/graphql/generated';
 import { useEffect } from 'react';
 

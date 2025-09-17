@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -39,10 +38,10 @@ const UpdatePasswordForm = () => {
   }: UpdatePasswordInput) => {
     toast.promise(
       async () => {
-        const { data, errors } = await updatePassword(oldPassword, newPassword);
+        const { data, error } = await updatePassword(oldPassword, newPassword);
 
-        if (!data || errors) {
-          throw new Error(errors[0].message);
+        if (!data || error) {
+          throw new Error(error);
         }
 
         return { data };

@@ -36,12 +36,12 @@ const SignUpForm = () => {
   );
 
   const onSubmit = async (input: SignUpInput) => {
-    const { errors } = await signUp(input, from);
+    const { error } = await signUp(input, from);
 
-    if (errors) {
+    if (error) {
       form.setError('root', {
         type: 'validate',
-        message: errors[0].message,
+        message: error.message,
       });
     }
   };

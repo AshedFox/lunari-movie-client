@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUserScheme } from '@app/(user)/users/me/settings/_validation';
@@ -54,10 +54,10 @@ const UpdateProfileForm = ({ user, countries }: Props) => {
   const onSubmit = async (input: UpdateUserInput) => {
     toast.promise(
       async () => {
-        const { data, errors } = await updateProfile(input);
+        const { data, error } = await updateProfile(input);
 
-        if (!data || errors) {
-          throw new Error(errors[0].message);
+        if (!data || error) {
+          throw new Error(error);
         }
 
         return { data };

@@ -1,7 +1,11 @@
 'use client';
 
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar';
-import { QueryRef, useQueryRefHandlers, useReadQuery } from '@apollo/client';
+import {
+  QueryRef,
+  useQueryRefHandlers,
+  useReadQuery,
+} from '@apollo/client/react';
 import { GetMoviePersonsQuery } from '@lib/graphql/generated/graphql';
 import { useTransition } from 'react';
 import { Button } from '@components/ui/button';

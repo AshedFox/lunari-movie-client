@@ -32,7 +32,7 @@ const getCollections = async (
   page: number,
   sort: CollectionSort,
 ) => {
-  return getClient().query({
+  const { data, error } = await getClient().query({
     query: GetCollectionsDocument,
     variables: {
       limit: PAGE_SIZE,
@@ -42,6 +42,12 @@ const getCollections = async (
     },
     context: { skipAuth: true },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
+
+  return data;
 };
 
 type Props = {
@@ -54,7 +60,7 @@ const Page = async ({ searchParams }: Props) => {
   const filter = filterSchema.parse(search);
   const sort = sortSchema.parse(search.sort);
 
-  const { data: collectionsData } = await getCollections(
+  const collectionsData = await getCollections(
     parseSearchToFilter(filter),
     page,
     parseSearchToSort(sort),

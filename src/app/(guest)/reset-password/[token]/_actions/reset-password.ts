@@ -11,18 +11,15 @@ const ResetPasswordDocument = graphql(`
 `);
 
 export async function resetPassword(input: ResetPasswordInput) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: ResetPasswordDocument,
     variables: { input },
     errorPolicy: 'all',
   });
 
-  if (!data || errors) {
+  if (!data || error) {
     return {
-      error:
-        errors && errors[0].message
-          ? errors[0].message
-          : 'Failed to send email with reset code',
+      error: error?.message ?? 'Failed to send email with reset code',
     };
   }
 }

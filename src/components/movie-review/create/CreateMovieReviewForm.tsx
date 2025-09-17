@@ -33,12 +33,12 @@ const CreateMovieReviewForm = ({ movieId }: { movieId: string }) => {
   const router = useRouter();
 
   const onSubmit = async (input: Input) => {
-    const { errors } = await createMovieReview({
+    const { error } = await createMovieReview({
       ...input,
       movieId,
     });
 
-    if (errors) {
+    if (error) {
       toast.error('Failed to create review');
     } else {
       router.refresh();

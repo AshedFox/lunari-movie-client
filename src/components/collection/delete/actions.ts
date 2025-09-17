@@ -13,7 +13,7 @@ const DeleteCollectionDocument = graphql(`
 `);
 
 export async function deleteCollection(id: number) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: DeleteCollectionDocument,
     variables: {
       id,
@@ -21,7 +21,7 @@ export async function deleteCollection(id: number) {
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
+  if (error || !data) {
     return { error: 'Failed to delete collection' };
   }
 

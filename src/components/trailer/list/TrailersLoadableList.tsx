@@ -1,6 +1,10 @@
 'use client';
 
-import { QueryRef, useReadQuery, useQueryRefHandlers } from '@apollo/client';
+import {
+  QueryRef,
+  useReadQuery,
+  useQueryRefHandlers,
+} from '@apollo/client/react';
 import { VideoPlayer } from '@components/common/video-player';
 import { Button } from '@components/ui/button';
 import {

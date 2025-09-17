@@ -22,7 +22,7 @@ const Page = async () => {
     redirect('/login?from=/users/me/settings');
   }
 
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetCountriesDocument,
     variables: {
       sort: {
@@ -32,6 +32,10 @@ const Page = async () => {
       },
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return (
     <div className="py-10 flex flex-col gap-6 overflow-y-auto container">

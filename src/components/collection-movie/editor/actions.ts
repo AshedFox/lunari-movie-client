@@ -16,7 +16,7 @@ export async function addCollectionMovie(
   collectionId: number,
   movieId: string,
 ) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: AddCollectionMovieDocument,
     variables: {
       collectionId,
@@ -25,7 +25,7 @@ export async function addCollectionMovie(
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
+  if (error || !data) {
     return { error: 'Failed to add movie to collection' };
   }
 
@@ -45,7 +45,7 @@ export async function deleteCollectionMovie(
   collectionId: number,
   movieId: string,
 ) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: DeleteCollectionMovieDocument,
     variables: {
       collectionId,
@@ -54,7 +54,7 @@ export async function deleteCollectionMovie(
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
+  if (error || !data) {
     return { error: 'Failed to delete movie from collection' };
   }
 

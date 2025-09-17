@@ -13,7 +13,7 @@ const UploadImageDocument = graphql(`
 `);
 
 export async function uploadImage(file: File) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: UploadImageDocument,
     variables: {
       file,
@@ -21,7 +21,7 @@ export async function uploadImage(file: File) {
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
+  if (error || !data) {
     return { error: 'Failed to upload' };
   }
 

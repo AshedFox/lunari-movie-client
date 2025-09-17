@@ -14,7 +14,7 @@ const UpdateAvatarDocument = graphql(`
 `);
 
 export async function updateAvatar(file: File) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: UpdateAvatarDocument,
     variables: {
       file,
@@ -22,8 +22,8 @@ export async function updateAvatar(file: File) {
     errorPolicy: 'all',
   });
 
-  if (errors || !data) {
-    return { error: 'Failed to upload' };
+  if (error || !data) {
+    return { error: error?.message ?? 'Failed to upload' };
   }
 
   await setUserCookie(data.updateAvatar);

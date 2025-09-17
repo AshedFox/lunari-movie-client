@@ -19,7 +19,7 @@ const LoginDocument = graphql(/* GraphQL */ `
 `);
 
 export async function login(input: LoginInput, from?: string) {
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: LoginDocument,
     variables: {
       input,
@@ -27,8 +27,8 @@ export async function login(input: LoginInput, from?: string) {
     errorPolicy: 'all',
   });
 
-  if (!data || errors) {
-    return { errors };
+  if (!data || error) {
+    return { error };
   }
 
   await setAuthCookies(

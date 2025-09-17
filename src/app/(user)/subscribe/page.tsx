@@ -9,21 +9,29 @@ import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 
 const getPlans = async () => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetActivePlansDocument,
     context: {
       skipAuth: true,
     },
   });
 
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
+
   return data.getPlans;
 };
 
 const userHasSubscription = async (): Promise<boolean> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: HasActiveSubscriptionDocument,
     errorPolicy: 'all',
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.hasActiveSubscription;
 };

@@ -11,12 +11,16 @@ type Props = {
 };
 
 const getOneSeries = async (id: string): Promise<SeriesFragment> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetOneSeriesDocument,
     variables: {
       id,
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.getOneSeries;
 };

@@ -18,12 +18,16 @@ type Props = {
 export const revalidate = 60;
 
 const getFilm = async (id: string): Promise<FilmFragment> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetFilmDocument,
     variables: {
       id,
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.getFilm;
 };

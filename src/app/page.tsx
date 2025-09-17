@@ -28,7 +28,7 @@ const getPopularMovies = async (): Promise<
     },
   });
 
-  return data.getMoviesOffset.nodes;
+  return data?.getMoviesOffset.nodes ?? [];
 };
 
 export default async function Home() {

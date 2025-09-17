@@ -19,16 +19,15 @@ export async function logout() {
     return { error: 'Failed to logout' };
   }
 
-  const { data, errors } = await getClient().mutate({
+  const { data, error } = await getClient().mutate({
     mutation: LogoutDocument,
     variables: { refreshToken },
     errorPolicy: 'all',
   });
 
-  if (!data || errors) {
+  if (!data || error) {
     return {
-      error:
-        errors && errors[0].message ? errors[0].message : 'Failed to logout',
+      error: error?.message ?? 'Failed to logout',
     };
   }
 

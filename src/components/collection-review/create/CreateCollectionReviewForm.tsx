@@ -37,12 +37,12 @@ const CreateCollectionReviewForm = ({
   const router = useRouter();
 
   const onSubmit = async (input: Input) => {
-    const { errors } = await createMovieReview({
+    const { error } = await createMovieReview({
       ...input,
       collectionId,
     });
 
-    if (errors) {
+    if (error) {
       toast.error('Failed to create review');
     } else {
       router.refresh();

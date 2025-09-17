@@ -13,12 +13,16 @@ type Props = {
 };
 
 const getUser = async (id: string): Promise<UserProfileFragment> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetUserDocument,
     variables: {
       id,
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.getUser;
 };

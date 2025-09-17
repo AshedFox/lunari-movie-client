@@ -1,6 +1,6 @@
 'use client';
 
-import { skipToken, useSuspenseQuery } from '@apollo/client';
+import { skipToken, useSuspenseQuery } from '@apollo/client/react';
 import { Button, buttonVariants } from '@components/ui/button';
 import {
   HasActiveSubscriptionDocument,

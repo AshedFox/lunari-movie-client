@@ -18,33 +18,45 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 const getFilm = async (id: string): Promise<WatchFilmFragment> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetWatchFilmDocument,
     variables: {
       id,
     },
   });
 
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
+
   return data.getFilm;
 };
 
 const userHasSubscription = async (): Promise<boolean> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: HasActiveSubscriptionDocument,
     errorPolicy: 'all',
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.hasActiveSubscription;
 };
 
 const userHasPurchase = async (id: string): Promise<boolean> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: HasPurchaseDocument,
     variables: {
       movieId: id,
     },
     errorPolicy: 'all',
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.hasPurchase;
 };

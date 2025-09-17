@@ -9,12 +9,16 @@ import {
 export const getCollection = async (
   id: number,
 ): Promise<CollectionFragment> => {
-  const { data } = await getClient().query({
+  const { data, error } = await getClient().query({
     query: GetCollectionDocument,
     variables: {
       id,
     },
   });
+
+  if (!data || error) {
+    throw new Error(error?.message ?? 'Failed to fetch');
+  }
 
   return data.getCollection;
 };
