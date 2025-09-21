@@ -44,9 +44,6 @@ export const CreateCollectionForm = () => {
   const router = useRouter();
   const [getMovies, { data: moviesData }] = useLazyQuery(GetMoviesDocument, {
     errorPolicy: 'all',
-    context: {
-      skipAuth: true,
-    },
   });
   const moviesOptions = useMemo(
     () =>
@@ -158,6 +155,9 @@ export const CreateCollectionForm = () => {
                         limit: 20,
                         offset: 0,
                         filter: { title: { ilike: search } },
+                      },
+                      context: {
+                        skipAuth: true,
                       },
                     });
                   }}

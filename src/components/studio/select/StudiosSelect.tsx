@@ -25,12 +25,7 @@ function StudiosSelect<T extends { studios: Option[] }>({
 }: Props<T>) {
   const [getStudios, { data: studiosData }] = useLazyQuery(
     GetFilterStudiosDocument,
-    {
-      errorPolicy: 'ignore',
-      context: {
-        skipAuth: true,
-      },
-    },
+    { errorPolicy: 'ignore' },
   );
 
   const studiosOptions = useMemo(
@@ -63,6 +58,9 @@ function StudiosSelect<T extends { studios: Option[] }>({
                     limit: count,
                     offset: 0,
                     search,
+                  },
+                  context: {
+                    skipAuth: true,
                   },
                 });
               }}
