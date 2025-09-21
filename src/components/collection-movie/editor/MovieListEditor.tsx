@@ -36,7 +36,9 @@ export const MovieListEditor = ({
 }: Props) => {
   const [movies, setMovies] = useState<Movie[]>(initMovies);
   const [search, setSearch] = useState<string>('');
-  const { data, refetch: getMovies } = useQuery(GetMoviesDocument);
+  const { data, refetch: getMovies } = useQuery(GetMoviesDocument, {
+    variables: { limit: 20, offset: 0 },
+  });
   const [isPending, startTransition] = useTransition();
 
   const searchMovies = useMemo(
