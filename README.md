@@ -16,8 +16,6 @@
 
 **Lunari Movies** is a powerfull web application for discovering, watching, managing films and series and much-much more built with modern tech stack.
 
-Application.
-
 > Backend Repository: [lunari-movie-server](https://github.com/AshedFox/lunari-movie-server)
 
 ## Tech Stack
