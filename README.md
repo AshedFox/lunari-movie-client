@@ -1,44 +1,110 @@
 # Lunari Movies
 
-Frontend part of web-application for watching and discovering films and series made using [Next.js](https://nextjs.org/)
-framework and [GraphQL](https://graphql.org/).
-Discover server [here](https://github.com/AshedFox/lunari-movie-server).
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset='https://github.com/user-attachments/assets/fd0c985e-5081-47f7-812e-55f465068235' />
+    <img src='https://github.com/user-attachments/assets/fd0c985e-5081-47f7-812e-55f465068235' alt='Lunari Movies Banner' />
+  </picture>
+
+ **A modern, feature-rich movie streaming platform built with Next.js and GraphQL**
+
+ [Tech Stack](#tech-stack) | [Features](#features) | [Installation](#installation) | [Gallery](#gallery)
+
+</div>
+
+## Overview
+
+**Lunari Movies** is a powerfull web application for discovering, watching, managing films and series and much-much more built with modern tech stack.
+
+Application.
+
+> Backend Repository: [lunari-movie-server](https://github.com/AshedFox/lunari-movie-server)
+
+## Tech Stack
+
+- **[Next.js 15](https://nextjs.org/)**
+- **[React 19](https://react.dev/)**
+- **[Apollo Client](https://www.apollographql.com/docs/react/)**
+- **[GraphQL](https://graphql.org/)**
+- **[Tailwind CSS](https://tailwindcss.com/)**
+- **[shadcn/ui](https://ui.shadcn.com/)**
+- **[Vidstack](https://www.vidstack.io/)** - modern video player
+- **[React Hook Form](https://react-hook-form.com/)**
+- **[Zod](https://zod.dev/)**
 
 ## Features
 
-- Discover films and series with wide filtering and sort system
-- Watch movies with quality and language which better for you
-- Add movies to watched, favorite and bookmarked
-- Write reviews on movies you liked (or disliked)
-- Users profiles
-- Discover and create collections with movies
-- Purchase movies or subscribe on service
-  
-#### TODO
-- Add movies lists, collections lists and comments to user profile page
-- Implement rooms for watching movies together
+- Films and series with generes, images, persons, and many other more basic information.
+- Films and series search with powerful filtering system and multiple sort options.
+- Adaptive quality streaming with DASH support.
+- Episode-based series navigation.
+- Personal watchlists (watched, favorites, bookmarks).
+- User profiles with customization.
+- Reviews and rating system.
+- System and user-created collections of movies with reviews support.
+- Subscriptions and one-time movie purchases with Stripe integration
+- Responsive design for all devices
+- Dark/Light theme support
+- Optimized performance with Next.js features.
+
+## TODO
+
+- [ ] Сo-viewing films and series in rooms.
+- [ ] Watchlists, comments and personal collections on user profile page.
 
 ## Installation
-1. Install dependencies
+
+### Prerequisites
+
+- **Node.js 18+**  
+- **GraphQL API** (see [backend](https://github.com/AshedFox/lunari-movie-server))
+
+### Setup
+
+1. Clone repository
+
 ```bash
-$ npm install
+git clone https://github.com/AshedFox/lunari-movie-client.git
+cd lunari-movie-client
 ```
 
-2. Generate types from graphql schema 
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Set enviromental variables (e.g. with .env file)
+
+| Variable                 | Description              | Required |
+| ------------------------ | ------------------------ | -------- |
+| `NEXT_PUBLIC_API_URL`    | GraphQL API endpoint     |    +     |
+| `NEXT_PUBLIC_STRIPE_KEY` | Stripe bulic key         |    +     |
+| `ACCESS_COOKIE_KEY`      | Access token cookie key  |    +     |
+| `REFRESH_COOKIE_KEY`     | Refresh token cookie key |    +     |
+| `USER_COOKIE_KEY`        | User data cookie key     |    +     |
+| `PORT`                   | Port                     |          |
+| `NEXT_PUBLIC_IMAGES_URL` | Images storage base URL  |          |
+
+4. Generate types from graphql schema
+
 ```bash
 # generate types once
 $ npm run codegen:write
 ```
+
 ```bash
 # or watch for changes
 $ npm run codegen:watch
 ```
 
-3. Run the app
+5. Run the app
+
 ```bash
 # development
 $ npm run dev
 ```
+
 ```bash
 # production
 $ npm run build
@@ -46,20 +112,27 @@ $ npm run start
 ```
 
 ## Gallery
-- Home
-<img alt="home_page" src="https://github.com/user-attachments/assets/b1fdda7c-15d6-41da-9483-2a7eb2c48201" />
 
-- Explore
-<img alt="explore_page" src="https://github.com/user-attachments/assets/fd0c985e-5081-47f7-812e-55f465068235" />
+### Home page
 
-- Film
-<img alt="film_page_with_reviews" src="https://github.com/user-attachments/assets/23a9c218-faa0-45f3-b0f4-e92da5458d0a" />
+![Home Page](https://github.com/user-attachments/assets/b1fdda7c-15d6-41da-9483-2a7eb2c48201)
 
-- Collections
-<img alt="collections_page" src="https://github.com/user-attachments/assets/69890c92-c803-487d-81e5-d06f3f575d41" />
+### Explore page
 
-- Collection
-<img alt="collection_page" src="https://github.com/user-attachments/assets/95c741ec-ea45-4d86-a823-1faf02bfd77e" />
+![Explore Page](https://github.com/user-attachments/assets/fd0c985e-5081-47f7-812e-55f465068235)
 
-- User settings
-<img alt="user_settings" src="https://github.com/user-attachments/assets/a05ba7ae-09ac-4e9a-b1a4-68c52a997c47" />
+### Film page (with reviews)
+
+![Film Page](https://github.com/user-attachments/assets/23a9c218-faa0-45f3-b0f4-e92da5458d0a)
+
+### Collections page
+
+![Collections Page](https://github.com/user-attachments/assets/69890c92-c803-487d-81e5-d06f3f575d41)
+
+### Collection page
+
+![Collection Page](https://github.com/user-attachments/assets/95c741ec-ea45-4d86-a823-1faf02bfd77e)
+
+### User settings page
+
+![User Settings](https://github.com/user-attachments/assets/a05ba7ae-09ac-4e9a-b1a4-68c52a997c47)
