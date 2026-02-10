@@ -12,19 +12,7 @@ export const authLink = setContext(async (_, context) => {
     credentials: 'include',
   });
 
-  let token = await res.json();
-
-  if (!token) {
-    await fetch('/api/auth/refresh', {
-      method: 'POST',
-      credentials: 'include',
-    });
-    const newRes = await fetch('/api/auth/token', {
-      method: 'GET',
-      credentials: 'include',
-    });
-    token = await newRes.json();
-  }
+  const token = await res.json();
 
   return {
     ...context,
