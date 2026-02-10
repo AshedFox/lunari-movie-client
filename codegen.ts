@@ -1,7 +1,12 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
+import { loadEnvConfig } from '@next/env';
+
+loadEnvConfig(process.cwd());
+
+const schemaPath = process.env.SCHEMA_URL || './schema.graphql';
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:3000/graphql',
+  schema: schemaPath,
   documents: ['src/**/*.{tsx,ts,graphql}'],
   ignoreNoDocuments: true,
   generates: {
