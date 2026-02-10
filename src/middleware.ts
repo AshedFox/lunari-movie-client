@@ -31,7 +31,6 @@ async function refresh(req: NextRequest, res: NextResponse): Promise<boolean> {
   await setAuthCookies(
     data.refresh.accessToken,
     data.refresh.refreshToken,
-    data.refresh.user,
     res.cookies,
   );
 

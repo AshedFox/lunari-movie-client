@@ -31,11 +31,7 @@ export async function login(input: LoginInput, from?: string) {
     return { error };
   }
 
-  await setAuthCookies(
-    data.login.accessToken,
-    data.login.refreshToken,
-    data.login.user,
-  );
+  await setAuthCookies(data.login.accessToken, data.login.refreshToken);
 
   redirect(from ?? '/');
 }

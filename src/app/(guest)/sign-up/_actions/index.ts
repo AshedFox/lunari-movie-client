@@ -31,11 +31,7 @@ export async function signUp(input: SignUpInput, from?: string) {
     return { error };
   }
 
-  await setAuthCookies(
-    data.signUp.accessToken,
-    data.signUp.refreshToken,
-    data.signUp.user,
-  );
+  await setAuthCookies(data.signUp.accessToken, data.signUp.refreshToken);
 
   redirect(from ?? '/');
 }

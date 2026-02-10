@@ -3,7 +3,6 @@
 import { UpdateUserInput } from '@lib/graphql/generated/graphql';
 import { graphql } from '@lib/graphql/generated';
 import { getClient } from '@lib/apollo/rsc-client';
-import { setUserCookie } from '@lib/auth/cookie';
 import { revalidatePath } from 'next/cache';
 
 const UpdatePasswordDocument = graphql(`
@@ -50,7 +49,6 @@ export async function updateProfile(input: UpdateUserInput) {
     return { error: error?.message ?? 'Something went wrong!' };
   }
 
-  await setUserCookie(data.updateMe);
   revalidatePath('/users/me', 'layout');
   return { data };
 }
