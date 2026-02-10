@@ -2,7 +2,6 @@
 
 import { getClient } from '@lib/apollo/rsc-client';
 import { graphql } from '@lib/graphql/generated';
-import { setUserCookie } from '@lib/auth/cookie';
 import { revalidatePath } from 'next/cache';
 
 const UpdateAvatarDocument = graphql(`
@@ -26,7 +25,6 @@ export async function updateAvatar(file: File) {
     return { error: error?.message ?? 'Failed to upload' };
   }
 
-  await setUserCookie(data.updateAvatar);
   revalidatePath('/users/me', 'layout');
   return { data };
 }

@@ -42,11 +42,7 @@ export async function POST() {
     );
   }
 
-  await setAuthCookies(
-    data.refresh.accessToken,
-    data.refresh.refreshToken,
-    data.refresh.user,
-  );
+  await setAuthCookies(data.refresh.accessToken, data.refresh.refreshToken);
 
   return NextResponse.json(null, { status: 201 });
 }
