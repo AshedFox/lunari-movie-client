@@ -16,7 +16,8 @@ export async function logout() {
   const refreshToken = (await cookies()).get(REFRESH_COOKIE_KEY)?.value;
 
   if (!refreshToken) {
-    return { error: 'Failed to logout' };
+    await resetAuthCookies();
+    return;
   }
 
   const { data, error } = await getClient().mutate({
@@ -26,6 +27,7 @@ export async function logout() {
   });
 
   if (!data || error) {
+    await resetAuthCookies();
     return {
       error: error?.message ?? 'Failed to logout',
     };
