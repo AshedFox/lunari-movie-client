@@ -3,9 +3,7 @@ import { ACCESS_COOKIE_KEY, REFRESH_COOKIE_KEY } from '@lib/auth/constants';
 import { resetAuthCookies, setAuthCookies } from '@lib/auth/cookie';
 import { getClient } from '@lib/apollo/rsc-client';
 import { RefreshDocument } from '@lib/graphql/generated/graphql';
-
-const guestRoutes = ['/login', '/sign-up'];
-const privateRoutes = ['/users/me'];
+import { isGuestRoute, isPrivateRoute } from '@lib/routes';
 
 async function refresh(req: NextRequest, res: NextResponse): Promise<boolean> {
   const refreshToken = req.cookies.get(REFRESH_COOKIE_KEY)?.value;
@@ -46,14 +44,14 @@ export async function middleware(req: NextRequest) {
     accessToken = res.cookies.get(ACCESS_COOKIE_KEY)?.value;
   }
 
-  if (privateRoutes.includes(req.nextUrl.pathname) && !accessToken) {
+  if (isPrivateRoute(req.nextUrl.pathname) && !accessToken) {
     return NextResponse.redirect(
       new URL(`/login?from=${req.nextUrl.pathname}`, req.url),
       {
         headers: res.headers,
       },
     );
-  } else if (guestRoutes.includes(req.nextUrl.pathname) && accessToken) {
+  } else if (isGuestRoute(req.nextUrl.pathname) && accessToken) {
     return NextResponse.redirect(new URL('/', req.url), {
       headers: res.headers,
     });
