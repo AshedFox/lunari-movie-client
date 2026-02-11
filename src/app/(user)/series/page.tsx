@@ -17,7 +17,6 @@ import {
   parseSearchToSort,
 } from '@components/movie/sort';
 import { filterSchema } from '@components/movie/filter/validation';
-import SeriesGrid from './_components/SeriesGrid';
 import { PAGE_SIZE } from './_constants';
 import { Button } from '@components/ui/button';
 import {
@@ -27,6 +26,7 @@ import {
   DrawerTitle,
   Drawer,
 } from '@components/ui/drawer';
+import { MoviesGrid } from '@components/movie/grid';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -199,7 +199,7 @@ const Page = async ({ searchParams }: Props) => {
           </Drawer>
           <MoviesSort currentSort={sort} />
         </div>
-        <SeriesGrid movies={movies} />
+        <MoviesGrid movies={movies} />
         <Paginator
           className="mt-auto"
           currentPage={page}

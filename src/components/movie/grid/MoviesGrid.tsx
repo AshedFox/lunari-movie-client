@@ -1,5 +1,4 @@
-import { FilmCard } from '@components/film/card';
-import { SeriesCard } from '@components/series/card';
+import { MovieCard } from '@components/movie/card/MovieCard';
 import {
   FilmListItemFragment,
   SeriesListItemFragment,
@@ -19,16 +18,12 @@ const MoviesGrid = async ({ movies }: Props) => {
   }
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-      {movies.map((movie) =>
-        movie.__typename === 'Film' ? (
-          <FilmCard key={movie.id} film={movie} />
-        ) : (
-          <SeriesCard key={movie.id} series={movie} />
-        ),
-      )}
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} item={movie} />
+      ))}
     </div>
   );
 };
 
-export default MoviesGrid;
+export { MoviesGrid };
