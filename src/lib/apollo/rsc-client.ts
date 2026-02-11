@@ -9,7 +9,6 @@ import { ApolloLink } from '@apollo/client';
 import { removeTypenameLink } from '@lib/apollo/remove-typename-link';
 import { authLink } from '@lib/apollo/rsc-auth-link';
 import { env } from '@lib/env/server';
-import { dateTypePolicies } from './date-type-policies';
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
@@ -21,11 +20,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   }) as ApolloLink;
 
   return new ApolloClient({
-    cache: new InMemoryCache({
-      typePolicies: {
-        ...dateTypePolicies,
-      },
-    }),
+    cache: new InMemoryCache(),
     link: ApolloLink.from([removeTypenameLink, authLink, uploadLink]),
   });
 });
