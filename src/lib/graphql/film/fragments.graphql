@@ -19,8 +19,8 @@ fragment FilmMiniCard on Film {
   ageRestriction
   rating
   releaseDate
+  description
   cover {
-    id
     url
   }
   genres {

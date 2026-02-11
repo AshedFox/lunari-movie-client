@@ -20,8 +20,8 @@ fragment SeriesMiniCard on Series {
   rating
   startReleaseDate
   endReleaseDate
+  description
   cover {
-    id
     url
   }
   genres {

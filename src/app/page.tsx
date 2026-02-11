@@ -1,17 +1,14 @@
-import { FilmMiniCard } from '@components/film/card/FilmMiniCard';
-import { SeriesMiniCard } from '@components/series/card/SeriesMiniCard';
-import {
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-  Carousel,
-} from '@components/ui/carousel';
+import { GenreList } from '@components/home/GenreList';
+import { HeroSection } from '@components/home/HeroSection';
+import { MovieSection } from '@components/home/MovieSection';
 import { getClient } from '@lib/apollo/rsc-client';
 import {
   FilmMiniCardFragment,
+  GetAllGenresDocument,
+  GetMoviesDocument,
   GetPopularMoviesDocument,
   SeriesMiniCardFragment,
+  SortDirectionEnum,
 } from '@lib/graphql/generated/graphql';
 
 const getPopularMovies = async (): Promise<
@@ -31,37 +28,60 @@ const getPopularMovies = async (): Promise<
   return data?.getMoviesOffset.nodes ?? [];
 };
 
+const getMoreFilms = async () => {
+  const { data } = await getClient().query({
+    query: GetMoviesDocument,
+    variables: {
+      offset: 0,
+      limit: 10,
+    },
+    context: {
+      skipAuth: true,
+    },
+  });
+
+  return data?.getMoviesOffset.nodes ?? [];
+};
+
+const getGenres = async () => {
+  const { data } = await getClient().query({
+    query: GetAllGenresDocument,
+    variables: {
+      sort: {
+        name: {
+          direction: SortDirectionEnum.ASC,
+        },
+      },
+    },
+    context: {
+      skipAuth: true,
+    },
+  });
+  return data?.getAllGenres ?? [];
+};
+
 export default async function Home() {
-  const popularMovies = await getPopularMovies();
+  const [popularMovies, moreFilms, genres] = await Promise.all([
+    getPopularMovies(),
+    getMoreFilms(),
+    getGenres(),
+  ]);
 
   return (
-    <main className="container py-10">
-      <section className="flex flex-col gap-3">
-        <h2 className="text-3xl font-bold">Popular movies</h2>
+    <main className="min-h-screen bg-background pb-8 container overflow-hidden">
+      {popularMovies[0] && <HeroSection movie={popularMovies[0]} />}
 
-        <Carousel
-          opts={{ align: 'start', duration: 30 }}
-          autoPlay={{
-            delay: 5000,
-            stopOnInteraction: false,
-            stopOnMouseEnter: true,
-          }}
-        >
-          <CarouselContent>
-            {popularMovies.map((movie) => (
-              <CarouselItem key={movie.id} className="basis-1/3">
-                {movie.__typename === 'Film' ? (
-                  <FilmMiniCard film={movie} />
-                ) : (
-                  <SeriesMiniCard series={movie} />
-                )}
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </section>
+      <div className="space-y-8">
+        <GenreList genres={genres} />
+
+        <MovieSection
+          title="Popular Now"
+          items={popularMovies.slice(1)}
+          href="/explore?sort=most_popular"
+        />
+
+        <MovieSection title="More to Watch" items={moreFilms} href="/explore" />
+      </div>
     </main>
   );
 }
