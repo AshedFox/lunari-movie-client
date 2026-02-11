@@ -5,22 +5,22 @@ export const publicLinks = [
     children: 'Home',
   },
   {
-    selected: (pathname: string) => pathname === '/explore',
+    selected: (pathname: string) => pathname.startsWith('/explore'),
     href: '/explore',
     children: 'Explore',
   },
   {
-    selected: (pathname: string) => pathname === '/films',
+    selected: (pathname: string) => pathname.startsWith('/films'),
     href: '/films',
     children: 'Films',
   },
   {
-    selected: (pathname: string) => pathname === '/series',
+    selected: (pathname: string) => pathname.startsWith('/series'),
     href: '/series',
     children: 'Series',
   },
   {
-    selected: (pathname: string) => pathname === '/collections',
+    selected: (pathname: string) => pathname.startsWith('/collections'),
     href: '/collections',
     children: 'Collections',
   },
