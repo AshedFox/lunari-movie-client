@@ -16,7 +16,6 @@ import {
   parseSearchToSort,
 } from '@components/movie/sort';
 import { filterSchema } from '@components/movie/filter/validation';
-import MoviesGrid from './_components/MoviesGrid';
 import { PAGE_SIZE } from './_constants';
 import { pageSchema } from '@lib/validation/page-schema';
 import {
@@ -27,6 +26,7 @@ import {
   Drawer,
 } from '@components/ui/drawer';
 import { Button } from '@components/ui/button';
+import { MoviesGrid } from '@components/movie/grid';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
