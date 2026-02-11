@@ -7,8 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@components/ui/carousel';
-import { FilmMiniCard } from '@components/film/card/FilmMiniCard';
-import { SeriesMiniCard } from '@components/series/card/SeriesMiniCard';
+import { MovieMiniCard } from '@components/movie/card/MovieMiniCard';
 import {
   FilmMiniCardFragment,
   SeriesMiniCardFragment,
@@ -52,11 +51,7 @@ export function MovieSection({ title, href, items }: MovieSectionProps) {
                   key={item.id}
                   className="basis-1/2 sm:basis-1/3 lg:basis-1/4 2xl:basis-1/5"
                 >
-                  {item.__typename === 'Film' ? (
-                    <FilmMiniCard film={item} />
-                  ) : (
-                    <SeriesMiniCard series={item} />
-                  )}
+                  <MovieMiniCard item={item} />
                 </CarouselItem>
               ))}
             </CarouselContent>
