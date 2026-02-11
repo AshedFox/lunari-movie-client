@@ -45,4 +45,3 @@ next-env.d.ts
 
 # generated gql files
 src/lib/graphql/generated
-src/lib/apollo/date-type-policies.ts

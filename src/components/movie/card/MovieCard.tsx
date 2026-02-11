@@ -4,7 +4,8 @@ import {
   FilmListItemFragment,
   SeriesListItemFragment,
 } from '@lib/graphql/generated/graphql';
-import { formatDateTime, formatDateTimeRange } from '@lib/utils/format';
+import { FormattedDate } from '@components/ui/formatted-date';
+import { FormattedDateRange } from '@components/ui/formatted-date-range';
 import { Film, Star, Tv } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,10 +21,14 @@ const MovieCard = ({ item }: Props) => {
   const series = isSeries ? (item as SeriesListItemFragment) : null;
   const film = !isSeries ? (item as FilmListItemFragment) : null;
 
-  const releaseText = isSeries
-    ? series?.startReleaseDate &&
-      formatDateTimeRange(series.startReleaseDate, series.endReleaseDate)
-    : film?.releaseDate && formatDateTime(film.releaseDate);
+  const releaseComp = isSeries
+    ? series?.startReleaseDate && (
+        <FormattedDateRange
+          fromDate={series.startReleaseDate}
+          toDate={series.endReleaseDate}
+        />
+      )
+    : film?.releaseDate && <FormattedDate date={film.releaseDate} />;
 
   const NoImageIcon = isSeries ? Tv : Film;
 
@@ -73,7 +78,7 @@ const MovieCard = ({ item }: Props) => {
 
           {/* Release date */}
           <div className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
-            {releaseText && <span>{releaseText}</span>}
+            {releaseComp && <span>{releaseComp}</span>}
 
             {/* Series-specific counts */}
             {series && (

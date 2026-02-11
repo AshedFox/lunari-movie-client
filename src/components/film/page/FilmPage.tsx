@@ -4,7 +4,7 @@ import {
   MovieUserFragment,
   UserProfileFragment,
 } from '@lib/graphql/generated/graphql';
-import { formatDateTime } from '@lib/utils/format';
+import { FormattedDate } from '@components/ui/formatted-date';
 import Image from 'next/image';
 import { MovieListsButtons } from '@components/movie-user/lists-buttons';
 import WatchButton from './WatchButton';
@@ -47,7 +47,7 @@ const FilmPage = ({ film, movieUser, user }: Props) => {
           {film.releaseDate && (
             <Badge variant="outline" className="px-3 py-2">
               <Calendar />
-              <span>{formatDateTime(film.releaseDate)}</span>
+              <FormattedDate date={film.releaseDate} />
             </Badge>
           )}
 

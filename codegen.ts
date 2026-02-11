@@ -18,21 +18,9 @@ const config: CodegenConfig = {
       },
       config: {
         skipTypename: true,
-        scalars: {
-          DateTime: {
-            input: 'string',
-            output: 'Date',
-          },
-        },
         namingConvention: {
           enumValues: 'keep',
         },
-      },
-    },
-    './src/lib/apollo/date-type-policies.ts': {
-      plugins: ['./scripts/date-type-policies-plugin.js'],
-      config: {
-        scalarName: 'DateTime',
       },
     },
   },

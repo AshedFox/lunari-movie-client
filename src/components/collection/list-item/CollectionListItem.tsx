@@ -1,5 +1,8 @@
 import { CollectionListItemFragment } from '@lib/graphql/generated/graphql';
-import { formatDateTime, formatRelative } from '@lib/utils/format';
+import { DATE_FORMATS } from '@lib/utils/format/formatters';
+import { FormattedDate } from '@components/ui/formatted-date';
+import { FormattedDateRelative } from '@components/ui/formatted-date-relative';
+import { format } from 'date-fns';
 import { CameraOff, Clock, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -53,15 +56,22 @@ export const CollectionListItem = ({ collection }: Props) => {
           <span className="flex items-center text-muted-foreground text-sm">
             <Clock size={12} className="mr-1" />
             <span
-              title={formatDateTime(collection.createdAt, 'dateTime', 'long')}
+              title={format(
+                new Date(collection.createdAt),
+                DATE_FORMATS.dateTime.long,
+              )}
             >
-              {formatDateTime(collection.createdAt)}
+              <FormattedDate date={collection.createdAt} />
             </span>
             <span
               className="hidden md:inline-block"
-              title={formatDateTime(collection.updatedAt, 'dateTime', 'long')}
+              title={format(
+                new Date(collection.updatedAt),
+                DATE_FORMATS.dateTime.long,
+              )}
             >
-              , last modified {formatRelative(collection.updatedAt)}
+              , last modified{' '}
+              <FormattedDateRelative date={collection.updatedAt} />
             </span>
           </span>
         </div>

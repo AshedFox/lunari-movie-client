@@ -4,7 +4,7 @@ import {
   SeriesFragment,
   UserProfileFragment,
 } from '@lib/graphql/generated/graphql';
-import { formatDateTimeRange } from '@lib/utils/format';
+import { FormattedDateRange } from '@components/ui/formatted-date-range';
 import Image from 'next/image';
 import { MovieListsButtons } from '@components/movie-user/lists-buttons';
 import { Badge } from '@components/ui/badge';
@@ -47,12 +47,10 @@ const SeriesPage = ({ series, movieUser, user }: Props) => {
           {series.startReleaseDate && (
             <Badge variant="secondary" className="px-3 py-2">
               <Calendar />
-              <span>
-                {formatDateTimeRange(
-                  series.startReleaseDate,
-                  series.endReleaseDate,
-                )}
-              </span>
+              <FormattedDateRange
+                fromDate={series.startReleaseDate}
+                toDate={series.endReleaseDate}
+              />
             </Badge>
           )}
 
