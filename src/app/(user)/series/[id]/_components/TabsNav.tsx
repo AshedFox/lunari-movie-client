@@ -15,7 +15,7 @@ type TabInfo = {
 const tabs: TabInfo[] = [
   {
     makeHref: (id: string) => `/series/${id}`,
-    value: 'page$',
+    value: '(slot)',
     label: 'About',
   },
   {
