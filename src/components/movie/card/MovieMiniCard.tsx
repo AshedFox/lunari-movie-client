@@ -58,16 +58,14 @@ const MovieMiniCard = ({ item, className }: Props) => {
         <div className="absolute top-0 left-0 p-4 flex w-full gap-2 z-10 justify-between">
           {/* Rating */}
           {!!item.rating && (
-            <Badge className="bg-yellow-500/90 hover:bg-yellow-500">
+            <Badge className="bg-yellow-500">
               <Star fill="currentColor" />
               {item.rating.toFixed(1)}
             </Badge>
           )}
 
           {/* Age restriction */}
-          <Badge className="ml-auto bg-red-600/90 hover:bg-red-600">
-            {item.ageRestriction}
-          </Badge>
+          <Badge className="ml-auto bg-red-600">{item.ageRestriction}</Badge>
         </div>
       </Link>
 
