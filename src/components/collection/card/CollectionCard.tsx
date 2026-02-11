@@ -1,6 +1,8 @@
 import { CollectionListItemFragment } from '@lib/graphql/generated/graphql';
-import { formatDateTime, formatRelative } from '@lib/utils/format';
-import { Star, CheckCircle } from 'lucide-react';
+import { DATE_FORMATS } from '@lib/utils/format/formatters';
+import { FormattedDateRelative } from '@components/ui/formatted-date-relative';
+import { format } from 'date-fns';
+import { CheckCircle, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -75,9 +77,9 @@ export const CollectionCard = ({ collection }: Props) => {
         {/* Other */}
         <div className="space-x-2 text-xs text-muted-foreground font-bold flex flex-wrap">
           <span
-            title={`Created at ${formatDateTime(collection.createdAt, 'dateTime', 'long')}, last update at ${formatDateTime(collection.updatedAt, 'dateTime', 'long')}`}
+            title={`Created at ${format(new Date(collection.createdAt), DATE_FORMATS.dateTime.long)}, last update at ${format(new Date(collection.updatedAt), DATE_FORMATS.dateTime.long)}`}
           >
-            Last update {formatRelative(collection.updatedAt)}
+            Last update <FormattedDateRelative date={collection.updatedAt} />
           </span>
           <span>•</span>
           <span>{collection.moviesCount} movie(s)</span>

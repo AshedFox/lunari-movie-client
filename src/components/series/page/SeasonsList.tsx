@@ -5,7 +5,8 @@ import {
   AccordionTrigger,
 } from '@components/ui/accordion';
 import { SeriesFragment } from '@lib/graphql/generated/graphql';
-import { formatDateTime, formatDateTimeRange } from '@lib/utils/format';
+import { FormattedDate } from '@components/ui/formatted-date';
+import { FormattedDateRange } from '@components/ui/formatted-date-range';
 import { Calendar, List, Play } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -66,10 +67,10 @@ const SeasonsList = ({ seasons, episodes }: Props) => {
                       {season.startReleaseDate && (
                         <Badge variant="secondary">
                           <Calendar />
-                          {formatDateTimeRange(
-                            season.startReleaseDate,
-                            season.endReleaseDate,
-                          )}
+                          <FormattedDateRange
+                            fromDate={season.startReleaseDate}
+                            toDate={season.endReleaseDate}
+                          />
                         </Badge>
                       )}
                     </div>
@@ -162,7 +163,7 @@ const SeasonsList = ({ seasons, episodes }: Props) => {
                               {episode.releaseDate && (
                                 <Badge variant="secondary">
                                   <Calendar />
-                                  {formatDateTime(episode.releaseDate)}
+                                  <FormattedDate date={episode.releaseDate} />
                                 </Badge>
                               )}
                             </div>

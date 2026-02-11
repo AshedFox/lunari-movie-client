@@ -4,7 +4,8 @@ import {
   CollectionUserFragment,
   UserProfileFragment,
 } from '@lib/graphql/generated/graphql';
-import { formatDateTime, formatRelative } from '@lib/utils/format';
+import { FormattedDate } from '@components/ui/formatted-date';
+import { FormattedDateRelative } from '@components/ui/formatted-date-relative';
 import Image from 'next/image';
 import { CollectionListsButtons } from '@components/collection-user/lists-buttons';
 import Link from 'next/link';
@@ -88,20 +89,18 @@ const CollectionPage = ({ collection, collectionUser, user }: Props) => {
             {/* Dates */}
             <div className="flex items-center gap-2">
               <Clock size={20} />
-              <span
-                title={formatDateTime(collection.createdAt, 'dateTime', 'long')}
-              >
-                {formatDateTime(collection.createdAt, 'date', 'long')}
-              </span>
+
+              <FormattedDate
+                date={collection.createdAt}
+                variant="date"
+                format="long"
+              />
             </div>
             <span>•</span>
             <div className="flex items-center gap-2">
               <RefreshCw size={20} />
-              <span
-                title={formatDateTime(collection.updatedAt, 'dateTime', 'long')}
-              >
-                Last modified {formatRelative(collection.updatedAt)}
-              </span>
+              Last modified{' '}
+              <FormattedDateRelative date={collection.updatedAt} />
             </div>
           </div>
         </div>

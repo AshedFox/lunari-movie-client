@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { UserProfileFragment } from '@lib/graphql/generated/graphql';
-import { formatDateTime } from '@lib/utils/format';
+import { FormattedDate } from '@components/ui/formatted-date';
 import { CheckCircle2 } from 'lucide-react';
 
 type Props = {
@@ -30,7 +30,7 @@ const UserPage = ({ user }: Props) => {
           {user.country && <p className="text-sm">{user.country.name}</p>}
           <p>
             <span className="font-semibold">Since: </span>
-            {formatDateTime(user.createdAt)}
+            <FormattedDate date={user.createdAt} />
           </p>
         </div>
       </main>

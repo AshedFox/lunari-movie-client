@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { MovieReviewFragment } from '@lib/graphql/generated/graphql';
-import { formatDateTime } from '@lib/utils/format';
+import { FormattedDateRelative } from '@components/ui/formatted-date-relative';
 import { Star } from 'lucide-react';
 import Link from 'next/link';
 
@@ -45,9 +45,10 @@ const MovieReviewListItem = ({ review, userId }: Props) => {
                 />
                 <span className="font-bold">{review.mark}</span>
               </span>
-              <span className="text-sm text-muted-foreground">
-                {formatDateTime(review.createdAt)}
-              </span>
+              <FormattedDateRelative
+                className="text-sm text-muted-foreground"
+                date={review.createdAt}
+              />
             </div>
           </div>
           <p className="text-muted-foreground text-sm">{review.text}</p>

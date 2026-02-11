@@ -2,7 +2,8 @@ import {
   FilmListItemFragment,
   SeriesListItemFragment,
 } from '@lib/graphql/generated/graphql';
-import { formatDateTime, formatDateTimeRange } from '@lib/utils/format';
+import { FormattedDate } from '@components/ui/formatted-date';
+import { FormattedDateRange } from '@components/ui/formatted-date-range';
 import { Clock, Film, Star, Tv } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,14 +17,18 @@ export const MovieListItem = ({ movie }: Props) => {
     movie.__typename === 'Film' ? `/films/${movie.id}` : `/series/${movie.id}`;
 
   const releaseDate =
-    movie.__typename === 'Film'
-      ? movie.releaseDate && formatDateTime(movie.releaseDate, 'date', 'long')
-      : formatDateTimeRange(
-          movie.startReleaseDate,
-          movie.endReleaseDate,
-          'date',
-          'long',
-        );
+    movie.__typename === 'Film' ? (
+      movie.releaseDate && (
+        <FormattedDate date={movie.releaseDate} variant="date" format="long" />
+      )
+    ) : (
+      <FormattedDateRange
+        fromDate={movie.startReleaseDate}
+        toDate={movie.endReleaseDate}
+        variant="date"
+        format="long"
+      />
+    );
 
   return (
     <div className="grid rounded-lg border grid-cols-[auto_1fr] auto-rows-fr overflow-hidden">
