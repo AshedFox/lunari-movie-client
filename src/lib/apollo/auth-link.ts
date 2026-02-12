@@ -3,6 +3,10 @@
 import { setContext } from '@apollo/client/link/context';
 
 export const authLink = setContext(async (_, context) => {
+  if (typeof window === 'undefined') {
+    return context;
+  }
+
   if (context.skipAuth) {
     return context;
   }
