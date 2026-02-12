@@ -2,8 +2,9 @@
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset='https://github.com/user-attachments/assets/fd0c985e-5081-47f7-812e-55f465068235' />
-    <img src='https://github.com/user-attachments/assets/fd0c985e-5081-47f7-812e-55f465068235' alt='Lunari Movies Banner' />
+    <source media="(prefers-color-scheme: dark)" srcset='https://github.com/user-attachments/assets/16e44440-d797-4a58-ab28-e05d1ba7c47e' />
+    <img src='https://github.com/user-attachments/assets/16e44440-d797-4a58-ab28-e05d1ba7c47e' alt='Lunari Movies Banner' />
+
   </picture>
 
  **A modern, feature-rich movie streaming platform built with Next.js and GraphQL**
@@ -48,7 +49,6 @@
 ## TODO
 
 - [ ] Сo-viewing films and series in rooms.
-- [ ] Watchlists, comments and personal collections on user profile page.
 
 ## Installation
 
@@ -113,15 +113,17 @@ $ npm run start
 
 ### Home page
 
-![Home Page](https://github.com/user-attachments/assets/b1fdda7c-15d6-41da-9483-2a7eb2c48201)
+![Home Page](https://github.com/user-attachments/assets/16e44440-d797-4a58-ab28-e05d1ba7c47e)
 
 ### Explore page
 
-![Explore Page](https://github.com/user-attachments/assets/fd0c985e-5081-47f7-812e-55f465068235)
+![Explore Page](https://github.com/user-attachments/assets/124ac158-66dd-468c-a6fa-8e3cb3c50fa4)
+
 
 ### Film page (with reviews)
 
-![Film Page](https://github.com/user-attachments/assets/23a9c218-faa0-45f3-b0f4-e92da5458d0a)
+![Film Page](https://github.com/user-attachments/assets/25709203-7d9b-401d-b63b-31a113ffe66a)
+
 
 ### Collections page
 
@@ -130,6 +132,10 @@ $ npm run start
 ### Collection page
 
 ![Collection Page](https://github.com/user-attachments/assets/95c741ec-ea45-4d86-a823-1faf02bfd77e)
+
+### User Profile
+
+![User Profile](https://github.com/user-attachments/assets/868ce224-c7c0-48d4-aaaf-e211ddfad5a5)
 
 ### User settings page
 
