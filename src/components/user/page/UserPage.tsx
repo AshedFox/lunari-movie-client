@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { UserProfileFragment } from '@lib/graphql/generated/graphql';
 import { FormattedDate } from '@components/ui/formatted-date';
 import { CheckCircle2 } from 'lucide-react';
+import { UserTabs } from '@components/user/tabs';
 
 type Props = {
   user: UserProfileFragment;
@@ -9,7 +10,7 @@ type Props = {
 
 const UserPage = ({ user }: Props) => {
   return (
-    <div className="flex flex-col gap-1.5 py-10 container">
+    <div className="flex flex-col gap-12 py-10 container">
       <main className="flex flex-col sm:flex-row gap-4 items-center">
         <Avatar className="aspect-square shrink size-28 text-xl font-bold">
           <AvatarImage className="object-cover" src={user.avatar?.url} />
@@ -34,6 +35,7 @@ const UserPage = ({ user }: Props) => {
           </p>
         </div>
       </main>
+      <UserTabs userId={user.id} />
     </div>
   );
 };

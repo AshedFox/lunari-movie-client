@@ -1,0 +1,61 @@
+query GetUserBookmarks($userId: ID!, $limit: Int!, $offset: Int!) {
+  getMoviesUsers(
+    filter: { userId: { eq: $userId }, isBookmarked: { eq: true } }
+    limit: $limit
+    offset: $offset
+  ) {
+    nodes {
+      movie {
+        ...FilmListItem
+        ...SeriesListItem
+      }
+    }
+    pageInfo {
+      hasNextPage
+      totalCount
+    }
+  }
+}
+
+query GetUserReviews($userId: ID!, $limit: Int!, $cursor: String) {
+  getMoviesReviewsRelay(
+    filter: { userId: { eq: $userId } }
+    first: $limit
+    after: $cursor
+  ) {
+    edges {
+      node {
+        ...MovieReview
+        movie {
+          __typename
+          id
+          title
+          rating
+          cover {
+            url
+          }
+        }
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query GetUserCollections($userId: String!, $limit: Int!, $offset: Int!) {
+  getCollections(
+    filter: { ownerId: { eq: $userId } }
+    limit: $limit
+    offset: $offset
+  ) {
+    nodes {
+      ...CollectionListItem
+    }
+    pageInfo {
+      totalCount
+    }
+  }
+}
