@@ -111,7 +111,7 @@ const Page = async ({ params }: Props) => {
   return (
     <div className="container py-10 overflow-hidden flex flex-col items-center justify-center gap-2">
       <VideoPlayer
-        className="lg:max-w-200"
+        className="max-w-200"
         videoUrl={episode.video?.dashManifestMedia?.url}
         posterUrl={episode.cover?.url ?? episode.series.cover?.url}
         title={title}

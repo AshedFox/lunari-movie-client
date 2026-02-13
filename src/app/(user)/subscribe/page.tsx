@@ -62,17 +62,19 @@ const Page = async ({ searchParams }: Props) => {
   }
 
   return (
-    <div className="container flex items-center justify-center flex-col">
-      <main className="w-full space-y-6 lg:space-y-10 py-10 overflow-hidden">
-        <h1 className="text-4xl font-bold text-center">
-          Choose your subscription
-        </h1>
-        <div className="grid gap-3 lg:gap-5 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
-          {plans.map((plan) => (
-            <SubscribeForm key={plan.id} plan={plan} />
-          ))}
-        </div>
-      </main>
+    <div className="@container">
+      <div className="container flex items-center justify-center flex-col">
+        <main className="w-full space-y-6 @lg:space-y-10 py-10 overflow-hidden">
+          <h1 className="text-4xl font-bold text-center">
+            Choose your subscription
+          </h1>
+          <div className="grid gap-3 @lg:gap-5 grid-cols-1 @sm:grid-cols-2 @xl:grid-cols-3">
+            {plans.map((plan) => (
+              <SubscribeForm key={plan.id} plan={plan} />
+            ))}
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
