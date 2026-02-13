@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { House, ListVideo, Settings, User } from 'lucide-react';
 import ThemeToggle from '@components/common/ThemeToggle';
 import LogoutButton from '@components/common/LogoutButton';
+import { Button } from '@components/ui/button';
 
 type Props = {
   avatarUrl?: string;
@@ -20,16 +21,18 @@ type Props = {
 export const HeaderProfileDropdown = ({ avatarUrl, name, pathname }: Props) => {
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger className="ml-auto cursor-pointer">
-        <Avatar>
-          <AvatarImage className="object-cover" src={avatarUrl} />
-          <AvatarFallback>
-            {name
-              .split(' ')
-              .map((word) => word[0].toUpperCase())
-              .join('')}
-          </AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger className="ml-auto cursor-pointer" asChild>
+        <Button variant="ghost" size="icon">
+          <Avatar>
+            <AvatarImage className="object-cover" src={avatarUrl} />
+            <AvatarFallback>
+              {name
+                .split(' ')
+                .map((word) => word[0].toUpperCase())
+                .join('')}
+            </AvatarFallback>
+          </Avatar>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem disabled={pathname === '/users/me'} asChild>
