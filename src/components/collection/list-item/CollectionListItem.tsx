@@ -13,7 +13,7 @@ type Props = {
 
 export const CollectionListItem = ({ collection }: Props) => {
   return (
-    <div className="grid rounded-lg border grid-cols-[96px_1fr] md:grid-cols-[156px_1fr] auto-rows-fr overflow-hidden">
+    <div className="@container grid rounded-lg border grid-cols-[96px_1fr] @md:grid-cols-[156px_1fr] auto-rows-fr overflow-hidden">
       {collection.cover ? (
         <div className="relative">
           <Image
@@ -64,7 +64,7 @@ export const CollectionListItem = ({ collection }: Props) => {
               <FormattedDate date={collection.createdAt} />
             </span>
             <span
-              className="hidden md:inline-block"
+              className="hidden @md:inline-block"
               title={format(
                 new Date(collection.updatedAt),
                 DATE_FORMATS.dateTime.long,

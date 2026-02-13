@@ -98,150 +98,152 @@ const UpdateProfileForm = ({ user, countries }: Props) => {
 
   return (
     <Form {...form}>
-      <form
-        className="space-y-5 border rounded-xl p-3 md:p-5 xl:p-7"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <div className="space-y-0.5">
-          <h2 className="text-lg font-bold">
-            Update profile
-            {form.formState.isDirty && (
-              <span className="text-yellow-500">*</span>
-            )}
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Share more information about yourself or make it more accurate
-          </p>
-        </div>
-        <div className="space-y-4">
-          <FormField
-            control={form.control}
-            name="avatarId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="w-fit">
-                  <Avatar
-                    className={cn('aspect-square shrink size-28 relative', {
-                      'pointer-events-none': isUploading,
-                    })}
-                  >
-                    <Camera
-                      className={cn(
-                        'absolute top-[50%] left-[50%] size-10 translate-[-50%]',
-                        { hidden: isUploading },
-                      )}
-                    />
-                    <Loader2
-                      className={cn(
-                        'absolute left-[50%] top-[50%] translate-[-50%] size-full animate-spin',
-                        { 'hidden animate-none': !isUploading },
-                      )}
-                    />
-                    <AvatarImage
-                      className="object-cover opacity-50 hover:opacity-25 transition-opacity"
-                      src={user.avatar?.url}
-                    />
-                    <AvatarFallback className="opacity-50 hover:opacity-25 transition-opacity" />
-                  </Avatar>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    className="hidden"
-                    type="file"
-                    accept="image/*"
-                    onChange={onFileChange}
-                    onBlur={field.onBlur}
-                    name={field.name}
-                    ref={field.ref}
-                    disabled={field.disabled || isUploading}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    autoComplete="off"
-                    value={field.value ?? undefined}
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    name={field.name}
-                    ref={field.ref}
-                    disabled={field.disabled}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Name"
-                    autoComplete="off"
-                    value={field.value ?? undefined}
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    name={field.name}
-                    ref={field.ref}
-                    disabled={field.disabled}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="countryId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <Combobox
-                    value={countriesOptions.find(
-                      (option) => option.value === field.value,
-                    )}
-                    options={countriesOptions}
-                    placeholder={'Select country...'}
-                    emptyMessage={'No countries found.'}
-                    onChange={(value) =>
-                      form.setValue('countryId', value?.value ?? '', {
-                        shouldDirty: true,
-                      })
-                    }
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-        {form.formState.errors.root && (
-          <FormMessage>{form.formState.errors.root?.message}</FormMessage>
-        )}
-        <Button
-          size="lg"
-          type="submit"
-          disabled={!form.formState.isDirty || form.formState.isSubmitting}
+      <div className="@container">
+        <form
+          className="space-y-5 border rounded-xl p-3 @md:p-5 @xl:p-7"
+          onSubmit={form.handleSubmit(onSubmit)}
         >
-          Update
-        </Button>
-      </form>
+          <div className="space-y-0.5">
+            <h2 className="text-lg font-bold">
+              Update profile
+              {form.formState.isDirty && (
+                <span className="text-yellow-500">*</span>
+              )}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Share more information about yourself or make it more accurate
+            </p>
+          </div>
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="avatarId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="w-fit">
+                    <Avatar
+                      className={cn('aspect-square shrink size-28 relative', {
+                        'pointer-events-none': isUploading,
+                      })}
+                    >
+                      <Camera
+                        className={cn(
+                          'absolute top-[50%] left-[50%] size-10 translate-[-50%]',
+                          { hidden: isUploading },
+                        )}
+                      />
+                      <Loader2
+                        className={cn(
+                          'absolute left-[50%] top-[50%] translate-[-50%] size-full animate-spin',
+                          { 'hidden animate-none': !isUploading },
+                        )}
+                      />
+                      <AvatarImage
+                        className="object-cover opacity-50 hover:opacity-25 transition-opacity"
+                        src={user.avatar?.url}
+                      />
+                      <AvatarFallback className="opacity-50 hover:opacity-25 transition-opacity" />
+                    </Avatar>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="hidden"
+                      type="file"
+                      accept="image/*"
+                      onChange={onFileChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
+                      disabled={field.disabled || isUploading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="Email"
+                      autoComplete="off"
+                      value={field.value ?? undefined}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
+                      disabled={field.disabled}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Name"
+                      autoComplete="off"
+                      value={field.value ?? undefined}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
+                      disabled={field.disabled}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="countryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Country</FormLabel>
+                  <FormControl>
+                    <Combobox
+                      value={countriesOptions.find(
+                        (option) => option.value === field.value,
+                      )}
+                      options={countriesOptions}
+                      placeholder={'Select country...'}
+                      emptyMessage={'No countries found.'}
+                      onChange={(value) =>
+                        form.setValue('countryId', value?.value ?? '', {
+                          shouldDirty: true,
+                        })
+                      }
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+          {form.formState.errors.root && (
+            <FormMessage>{form.formState.errors.root?.message}</FormMessage>
+          )}
+          <Button
+            size="lg"
+            type="submit"
+            disabled={!form.formState.isDirty || form.formState.isSubmitting}
+          >
+            Update
+          </Button>
+        </form>
+      </div>
     </Form>
   );
 };

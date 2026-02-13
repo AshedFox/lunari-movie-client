@@ -10,7 +10,7 @@ import {
 const Page = () => {
   return (
     <NextModal>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="@sm:max-w-[425px] @container">
         <DialogHeader>
           <DialogTitle className="sr-only">Sign Up</DialogTitle>
           <DialogDescription className="sr-only">
