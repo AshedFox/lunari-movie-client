@@ -18,10 +18,12 @@ const MoviesGrid = async ({ movies }: Props) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} item={movie} />
-      ))}
+    <div className="@container">
+      <div className="grid grid-cols-1 @sm:grid-cols-2 @xl:grid-cols-3 gap-4">
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} item={movie} />
+        ))}
+      </div>
     </div>
   );
 };

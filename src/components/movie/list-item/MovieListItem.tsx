@@ -31,9 +31,9 @@ export const MovieListItem = ({ movie }: Props) => {
     );
 
   return (
-    <div className="grid rounded-lg border grid-cols-[auto_1fr] auto-rows-fr overflow-hidden">
+    <div className="grid rounded-lg border grid-cols-[auto_1fr] auto-rows-fr overflow-hidden @container">
       {movie.cover && (
-        <div className="relative w-36 md:w-44">
+        <div className="relative w-36 @md:w-44">
           <Image
             src={movie.cover?.url}
             alt="cover"

@@ -57,8 +57,8 @@ export function UserCollectionsTab({ userId }: UserCollectionsTabProps) {
   }
 
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+    <div className="@container">
+      <div className="grid grid-cols-1 @md:grid-cols-2 gap-4 py-4">
         {collections.map((collection) => (
           <CollectionCard key={collection.id} collection={collection} />
         ))}
@@ -68,6 +68,6 @@ export function UserCollectionsTab({ userId }: UserCollectionsTabProps) {
         hasNextPage={hasNextPage}
         isLoading={isPending}
       />
-    </>
+    </div>
   );
 }

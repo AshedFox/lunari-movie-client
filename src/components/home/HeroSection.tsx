@@ -13,7 +13,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ movie }: HeroSectionProps) {
   return (
-    <div className="relative h-[80dvh] w-full overflow-hidden">
+    <div className="relative h-[80dvh] w-full overflow-hidden @container">
       <div className="absolute inset-0">
         {movie.cover && (
           <Image
@@ -47,11 +47,11 @@ export function HeroSection({ movie }: HeroSectionProps) {
             )}
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
+          <h1 className="text-4xl font-bold tracking-tight @sm:text-6xl @md:text-7xl">
             {movie.title}
           </h1>
 
-          <p className="line-clamp-3 text-lg text-muted-foreground md:text-xl">
+          <p className="line-clamp-3 text-lg text-muted-foreground @md:text-xl">
             {movie.description || 'No overview available for this title.'}
           </p>
 
