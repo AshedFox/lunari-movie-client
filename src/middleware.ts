@@ -57,9 +57,26 @@ export async function middleware(req: NextRequest) {
     });
   }
 
-  res.headers.set('X-ORIGIN', req.nextUrl.origin);
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('X-ORIGIN', req.nextUrl.origin);
 
-  return res;
+  if (accessToken) {
+    requestHeaders.set('x-access-token', accessToken);
+  }
+
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+
+  res.cookies.getAll().forEach((cookie) => {
+    response.cookies.set(cookie.name, cookie.value, {
+      ...cookie,
+    });
+  });
+
+  return response;
 }
 
 export const config = {
