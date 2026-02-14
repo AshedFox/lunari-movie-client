@@ -1,65 +1,12 @@
 import { VideoPlayer } from '@components/common/video-player';
 import { buttonVariants } from '@components/ui/button';
-import { getClient } from '@lib/apollo/rsc-client';
-import { getUser } from '@lib/auth/user-dal';
-import {
-  GetWatchEpisodeDocument,
-  HasActiveSubscriptionDocument,
-  HasPurchaseDocument,
-  WatchEpisodeFragment,
-} from '@lib/graphql/generated/graphql';
+import { getCurrentUser } from '@services/user.service';
+import { getWatchEpisode } from '@services/episode.service';
+import { hasPurchase } from '@services/purchase.service';
+import { hasActiveSubscription } from '@services/subscription.service';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-
-const getEpisode = async (
-  id: string,
-  numberInSeries: number,
-): Promise<WatchEpisodeFragment> => {
-  const { data } = await getClient().query({
-    query: GetWatchEpisodeDocument,
-    variables: {
-      seriesId: id,
-      numberInSeries,
-    },
-    errorPolicy: 'all',
-  });
-
-  if (!data) {
-    notFound();
-  }
-
-  return data.getEpisodeBySeriesAndNum;
-};
-
-const userHasSubscription = async (): Promise<boolean> => {
-  const { data, error } = await getClient().query({
-    query: HasActiveSubscriptionDocument,
-    errorPolicy: 'all',
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.hasActiveSubscription;
-};
-
-const userHasPurchase = async (id: string): Promise<boolean> => {
-  const { data, error } = await getClient().query({
-    query: HasPurchaseDocument,
-    variables: {
-      movieId: id,
-    },
-    errorPolicy: 'all',
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.hasPurchase;
-};
 
 type Props = {
   params: Promise<{
@@ -72,7 +19,7 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   const { id, numberInSeries } = await params;
-  const episode = await getEpisode(id, Number(numberInSeries));
+  const episode = await getWatchEpisode(id, Number(numberInSeries));
 
   const title = `"${episode.series.title}" - ${episode.title ?? `Episode #${episode.numberInSeries}`}`;
 
@@ -83,8 +30,10 @@ export const generateMetadata = async ({
 
 const Page = async ({ params }: Props) => {
   const { id, numberInSeries } = await params;
-  const episode = await getEpisode(id, Number(numberInSeries));
-  const user = await getUser();
+  const [episode, user] = await Promise.all([
+    getWatchEpisode(id, Number(numberInSeries)),
+    getCurrentUser(),
+  ]);
 
   if (!user) {
     redirect(`/login?from=/series/watch/${id}/${numberInSeries}`);
@@ -94,15 +43,12 @@ const Page = async ({ params }: Props) => {
     notFound();
   }
 
-  const hasSubscriptionPromise = userHasSubscription();
-  const hasPurchasePromise = userHasPurchase(episode.series.id);
-
-  const [hasPurchase, hasSubscription] = await Promise.all([
-    hasPurchasePromise,
-    hasSubscriptionPromise,
+  const [userHasPurchase, userHasSubscription] = await Promise.all([
+    hasPurchase(episode.series.id),
+    hasActiveSubscription(),
   ]);
 
-  if (!hasPurchase && !hasSubscription) {
+  if (!userHasPurchase && !userHasSubscription) {
     redirect(`/subsribe?from=/series/watch/${id}/${numberInSeries}`);
   }
 

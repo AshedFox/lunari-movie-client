@@ -1,49 +1,13 @@
 import { SeriesPage } from '@components/series/page';
-import { getClient } from '@lib/apollo/rsc-client';
-import { getUser } from '@lib/auth/user-dal';
-import {
-  GetMovieUserDocument,
-  GetOneSeriesDocument,
-  MovieUserFragment,
-  SeriesFragment,
-} from '@lib/graphql/generated/graphql';
+import { fetchMovieUser } from '@services/movie-user.service';
+import { getOneSeries } from '@services/series.service';
+import { getCurrentUser } from '@services/user.service';
 import { Metadata } from 'next';
 
 type Props = {
   params: Promise<{
     id: string;
   }>;
-};
-
-const getOneSeries = async (id: string): Promise<SeriesFragment> => {
-  const { data, error } = await getClient().query({
-    query: GetOneSeriesDocument,
-    variables: {
-      id,
-    },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.getOneSeries;
-};
-
-const getMovieUser = async (
-  userId: string,
-  movieId: string,
-): Promise<MovieUserFragment | null> => {
-  const { data } = await getClient().query({
-    query: GetMovieUserDocument,
-    variables: {
-      movieId,
-      userId,
-    },
-    errorPolicy: 'all',
-  });
-
-  return data?.getMovieUser ?? null;
 };
 
 export const generateMetadata = async ({
@@ -60,13 +24,11 @@ export const generateMetadata = async ({
 
 const Default = async ({ params }: Props) => {
   const { id } = await params;
-  const user = await getUser();
-  const seriesPromise = getOneSeries(id);
-  const movieUserPromise = user ? getMovieUser(user.id, id) : null;
+  const user = await getCurrentUser();
 
   const [series, movieUser] = await Promise.all([
-    seriesPromise,
-    movieUserPromise,
+    getOneSeries(id),
+    user ? fetchMovieUser(user.id, id) : null,
   ]);
 
   return <SeriesPage series={series} movieUser={movieUser} user={user} />;
