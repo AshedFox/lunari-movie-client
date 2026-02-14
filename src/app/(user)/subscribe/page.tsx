@@ -1,40 +1,8 @@
-import { getClient } from '@lib/apollo/rsc-client';
-import {
-  GetActivePlansDocument,
-  HasActiveSubscriptionDocument,
-} from '@lib/graphql/generated/graphql';
 import SubscribeForm from './_components/SubscribeForm';
-import { getUser } from '@lib/auth/user-dal';
-import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
-
-const getPlans = async () => {
-  const { data, error } = await getClient().query({
-    query: GetActivePlansDocument,
-    context: {
-      skipAuth: true,
-    },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.getPlans;
-};
-
-const userHasSubscription = async (): Promise<boolean> => {
-  const { data, error } = await getClient().query({
-    query: HasActiveSubscriptionDocument,
-    errorPolicy: 'all',
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.hasActiveSubscription;
-};
+import { SubscribeUserCheck } from './_components/SubscribeUserCheck';
+import { Suspense } from 'react';
+import { getActivePlans } from '@services/plan.service';
 
 type Props = {
   searchParams: Promise<{
@@ -47,22 +15,14 @@ export const metadata: Metadata = {
 };
 
 const Page = async ({ searchParams }: Props) => {
-  const plans = await getPlans();
-  const user = await getUser();
-
-  if (!user) {
-    redirect('/login?from=/subscribe');
-  }
-
-  const hasSubsrciption = await userHasSubscription();
   const { from } = await searchParams;
-
-  if (hasSubsrciption) {
-    redirect(from ?? '/');
-  }
+  const plans = await getActivePlans();
 
   return (
     <div className="@container">
+      <Suspense>
+        <SubscribeUserCheck from={from} />
+      </Suspense>
       <div className="container flex items-center justify-center flex-col">
         <main className="w-full space-y-6 @lg:space-y-10 py-10 overflow-hidden">
           <h1 className="text-4xl font-bold text-center">
