@@ -1,25 +1,9 @@
-import { getClient } from '@lib/apollo/rsc-client';
-import { FilmFragment, GetFilmDocument } from '@lib/graphql/generated/graphql';
+import { getFilm } from '@services/film.service';
 
 type Props = {
   params: Promise<{
     id: string;
   }>;
-};
-
-const getFilm = async (id: string): Promise<FilmFragment> => {
-  const { data, error } = await getClient().query({
-    query: GetFilmDocument,
-    variables: {
-      id,
-    },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.getFilm;
 };
 
 const Page = async ({ params }: Props) => {
