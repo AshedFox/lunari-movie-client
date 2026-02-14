@@ -1,25 +1,13 @@
 import { CreateCollectionReviewDialog } from '@components/collection-review/create';
 import { CollectionReviewsLoadableList } from '@components/collection-review/list';
-import { getClient, PreloadQuery } from '@lib/apollo/rsc-client';
-import { getUser } from '@lib/auth/user-dal';
+import { PreloadQuery } from '@lib/apollo/rsc-client';
+import { getCurrentUser } from '@services/user.service';
 import {
-  HasCollectionReviewDocument,
   GetCollectionReviewsDocument,
   SortDirectionEnum,
 } from '@lib/graphql/generated/graphql';
 import { paramsSchema } from '../../../_validation/params-schema';
-
-const userHasReview = async (collectionId: number): Promise<boolean | null> => {
-  const { data } = await getClient().query({
-    query: HasCollectionReviewDocument,
-    variables: {
-      collectionId,
-    },
-    errorPolicy: 'all',
-  });
-
-  return data?.hasCollectionReview ?? null;
-};
+import { hasCollectionReview } from '@services/collection-review.service';
 
 type Props = {
   params: Promise<{
@@ -29,8 +17,11 @@ type Props = {
 
 const Page = async ({ params }: Props) => {
   const { id } = paramsSchema.parse(await params);
-  const user = await getUser();
-  const hasReview = await userHasReview(id);
+
+  const [hasReview, user] = await Promise.all([
+    hasCollectionReview(id),
+    getCurrentUser(),
+  ]);
 
   return (
     <div className="space-y-4">

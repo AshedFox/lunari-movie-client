@@ -1,8 +1,8 @@
 import { EditCollectionPage } from '@components/collection/edit';
 import { paramsSchema } from '../../_validation/params-schema';
-import { getCollection } from '../../_lib/api';
-import { getUser } from '@lib/auth/user-dal';
+import { getCurrentUser } from '@services/user.service';
 import { notFound, redirect } from 'next/navigation';
+import { getCollection } from '@services/collection.service';
 
 type Props = {
   params: Promise<{
@@ -12,8 +12,10 @@ type Props = {
 
 const Page = async ({ params }: Props) => {
   const { id } = paramsSchema.parse(await params);
-  const collection = await getCollection(id);
-  const user = await getUser();
+  const [collection, user] = await Promise.all([
+    getCollection(id),
+    getCurrentUser(),
+  ]);
 
   if (!user) {
     redirect(`/login?from=/collections/${id}/edit`);
