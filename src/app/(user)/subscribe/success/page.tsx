@@ -1,8 +1,7 @@
 import { buttonVariants } from '@components/ui/button';
-import { getClient } from '@lib/apollo/rsc-client';
-import { ActivateSubscriptionDocument } from '@lib/graphql/generated/graphql';
 import { Frown, Smile } from 'lucide-react';
 import Link from 'next/link';
+import { activateSubscription } from './_actions';
 
 type Props = {
   searchParams: Promise<{
@@ -10,23 +9,15 @@ type Props = {
   }>;
 };
 
-const activateSubscription = async (sessionId: string) => {
-  const { data } = await getClient().mutate({
-    mutation: ActivateSubscriptionDocument,
-    variables: {
-      sessionId,
-    },
-    errorPolicy: 'all',
-  });
-
-  return data;
-};
-
 const Page = async ({ searchParams }: Props) => {
   const { sessionId } = await searchParams;
 
   if (!sessionId) {
-    throw new Error('Session id not provided');
+    return (
+      <div className="container py-10 text-center">
+        <h1 className="text-xl">Session ID is missing. Please try again.</h1>
+      </div>
+    );
   }
 
   const isActivated = await activateSubscription(sessionId);

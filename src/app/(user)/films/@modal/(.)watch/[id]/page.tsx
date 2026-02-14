@@ -6,60 +6,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@components/ui/dialog';
-import { getClient } from '@lib/apollo/rsc-client';
-import { getUser } from '@lib/auth/user-dal';
-import {
-  GetWatchFilmDocument,
-  HasActiveSubscriptionDocument,
-  HasPurchaseDocument,
-  WatchFilmFragment,
-} from '@lib/graphql/generated/graphql';
+import { getCurrentUser } from '@services/user.service';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
-
-const getFilm = async (id: string): Promise<WatchFilmFragment> => {
-  const { data, error } = await getClient().query({
-    query: GetWatchFilmDocument,
-    variables: {
-      id,
-    },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.getFilm;
-};
-
-const userHasSubscription = async (): Promise<boolean> => {
-  const { data, error } = await getClient().query({
-    query: HasActiveSubscriptionDocument,
-    errorPolicy: 'all',
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.hasActiveSubscription;
-};
-
-const userHasPurchase = async (id: string): Promise<boolean> => {
-  const { data, error } = await getClient().query({
-    query: HasPurchaseDocument,
-    variables: {
-      movieId: id,
-    },
-    errorPolicy: 'all',
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.hasPurchase;
-};
+import { getFilm, getWatchFilm } from '@services/film.service';
+import { hasActiveSubscription } from '@services/subscription.service';
+import { hasPurchase } from '@services/purchase.service';
 
 type Props = {
   params: Promise<{
@@ -80,8 +32,8 @@ export const generateMetadata = async ({
 
 const Page = async ({ params }: Props) => {
   const { id: id } = await params;
-  const film = await getFilm(id);
-  const user = await getUser();
+
+  const [film, user] = await Promise.all([getWatchFilm(id), getCurrentUser()]);
 
   if (!film.video) {
     notFound();
@@ -91,15 +43,12 @@ const Page = async ({ params }: Props) => {
     redirect(`/login?from=/films/watch/${id}`);
   }
 
-  const hasSubscriptionPromise = userHasSubscription();
-  const hasPurchasePromise = userHasPurchase(id);
-
-  const [hasPurchase, hasSubscription] = await Promise.all([
-    hasPurchasePromise,
-    hasSubscriptionPromise,
+  const [userHasPurchase, userHasSubscription] = await Promise.all([
+    hasPurchase(id),
+    hasActiveSubscription(),
   ]);
 
-  if (!hasPurchase && !hasSubscription) {
+  if (!userHasPurchase && !userHasSubscription) {
     redirect(`/subscribe?from=/films/watch/${id}`);
   }
 

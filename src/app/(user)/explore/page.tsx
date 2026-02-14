@@ -1,13 +1,3 @@
-import { getClient } from '@lib/apollo/rsc-client';
-import {
-  GetAllGenresDocument,
-  GetCountriesDocument,
-  GetFilterInitStudiosDocument,
-  GetMoviesDocument,
-  MovieFilter,
-  MovieSort,
-  SortDirectionEnum,
-} from '@lib/graphql/generated/graphql';
 import { Paginator } from '@components/common/Paginator';
 import { parseSearchToFilter, MoviesFilters } from '@components/movie/filter';
 import {
@@ -27,90 +17,13 @@ import {
 } from '@components/ui/drawer';
 import { Button } from '@components/ui/button';
 import { MoviesGrid } from '@components/movie/grid';
+import { getMovies } from '@services/movie.service';
+import { getCountries } from '@services/country.service';
+import { getGenres } from '@services/genre.service';
+import { getStudiosByIds } from '@services/studio.service';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
-};
-
-const getMovies = async (
-  filter: MovieFilter,
-  page: number,
-  sort: MovieSort,
-) => {
-  const { data, error } = await getClient().query({
-    query: GetMoviesDocument,
-    variables: {
-      limit: PAGE_SIZE,
-      offset: (page - 1) * PAGE_SIZE,
-      sort,
-      filter,
-    },
-    context: { skipAuth: true },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data;
-};
-
-const getCountries = async () => {
-  const { data, error } = await getClient().query({
-    query: GetCountriesDocument,
-    variables: {
-      sort: {
-        name: {
-          direction: SortDirectionEnum.ASC,
-        },
-      },
-    },
-    context: { skipAuth: true },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data;
-};
-
-const getGenres = async () => {
-  const { data, error } = await getClient().query({
-    query: GetAllGenresDocument,
-    variables: {
-      sort: {
-        name: {
-          direction: SortDirectionEnum.ASC,
-        },
-      },
-    },
-    context: { skipAuth: true },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data;
-};
-
-const getInitStudios = async (ids: string[]) => {
-  const { data, error } = await getClient().query({
-    query: GetFilterInitStudiosDocument,
-    variables: {
-      in: ids,
-    },
-    context: {
-      skipAuth: true,
-    },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data;
 };
 
 const Page = async ({ searchParams }: Props) => {
@@ -119,26 +32,12 @@ const Page = async ({ searchParams }: Props) => {
   const page = pageSchema.parse(search.page);
   const sort = sortSchema.parse(search.sort);
 
-  const moviesPromise = getMovies(
-    parseSearchToFilter(filter),
-    page,
-    parseSearchToSort(sort),
-  );
-  const countriesPromise = getCountries();
-  const genresPromise = getGenres();
-  const initStudiosPromise =
-    filter.studios.length > 0 ? getInitStudios(filter.studios) : undefined;
-
-  const [moviesData, countriesData, genresData, initStudiosData] =
-    await Promise.all([
-      moviesPromise,
-      countriesPromise,
-      genresPromise,
-      initStudiosPromise,
-    ]);
-
-  const pageInfo = moviesData.getMoviesOffset.pageInfo;
-  const movies = moviesData.getMoviesOffset.nodes;
+  const [moviesData, countries, genres, initStudios] = await Promise.all([
+    getMovies(parseSearchToFilter(filter), page, parseSearchToSort(sort)),
+    getCountries(),
+    getGenres(),
+    filter.studios.length > 0 ? getStudiosByIds(filter.studios) : undefined,
+  ]);
 
   return (
     <div className="@container">
@@ -147,15 +46,15 @@ const Page = async ({ searchParams }: Props) => {
           <h2 className="text-xl font-semibold">
             Filters
             <span className="text-xs text-muted-foreground">
-              ({pageInfo.totalCount})
+              ({moviesData.pageInfo.totalCount})
             </span>
           </h2>
           <MoviesFilters
-            countries={countriesData.getAllCountries}
-            genres={genresData.getAllGenres}
+            countries={countries}
+            genres={genres}
             formInit={{
               ...filter,
-              studios: (initStudiosData?.getAllStudios ?? []).map((v) => ({
+              studios: (initStudios ?? []).map((v) => ({
                 value: v.id,
                 label: v.name,
               })),
@@ -176,23 +75,21 @@ const Page = async ({ searchParams }: Props) => {
                     <h2 className="text-xl font-semibold">
                       Filters
                       <span className="text-xs text-muted-foreground">
-                        ({pageInfo.totalCount})
+                        ({moviesData.pageInfo.totalCount})
                       </span>
                     </h2>
                   </DrawerTitle>
                 </DrawerHeader>
                 <div className="px-4">
                   <MoviesFilters
-                    countries={countriesData.getAllCountries}
-                    genres={genresData.getAllGenres}
+                    countries={countries}
+                    genres={genres}
                     formInit={{
                       ...filter,
-                      studios: (initStudiosData?.getAllStudios ?? []).map(
-                        (v) => ({
-                          value: v.id,
-                          label: v.name,
-                        }),
-                      ),
+                      studios: (initStudios ?? []).map((v) => ({
+                        value: v.id,
+                        label: v.name,
+                      })),
                     }}
                   />
                 </div>
@@ -200,11 +97,11 @@ const Page = async ({ searchParams }: Props) => {
             </Drawer>
             <MoviesSort currentSort={sort} />
           </div>
-          <MoviesGrid movies={movies} />
+          <MoviesGrid movies={moviesData.nodes} />
           <Paginator
             className="mt-auto"
             currentPage={page}
-            totalPages={Math.ceil(pageInfo.totalCount / PAGE_SIZE)}
+            totalPages={Math.ceil(moviesData.pageInfo.totalCount / PAGE_SIZE)}
             showNextPrev
           />
         </div>

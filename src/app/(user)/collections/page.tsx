@@ -1,9 +1,3 @@
-import { getClient } from '@lib/apollo/rsc-client';
-import {
-  CollectionFilter,
-  CollectionSort,
-  GetCollectionsDocument,
-} from '@lib/graphql/generated/graphql';
 import { PAGE_SIZE } from './_constants';
 import { pageSchema } from '@lib/validation/page-schema';
 import CollectionsGrid from './_components/CollectionsGrid';
@@ -26,29 +20,7 @@ import {
   parseSearchToSort,
   sortSchema,
 } from '@components/collection/sort';
-
-const getCollections = async (
-  filter: CollectionFilter,
-  page: number,
-  sort: CollectionSort,
-) => {
-  const { data, error } = await getClient().query({
-    query: GetCollectionsDocument,
-    variables: {
-      limit: PAGE_SIZE,
-      offset: (page - 1) * PAGE_SIZE,
-      sort,
-      filter,
-    },
-    context: { skipAuth: true },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data;
-};
+import { getCollections } from '@services/collection.service';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -65,8 +37,6 @@ const Page = async ({ searchParams }: Props) => {
     page,
     parseSearchToSort(sort),
   );
-  const collections = collectionsData.getCollections.nodes;
-  const pageInfo = collectionsData.getCollections.pageInfo;
 
   return (
     <div className="@container">
@@ -75,7 +45,7 @@ const Page = async ({ searchParams }: Props) => {
           <h2 className="text-xl font-semibold">
             Filters
             <span className="text-xs text-muted-foreground">
-              ({pageInfo.totalCount})
+              ({collectionsData.pageInfo.totalCount})
             </span>
           </h2>
           <CollectionsFilters formInit={filter} />
@@ -94,7 +64,7 @@ const Page = async ({ searchParams }: Props) => {
                     <h2 className="text-xl font-semibold">
                       Filters
                       <span className="text-xs text-muted-foreground">
-                        ({pageInfo.totalCount})
+                        ({collectionsData.pageInfo.totalCount})
                       </span>
                     </h2>
                   </DrawerTitle>
@@ -106,11 +76,13 @@ const Page = async ({ searchParams }: Props) => {
             </Drawer>
             <CollectionsSort currentSort={sort} />
           </div>
-          <CollectionsGrid collections={collections} />
+          <CollectionsGrid collections={collectionsData.nodes} />
           <Paginator
             className="mt-auto"
             currentPage={page}
-            totalPages={Math.ceil(pageInfo.totalCount / PAGE_SIZE)}
+            totalPages={Math.ceil(
+              collectionsData.pageInfo.totalCount / PAGE_SIZE,
+            )}
             showNextPrev
           />
         </div>

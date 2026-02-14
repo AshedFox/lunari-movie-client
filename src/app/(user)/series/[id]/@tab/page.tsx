@@ -1,28 +1,9 @@
-import { getClient } from '@lib/apollo/rsc-client';
-import {
-  GetOneSeriesDocument,
-  SeriesFragment,
-} from '@lib/graphql/generated/graphql';
+import { getOneSeries } from '@services/series.service';
 
 type Props = {
   params: Promise<{
     id: string;
   }>;
-};
-
-const getOneSeries = async (id: string): Promise<SeriesFragment> => {
-  const { data, error } = await getClient().query({
-    query: GetOneSeriesDocument,
-    variables: {
-      id,
-    },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.getOneSeries;
 };
 
 const Page = async ({ params }: Props) => {

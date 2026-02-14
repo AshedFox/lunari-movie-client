@@ -1,24 +1,12 @@
 import { CreateMovieReviewDialog } from '@components/movie-review/create';
 import { MovieReviewsLoadableList } from '@components/movie-review/list';
-import { getClient, PreloadQuery } from '@lib/apollo/rsc-client';
-import { getUser } from '@lib/auth/user-dal';
+import { PreloadQuery } from '@lib/apollo/rsc-client';
 import {
-  HasMovieReviewDocument,
   GetMovieReviewsDocument,
   SortDirectionEnum,
 } from '@lib/graphql/generated/graphql';
-
-const userHasReview = async (filmId: string): Promise<boolean | null> => {
-  const { data } = await getClient().query({
-    query: HasMovieReviewDocument,
-    variables: {
-      movieId: filmId,
-    },
-    errorPolicy: 'all',
-  });
-
-  return data?.hasMovieReview ?? null;
-};
+import { hasMovieReview } from '@services/movie-review.service';
+import { getCurrentUser } from '@services/user.service';
 
 type Props = {
   params: Promise<{
@@ -28,8 +16,11 @@ type Props = {
 
 const Page = async ({ params }: Props) => {
   const { id } = await params;
-  const user = await getUser();
-  const hasReview = await userHasReview(id);
+
+  const [user, hasReview] = await Promise.all([
+    getCurrentUser(),
+    hasMovieReview(id),
+  ]);
 
   return (
     <div className="space-y-4">
@@ -40,11 +31,6 @@ const Page = async ({ params }: Props) => {
           limit: 20,
           movieId: id,
           sort: { createdAt: { direction: SortDirectionEnum.DESC } },
-        }}
-        context={{
-          fetchOptions: {
-            next: { tags: [`movie-reviews-${id}`] },
-          },
         }}
       >
         {(queryRef) => (

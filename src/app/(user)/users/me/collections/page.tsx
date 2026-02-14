@@ -33,52 +33,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu';
-import { getClient } from '@lib/apollo/rsc-client';
-import { getUser } from '@lib/auth/user-dal';
-import {
-  CollectionFilter,
-  CollectionSort,
-  GetCollectionsDocument,
-} from '@lib/graphql/generated/graphql';
 import { pageSchema } from '@lib/validation/page-schema';
 import { ArrowRight, Menu, Plus } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-
-const PAGE_SIZE = 20;
-
-const getMyCollections = async (
-  userId: string,
-  filter: CollectionFilter,
-  sort: CollectionSort,
-  page: number,
-) => {
-  const { data, error } = await getClient().query({
-    query: GetCollectionsDocument,
-    variables: {
-      limit: PAGE_SIZE,
-      offset: (page - 1) * PAGE_SIZE,
-      filter: {
-        ...filter,
-        ownerId: {
-          eq: userId,
-        },
-      },
-      sort,
-    },
-    context: { skipAuth: true },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return {
-    collections: data.getCollections.nodes,
-    totalCount: data.getCollections.pageInfo.totalCount,
-  };
-};
+import { getCurrentUser } from '@services/user.service';
+import {
+  DEFAULT_PAGE_SIZE,
+  getUserCollections,
+} from '@services/collection.service';
 
 export const metadata: Metadata = {
   title: 'My Collections',
@@ -94,17 +58,17 @@ const Page = async ({ searchParams }: Props) => {
   const filter = filterSchema.parse(search);
   const sort = sortSchema.parse(search.sort);
 
-  const user = await getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect('/login?from=/users/me/collections');
   }
 
-  const { collections, totalCount } = await getMyCollections(
+  const { nodes, pageInfo } = await getUserCollections(
     user.id,
     parseSearchToFilter(filter),
-    parseSearchToSort(sort),
     page,
+    parseSearchToSort(sort),
   );
 
   return (
@@ -151,7 +115,7 @@ const Page = async ({ searchParams }: Props) => {
             <h2 className="text-xl font-semibold">
               Filters
               <span className="text-xs text-muted-foreground">
-                ({totalCount})
+                ({pageInfo.totalCount})
               </span>
             </h2>
             <CollectionsFilters formInit={filter} />
@@ -170,7 +134,7 @@ const Page = async ({ searchParams }: Props) => {
                       <h2 className="text-xl font-semibold">
                         Filters
                         <span className="text-xs text-muted-foreground">
-                          ({totalCount})
+                          ({pageInfo.totalCount})
                         </span>
                       </h2>
                     </DrawerTitle>
@@ -182,9 +146,9 @@ const Page = async ({ searchParams }: Props) => {
               </Drawer>
               <CollectionsSort currentSort={sort} />
             </div>
-            {collections.length > 0 ? (
+            {nodes.length > 0 ? (
               <div className="flex flex-col gap-3">
-                {collections.map((c) => (
+                {nodes.map((c) => (
                   <CollectionManageListItem key={c.id} collection={c} />
                 ))}
               </div>
@@ -198,7 +162,7 @@ const Page = async ({ searchParams }: Props) => {
         <Paginator
           className="mt-auto"
           currentPage={page}
-          totalPages={Math.ceil(totalCount / PAGE_SIZE)}
+          totalPages={Math.ceil(pageInfo.totalCount / DEFAULT_PAGE_SIZE)}
           showNextPrev
         />
       </div>

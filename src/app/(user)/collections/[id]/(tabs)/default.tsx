@@ -1,8 +1,9 @@
 import { CollectionPage } from '@components/collection/page';
-import { getUser } from '@lib/auth/user-dal';
+import { getCurrentUser } from '@services/user.service';
 import { Metadata } from 'next';
 import { paramsSchema } from '../_validation/params-schema';
-import { getCollection, getCollectionUser } from '../_lib/api';
+import { fetchCollectionUser } from '@services/collection-user.service';
+import { getCollection } from '@services/collection.service';
 
 type Props = {
   params: Promise<{
@@ -27,13 +28,11 @@ export const generateMetadata = async ({
 const Page = async ({ params }: Props) => {
   const { id } = paramsSchema.parse(await params);
 
-  const user = await getUser();
-  const collectionPromise = getCollection(id);
-  const collectionUserPromise = user ? getCollectionUser(user.id, id) : null;
+  const user = await getCurrentUser();
 
   const [collection, collectionUser] = await Promise.all([
-    collectionPromise,
-    collectionUserPromise,
+    getCollection(id),
+    user ? fetchCollectionUser(user.id, id) : null,
   ]);
 
   return (
