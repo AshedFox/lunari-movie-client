@@ -1,30 +1,11 @@
 import { UserPage } from '@components/user/page';
-import { getClient } from '@lib/apollo/rsc-client';
-import {
-  GetUserDocument,
-  UserProfileFragment,
-} from '@lib/graphql/generated/graphql';
+import { getUser } from '@services/user.service';
 import { Metadata } from 'next';
 
 type Props = {
   params: Promise<{
     id: string;
   }>;
-};
-
-const getUser = async (id: string): Promise<UserProfileFragment> => {
-  const { data, error } = await getClient().query({
-    query: GetUserDocument,
-    variables: {
-      id,
-    },
-  });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
-
-  return data.getUser;
 };
 
 export const generateMetadata = async ({

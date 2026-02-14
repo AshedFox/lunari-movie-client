@@ -2,7 +2,6 @@ import UpdateProfileForm from './_components/UpdateProfileForm';
 import UpdatePasswordForm from './_components/UpdatePasswordForm';
 import LogoutButton from '@components/common/LogoutButton';
 import ManageSubscriptionButton from './_components/ManageSubscriptionButton';
-import { getUser } from '@lib/auth/user-dal';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getClient } from '@lib/apollo/rsc-client';
@@ -10,13 +9,14 @@ import {
   GetCountriesDocument,
   SortDirectionEnum,
 } from '@lib/graphql/generated/graphql';
+import { getCurrentUser } from '@services/user.service';
 
 export const metadata: Metadata = {
   title: 'Settings',
 };
 
 const Page = async () => {
-  const user = await getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect('/login?from=/users/me/settings');
