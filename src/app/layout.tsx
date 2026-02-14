@@ -6,7 +6,6 @@ import { ApolloWrapper } from '@lib/apollo/ApolloWrapper';
 import { Toaster } from '@components/ui/sonner';
 import { cn } from '@lib/utils';
 import { Header } from '@components/common/header';
-import { getUser } from '@lib/auth/user-dal';
 import { ThemeProvider } from 'next-themes';
 
 const geistSans = Geist({
@@ -53,8 +52,6 @@ export default async function RootLayout({
   children: ReactNode;
   auth: ReactNode;
 }>) {
-  const user = await getUser();
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -71,7 +68,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <ApolloWrapper>
-            <Header user={user} />
+            <Header />
             {children}
             {auth}
           </ApolloWrapper>
