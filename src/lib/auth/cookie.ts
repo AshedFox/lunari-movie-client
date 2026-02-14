@@ -10,14 +10,14 @@ export async function setAuthCookies(
 ) {
   const cookieStore = cookiesStore || (await cookies());
   cookieStore.set(ACCESS_COOKIE_KEY, accessToken, {
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     maxAge: 5 * 60,
   });
   cookieStore.set(REFRESH_COOKIE_KEY, refreshToken, {
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/',
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
