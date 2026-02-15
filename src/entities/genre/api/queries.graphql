@@ -1,0 +1,5 @@
+query GetAllGenres($sort: GenreSort) {
+  getAllGenres(sort: $sort) {
+    ...BaseGenre
+  }
+}

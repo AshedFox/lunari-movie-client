@@ -1,0 +1,55 @@
+query GetUserReviews($userId: ID!, $limit: Int!, $cursor: String) {
+  getMoviesReviewsRelay(
+    filter: { userId: { eq: $userId } }
+    first: $limit
+    after: $cursor
+  ) {
+    edges {
+      node {
+        ...BaseMovieReview
+        movie {
+          __typename
+          id
+          title
+          rating
+          cover {
+            url
+          }
+        }
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query GetMovieReviews(
+  $movieId: ID!
+  $cursor: String
+  $limit: Int!
+  $sort: MovieReviewSort
+) {
+  getMoviesReviewsRelay(
+    filter: { movieId: { eq: $movieId } }
+    sort: $sort
+    first: $limit
+    after: $cursor
+  ) {
+    edges {
+      node {
+        ...MovieReview
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}
+
+query HasMovieReview($movieId: String!) {
+  hasMovieReview(movieId: $movieId)
+}

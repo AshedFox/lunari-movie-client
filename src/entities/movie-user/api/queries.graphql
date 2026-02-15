@@ -1,0 +1,24 @@
+query GetMovieUser($userId: String!, $movieId: String!) {
+  getMovieUser(userId: $userId, movieId: $movieId) {
+    ...MovieUser
+  }
+}
+
+query GetUserBookmarks($userId: ID!, $limit: Int!, $offset: Int!) {
+  getMoviesUsers(
+    filter: { userId: { eq: $userId }, isBookmarked: { eq: true } }
+    limit: $limit
+    offset: $offset
+  ) {
+    nodes {
+      movie {
+        ...FilmListItem
+        ...SeriesListItem
+      }
+    }
+    pageInfo {
+      hasNextPage
+      totalCount
+    }
+  }
+}

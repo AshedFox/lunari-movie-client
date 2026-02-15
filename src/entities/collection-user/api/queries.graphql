@@ -1,0 +1,5 @@
+query GetCollectionUser($userId: String!, $collectionId: Int!) {
+  getCollectionUser(userId: $userId, collectionId: $collectionId) {
+    ...CollectionUser
+  }
+}

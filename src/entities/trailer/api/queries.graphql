@@ -1,0 +1,14 @@
+query GetTrailers($movieId: String!, $limit: Int!, $offset: Int!) {
+  getTrailers(
+    filter: { movieId: { eq: $movieId } }
+    limit: $limit
+    offset: $offset
+  ) {
+    nodes {
+      ...Trailer
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}

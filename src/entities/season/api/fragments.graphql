@@ -1,0 +1,10 @@
+fragment SeasonListItem on Season {
+  id
+  title
+  description
+  startReleaseDate
+  endReleaseDate
+  numberInSeries
+  episodesCount
+  seriesId
+}

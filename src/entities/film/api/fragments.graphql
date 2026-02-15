@@ -1,0 +1,63 @@
+fragment BaseFilm on Film {
+  __typename
+  id
+  title
+  ageRestriction
+  description
+  rating
+  releaseDate
+  cover {
+    id
+    url
+  }
+}
+
+fragment FilmMiniCard on Film {
+  __typename
+  id
+  title
+  ageRestriction
+  rating
+  releaseDate
+  description
+  cover {
+    url
+  }
+  genres {
+    id
+    name
+  }
+}
+
+fragment FilmListItem on Film {
+  genres {
+    id
+    name
+  }
+  studios {
+    id
+    name
+  }
+  countries {
+    id
+    name
+  }
+  ...BaseFilm
+}
+
+fragment Film on Film {
+  videoId
+  ...FilmListItem
+}
+
+fragment WatchFilm on Film {
+  id
+  title
+  cover {
+    id
+    url
+  }
+  video {
+    ...Video
+  }
+}

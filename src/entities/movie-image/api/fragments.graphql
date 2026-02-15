@@ -1,0 +1,12 @@
+fragment MovieImage on MovieImage {
+  id
+  movieId
+  type {
+    id
+    name
+  }
+  image {
+    id
+    url
+  }
+}

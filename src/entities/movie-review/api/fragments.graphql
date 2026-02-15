@@ -1,0 +1,19 @@
+fragment BaseMovieReview on MovieReview {
+  id
+  createdAt
+  mark
+  text
+  movieId
+  userId
+}
+
+fragment MovieReview on MovieReview {
+  ...BaseMovieReview
+  user {
+    id
+    name
+    avatar {
+      url
+    }
+  }
+}
