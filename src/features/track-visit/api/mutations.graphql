@@ -1,0 +1,7 @@
+mutation TrackMovieVisit($movieId: String!) {
+  trackMovieVisit(movieId: $movieId) {
+    movieId
+    userId
+    visitedAt
+  }
+}

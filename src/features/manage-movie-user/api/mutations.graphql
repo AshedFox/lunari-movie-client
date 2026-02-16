@@ -1,0 +1,15 @@
+mutation CreateMovieUser($input: CreateMovieUserInput!) {
+  createMovieUser(input: $input) {
+    ...MovieUser
+  }
+}
+
+mutation UpdateMovieUser(
+  $input: UpdateMovieUserInput!
+  $movieId: String!
+  $userId: String!
+) {
+  updateMovieUser(input: $input, movieId: $movieId, userId: $userId) {
+    ...MovieUser
+  }
+}

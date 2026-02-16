@@ -1,0 +1,13 @@
+mutation AddCollectionMovie($collectionId: Int!, $movieId: String!) {
+  createCollectionMovie(collectionId: $collectionId, movieId: $movieId) {
+    collectionId
+    movieId
+  }
+}
+
+mutation DeleteCollectionMovie($collectionId: Int!, $movieId: String!) {
+  deleteCollectionMovie(collectionId: $collectionId, movieId: $movieId) {
+    collectionId
+    movieId
+  }
+}
