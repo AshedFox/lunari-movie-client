@@ -1,12 +1,12 @@
 'use server';
 
 import { activateSubscription } from './server';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 
 export async function activateSubscriptionAction(sessionId: string) {
   const data = await activateSubscription(sessionId);
 
-  revalidateTag(`subscriptions-active`);
+  updateTag(`subscriptions-active`);
 
   return data;
 }
