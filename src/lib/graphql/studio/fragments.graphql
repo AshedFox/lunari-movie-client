@@ -1,4 +1,0 @@
-fragment BaseStudio on Studio {
-  id
-  name
-}

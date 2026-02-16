@@ -1,7 +1,0 @@
-fragment MovieUser on MovieUser {
-  isBookmarked
-  isFavorite
-  isWatched
-  movieId
-  userId
-}

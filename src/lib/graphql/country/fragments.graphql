@@ -1,4 +1,0 @@
-fragment BaseCountry on Country {
-  id
-  name
-}

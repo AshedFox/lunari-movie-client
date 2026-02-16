@@ -1,5 +1,0 @@
-query GetWatchEpisode($seriesId: String!, $numberInSeries: Int!) {
-  getEpisodeBySeriesAndNum(seriesId: $seriesId, numInSeries: $numberInSeries) {
-    ...WatchEpisode
-  }
-}

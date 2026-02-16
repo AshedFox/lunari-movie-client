@@ -1,5 +1,0 @@
-mutation CreateCollectionReview($input: CreateCollectionReviewInput!) {
-  createCollectionReview(input: $input) {
-    ...CollectionReview
-  }
-}
