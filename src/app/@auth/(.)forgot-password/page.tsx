@@ -1,13 +1,18 @@
-import ForgotPasswordForm from '@app/(guest)/forgot-password/_components/ForgotPasswordForm';
-import NextModal from '@components/common/NextModal';
+import { ForgotPasswordForm } from '@features/forgot-password';
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@components/ui/dialog';
+} from '@shared/ui/dialog';
+import { NextModal } from '@shared/ui/NextModal';
+import { cacheLife } from 'next/cache';
+import { Suspense } from 'react';
 
-const Page = () => {
+const Page = async () => {
+  'use cache';
+  cacheLife('max');
+
   return (
     <NextModal>
       <DialogContent className="@sm:max-w-[425px] @container">
@@ -17,7 +22,9 @@ const Page = () => {
             Forgot password to your account?
           </DialogDescription>
         </DialogHeader>
-        <ForgotPasswordForm />
+        <Suspense>
+          <ForgotPasswordForm />
+        </Suspense>
       </DialogContent>
     </NextModal>
   );

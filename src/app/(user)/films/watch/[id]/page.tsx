@@ -1,8 +1,8 @@
-import { VideoPlayer } from '@components/common/video-player';
-import { getCurrentUser } from '@services/user.service';
-import { getFilm, getWatchFilm } from '@services/film.service';
-import { hasPurchase } from '@services/purchase.service';
-import { hasActiveSubscription } from '@services/subscription.service';
+import { VideoPlayer } from '@shared/ui/video-player';
+import { getCurrentUser } from '@entities/user/server';
+import { getFilm, getWatchFilm } from '@entities/film/server';
+import { hasPurchase } from '@entities/purchase/server';
+import { hasActiveSubscription } from '@entities/subscription/server';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 

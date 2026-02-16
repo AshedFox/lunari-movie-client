@@ -1,7 +1,6 @@
-import { CollectionMoviesLoadableList } from '@components/collection-movie/list';
-import { PreloadQuery } from '@lib/apollo/rsc-client';
-import { GetCollectionMoviesDocument } from '@lib/graphql/generated/graphql';
-import { paramsSchema } from '../../_validation/params-schema';
+import { PreloadQuery } from '@shared/api/apollo/server';
+import { GetCollectionMoviesDocument } from '@shared/api/graphql/graphql';
+import { CollectionMoviesList } from '@widgets/collection-movies';
 
 type Props = {
   params: Promise<{
@@ -10,21 +9,21 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const { id } = paramsSchema.parse(await params);
+  const { id } = await params;
 
   return (
     <PreloadQuery
       query={GetCollectionMoviesDocument}
       variables={{
         limit: 20,
-        collectionId: String(id),
+        collectionId: id,
       }}
       context={{
         skipAuth: true,
       }}
     >
       {(queryRef) => (
-        <CollectionMoviesLoadableList collectionId={id} queryRef={queryRef} />
+        <CollectionMoviesList collectionId={Number(id)} queryRef={queryRef} />
       )}
     </PreloadQuery>
   );

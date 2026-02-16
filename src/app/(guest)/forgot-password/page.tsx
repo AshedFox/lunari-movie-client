@@ -1,18 +1,25 @@
 import type { Metadata } from 'next';
-import ForgotPasswordForm from './_components/ForgotPasswordForm';
 import Image from 'next/image';
+import { Suspense } from 'react';
+import { cacheLife } from 'next/cache';
+import { ForgotPasswordForm } from '@features/forgot-password';
 
 export const metadata: Metadata = {
   title: 'Forgot Password',
 };
 
-const Page = () => {
+const Page = async () => {
+  'use cache';
+  cacheLife('max');
+
   return (
     <div className="@container">
-      <div className="grid @lg:grid-cols-2">
+      <div className="grid @lg:grid-cols-2 size-full">
         <div className="flex flex-1 items-center justify-center p-6 @md:p-10">
           <div className="w-full max-w-sm">
-            <ForgotPasswordForm />
+            <Suspense>
+              <ForgotPasswordForm />
+            </Suspense>
           </div>
         </div>
 
@@ -20,7 +27,6 @@ const Page = () => {
           <Image
             src="/image.png"
             alt="Auth"
-            placeholder="blur"
             quality={100}
             fill
             sizes="50vw"

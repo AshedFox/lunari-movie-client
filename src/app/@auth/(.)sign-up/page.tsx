@@ -1,13 +1,18 @@
-import SignUpForm from '@app/(guest)/sign-up/_components/SignUpForm';
-import NextModal from '@components/common/NextModal';
+import { SignUpForm } from '@features/sign-up';
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@components/ui/dialog';
+} from '@shared/ui/dialog';
+import { NextModal } from '@shared/ui/NextModal';
+import { cacheLife } from 'next/cache';
+import { Suspense } from 'react';
 
-const Page = () => {
+const Page = async () => {
+  'use cache';
+  cacheLife('max');
+
   return (
     <NextModal>
       <DialogContent className="@sm:max-w-[425px] @container">
@@ -17,7 +22,9 @@ const Page = () => {
             Create new account
           </DialogDescription>
         </DialogHeader>
-        <SignUpForm />
+        <Suspense>
+          <SignUpForm />
+        </Suspense>
       </DialogContent>
     </NextModal>
   );

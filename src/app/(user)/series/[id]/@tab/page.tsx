@@ -1,4 +1,4 @@
-import { getOneSeries } from '@services/series.service';
+import { getOneSeries } from '@entities/series/api/server';
 
 type Props = {
   params: Promise<{

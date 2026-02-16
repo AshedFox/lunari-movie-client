@@ -1,0 +1,19 @@
+mutation UpdatePassword($oldPassword: String!, $newPassword: String!) {
+  updatePassword(oldPassword: $oldPassword, newPassword: $newPassword)
+}
+
+mutation UpdateMe($input: UpdateUserInput!) {
+  updateMe(input: $input) {
+    ...UserProfile
+  }
+}
+
+mutation UpdateAvatar($file: Upload!) {
+  updateAvatar(file: $file) {
+    ...UserProfile
+  }
+}
+
+mutation CreateSubscriptionsManageLink {
+  createSubscriptionsManageLink
+}

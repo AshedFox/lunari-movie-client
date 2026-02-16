@@ -1,17 +1,17 @@
-import NextModal from '@components/common/NextModal';
-import { VideoPlayer } from '@components/common/video-player';
+import { VideoPlayer } from '@shared/ui/video-player';
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@components/ui/dialog';
-import { getCurrentUser } from '@services/user.service';
+} from '@shared/ui/dialog';
+import { getCurrentUser } from '@entities/user/server';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
-import { getFilm, getWatchFilm } from '@services/film.service';
-import { hasActiveSubscription } from '@services/subscription.service';
-import { hasPurchase } from '@services/purchase.service';
+import { getFilm, getWatchFilm } from '@entities/film/server';
+import { hasActiveSubscription } from '@entities/subscription/server';
+import { hasPurchase } from '@entities/purchase/server';
+import { NextModal } from '@shared/ui/NextModal';
 
 type Props = {
   params: Promise<{

@@ -1,7 +1,0 @@
-mutation ActivateSubscription($sessionId: String!) {
-  activateSubscription(sessionId: $sessionId)
-}
-
-mutation CreateSubscriptionsManageLink {
-  createSubscriptionsManageLink
-}

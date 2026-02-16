@@ -1,13 +1,12 @@
-import { CreateCollectionReviewDialog } from '@components/collection-review/create';
-import { CollectionReviewsLoadableList } from '@components/collection-review/list';
-import { PreloadQuery } from '@lib/apollo/rsc-client';
-import { getCurrentUser } from '@services/user.service';
+import { hasCollectionReview } from '@entities/collection-review/server';
+import { getCurrentUser } from '@entities/user/server';
+import { CreateCollectionReviewDialog } from '@features/create-collection-review';
+import { PreloadQuery } from '@shared/api/apollo/server';
 import {
   GetCollectionReviewsDocument,
   SortDirectionEnum,
-} from '@lib/graphql/generated/graphql';
-import { paramsSchema } from '../../../_validation/params-schema';
-import { hasCollectionReview } from '@services/collection-review.service';
+} from '@shared/api/graphql/graphql';
+import { CollectionReviewsList } from '@widgets/collection-reviews';
 
 type Props = {
   params: Promise<{
@@ -16,21 +15,23 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const { id } = paramsSchema.parse(await params);
+  const { id } = await params;
 
   const [hasReview, user] = await Promise.all([
-    hasCollectionReview(id),
+    hasCollectionReview(Number(id)),
     getCurrentUser(),
   ]);
 
   return (
     <div className="space-y-4">
-      {user && !hasReview && <CreateCollectionReviewDialog collectionId={id} />}
+      {user && !hasReview && (
+        <CreateCollectionReviewDialog collectionId={Number(id)} />
+      )}
       <PreloadQuery
         query={GetCollectionReviewsDocument}
         variables={{
           limit: 20,
-          collectionId: id,
+          collectionId: Number(id),
           sort: { createdAt: { direction: SortDirectionEnum.DESC } },
         }}
         context={{
@@ -40,9 +41,9 @@ const Page = async ({ params }: Props) => {
         }}
       >
         {(queryRef) => (
-          <CollectionReviewsLoadableList
+          <CollectionReviewsList
             userId={user?.id}
-            collectionId={id}
+            collectionId={Number(id)}
             queryRef={queryRef}
           />
         )}

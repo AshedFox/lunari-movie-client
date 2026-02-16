@@ -1,26 +1,26 @@
-import { pageSchema } from '@lib/validation/page-schema';
-import { Paginator } from '@components/common/Paginator';
-import { parseSearchToFilter, MoviesFilters } from '@components/movie/filter';
+import { pageSchema } from '@shared/lib/zod/page-schema';
+import { Paginator } from '@features/pagination/ui/Paginator';
+import { parseSearchToFilter, MoviesFilters } from '@features/filter-movies';
 import {
-  sortSchema,
+  movieSortSchema,
   MoviesSort,
   parseSearchToSort,
-} from '@components/movie/sort';
-import { filterSchema } from '@components/movie/filter/validation';
-import { PAGE_SIZE } from './_constants';
-import { Button } from '@components/ui/button';
+} from '@features/sort-movies';
+import { filterSchema } from '@features/filter-movies/model/validation';
+import { Button } from '@shared/ui/button';
 import {
   DrawerTrigger,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   Drawer,
-} from '@components/ui/drawer';
-import { MoviesGrid } from '@components/movie/grid';
-import { getSeriesList } from '@services/series.service';
-import { getCountries } from '@services/country.service';
-import { getGenres } from '@services/genre.service';
-import { getStudiosByIds } from '@services/studio.service';
+} from '@shared/ui/drawer';
+import { getSeriesList } from '@entities/series/api/server';
+import { getCountries } from '@entities/country/api/server';
+import { getGenres } from '@entities/genre/api/server';
+import { getAllStudios } from '@entities/studio/server';
+import { MoviesGrid } from '@entities/movie';
+import { DEFAULT_PAGE_SIZE } from '@entities/series';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -30,7 +30,7 @@ const Page = async ({ searchParams }: Props) => {
   const search = await searchParams;
   const filter = filterSchema.parse(search);
   const page = pageSchema.parse(search.page);
-  const sort = sortSchema.parse(search.sort);
+  const sort = movieSortSchema.parse(search.sort);
 
   const [moviesData, countries, genres, initStudios] = await Promise.all([
     getSeriesList(
@@ -40,7 +40,9 @@ const Page = async ({ searchParams }: Props) => {
     ),
     getCountries(),
     getGenres(),
-    filter.studios.length > 0 ? getStudiosByIds(filter.studios) : undefined,
+    filter.studios.length > 0
+      ? getAllStudios({ id: { in: filter.studios } })
+      : undefined,
   ]);
 
   return (
@@ -105,7 +107,9 @@ const Page = async ({ searchParams }: Props) => {
           <Paginator
             className="mt-auto"
             currentPage={page}
-            totalPages={Math.ceil(moviesData.pageInfo.totalCount / PAGE_SIZE)}
+            totalPages={Math.ceil(
+              moviesData.pageInfo.totalCount / DEFAULT_PAGE_SIZE,
+            )}
             showNextPrev
           />
         </div>

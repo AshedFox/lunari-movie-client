@@ -21,10 +21,14 @@
     "paths": {
       "@lib/*": ["./src/lib/*"],
       "@app/*": ["./src/app/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/lib/hooks/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@features/*": ["./src/features/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@widgets/*": ["./src/widgets/*"],
       "@services/*": ["./src/services/*"],
-      "@movie-catalog/*": ["./src/*"]
+      "@views/*": ["./src/views/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": [

@@ -1,5 +1,5 @@
-import { UserPage } from '@components/user/page';
-import { getUser } from '@services/user.service';
+import { getUser } from '@entities/user/api/server';
+import { UserPage } from '@/views/user';
 import { Metadata } from 'next';
 
 type Props = {

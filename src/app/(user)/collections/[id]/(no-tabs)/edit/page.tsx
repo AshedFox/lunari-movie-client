@@ -1,8 +1,7 @@
-import { EditCollectionPage } from '@components/collection/edit';
-import { paramsSchema } from '../../_validation/params-schema';
-import { getCurrentUser } from '@services/user.service';
+import { getCollection } from '@entities/collection/server';
+import { getCurrentUser } from '@entities/user/server';
 import { notFound, redirect } from 'next/navigation';
-import { getCollection } from '@services/collection.service';
+import { EditCollectionPage } from '@/views/edit-collection';
 
 type Props = {
   params: Promise<{
@@ -11,9 +10,9 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const { id } = paramsSchema.parse(await params);
+  const { id } = await params;
   const [collection, user] = await Promise.all([
-    getCollection(id),
+    getCollection(Number(id)),
     getCurrentUser(),
   ]);
 

@@ -1,0 +1,5 @@
+mutation DeleteCollection($id: Int!) {
+  deleteCollection(id: $id) {
+    ...CollectionListItem
+  }
+}
