@@ -1,7 +1,7 @@
-import { FilmPage } from '@components/film/page';
-import { getCurrentUser } from '@services/user.service';
-import { getFilm, getFilms } from '@services/film.service';
-import { fetchMovieUser } from '@services/movie-user.service';
+import { FilmPage } from '@/views/film';
+import { getCurrentUser } from '@entities/user/server';
+import { getFilm, getFilms } from '@entities/film/server';
+import { fetchMovieUser } from '@entities/movie-user/server';
 import { Metadata } from 'next';
 
 type Props = {

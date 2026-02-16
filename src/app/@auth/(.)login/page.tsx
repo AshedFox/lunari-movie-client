@@ -1,13 +1,18 @@
-import LoginForm from '@app/(guest)/login/_components/LoginForm';
-import NextModal from '@components/common/NextModal';
+import { LoginForm } from '@features/login';
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@components/ui/dialog';
+} from '@shared/ui/dialog';
+import { NextModal } from '@shared/ui/NextModal';
+import { cacheLife } from 'next/cache';
+import { Suspense } from 'react';
 
-const Page = () => {
+const Page = async () => {
+  'use cache';
+  cacheLife('max');
+
   return (
     <NextModal>
       <DialogContent className="@sm:max-w-[425px] @container">
@@ -17,7 +22,9 @@ const Page = () => {
             Login to the account
           </DialogDescription>
         </DialogHeader>
-        <LoginForm />
+        <Suspense>
+          <LoginForm />
+        </Suspense>
       </DialogContent>
     </NextModal>
   );

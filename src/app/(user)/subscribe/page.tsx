@@ -1,8 +1,7 @@
-import SubscribeForm from './_components/SubscribeForm';
+import { getActivePlans } from '@entities/plan/server';
+import { SubscribeUserCheck, SubscribeForm } from '@features/subscribe';
 import { Metadata } from 'next';
-import { SubscribeUserCheck } from './_components/SubscribeUserCheck';
 import { Suspense } from 'react';
-import { getActivePlans } from '@services/plan.service';
 
 type Props = {
   searchParams: Promise<{

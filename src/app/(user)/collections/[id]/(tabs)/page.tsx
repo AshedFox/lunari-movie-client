@@ -1,9 +1,8 @@
-import { CollectionPage } from '@components/collection/page';
-import { getCurrentUser } from '@services/user.service';
+import { getCurrentUser } from '@entities/user/server';
 import { Metadata } from 'next';
-import { paramsSchema } from '../_validation/params-schema';
-import { fetchCollectionUser } from '@services/collection-user.service';
-import { getCollection } from '@services/collection.service';
+import { fetchCollectionUser } from '@entities/collection-user/server';
+import { getCollection } from '@entities/collection/server';
+import { CollectionPage } from '@/views/collection';
 
 type Props = {
   params: Promise<{
@@ -14,8 +13,8 @@ type Props = {
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const { id } = paramsSchema.parse(await params);
-  const collection = await getCollection(id);
+  const { id } = await params;
+  const collection = await getCollection(Number(id));
 
   return {
     title: collection.name,
@@ -24,13 +23,13 @@ export const generateMetadata = async ({
 };
 
 const Page = async ({ params }: Props) => {
-  const { id } = paramsSchema.parse(await params);
+  const { id } = await params;
 
   const user = await getCurrentUser();
 
   const [collection, collectionUser] = await Promise.all([
-    getCollection(id),
-    user ? fetchCollectionUser(user.id, id) : null,
+    getCollection(Number(id)),
+    user ? fetchCollectionUser(user.id, Number(id)) : null,
   ]);
 
   return (

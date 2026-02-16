@@ -1,8 +1,8 @@
-import { ScrollBar } from '@components/ui/scroll-area';
-import { PreloadQuery } from '@lib/apollo/rsc-client';
-import { GetMovieImagesDocument } from '@lib/graphql/generated/graphql';
-import { ScrollArea } from '@components/ui/scroll-area';
-import { MovieImagesLoadableList } from '@components/movie-image/list';
+import { ScrollBar } from '@shared/ui/scroll-area';
+import { PreloadQuery } from '@shared/api/apollo/server';
+import { ScrollArea } from '@shared/ui/scroll-area';
+import { GetMovieImagesDocument } from '@shared/api/graphql/graphql';
+import { MovieImagesList } from '@widgets/movie-image-list';
 
 type Props = {
   params: Promise<{
@@ -21,7 +21,7 @@ const Page = async ({ params }: Props) => {
       >
         {(queryRef) => (
           <ScrollArea>
-            <MovieImagesLoadableList queryRef={queryRef} movieId={id} />
+            <MovieImagesList queryRef={queryRef} movieId={id} />
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         )}

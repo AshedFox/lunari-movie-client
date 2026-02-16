@@ -1,10 +1,10 @@
 'use client';
 
-import { Button } from '@components/ui/button';
+import { Button } from '@shared/ui/button';
 import { AlertCircle } from 'lucide-react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { cn } from '@lib/utils';
+import { cn } from '@shared/lib/utils';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

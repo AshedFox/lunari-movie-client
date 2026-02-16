@@ -1,6 +1,6 @@
-import { TrailersLoadableList } from '@components/trailer/list';
-import { PreloadQuery } from '@lib/apollo/rsc-client';
-import { GetTrailersDocument } from '@lib/graphql/generated/graphql';
+import { TrailersList } from '@widgets/trailers-list';
+import { PreloadQuery } from '@shared/api/apollo/server';
+import { GetTrailersDocument } from '@shared/api/graphql/graphql';
 
 type Props = {
   params: Promise<{
@@ -21,9 +21,7 @@ const Page = async ({ params }: Props) => {
           movieId: id,
         }}
       >
-        {(queryRef) => (
-          <TrailersLoadableList movieId={id} queryRef={queryRef} />
-        )}
+        {(queryRef) => <TrailersList movieId={id} queryRef={queryRef} />}
       </PreloadQuery>
     </div>
   );

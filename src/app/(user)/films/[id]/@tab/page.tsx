@@ -1,4 +1,4 @@
-import { getFilm } from '@services/film.service';
+import { getFilm } from '@entities/film/api/server';
 
 type Props = {
   params: Promise<{

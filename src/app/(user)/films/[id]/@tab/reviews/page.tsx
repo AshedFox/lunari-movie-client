@@ -1,12 +1,12 @@
-import { CreateMovieReviewDialog } from '@components/movie-review/create';
-import { MovieReviewsLoadableList } from '@components/movie-review/list';
-import { PreloadQuery } from '@lib/apollo/rsc-client';
-import { getCurrentUser } from '@services/user.service';
+import { PreloadQuery } from '@shared/api/apollo/server';
+import { getCurrentUser } from '@entities/user/server';
+import { hasMovieReview } from '@entities/movie-review/server';
+import { CreateMovieReviewDialog } from '@features/create-movie-review';
 import {
   GetMovieReviewsDocument,
   SortDirectionEnum,
-} from '@lib/graphql/generated/graphql';
-import { hasMovieReview } from '@services/movie-review.service';
+} from '@shared/api/graphql/graphql';
+import { MovieReviewsList } from '@widgets/movie-reviews-list';
 
 type Props = {
   params: Promise<{
@@ -32,13 +32,11 @@ const Page = async ({ params }: Props) => {
           sort: { createdAt: { direction: SortDirectionEnum.DESC } },
         }}
         context={{
-          fetchOptions: {
-            next: { tags: [`movie-reviews-${id}`] },
-          },
+          skipAuth: true,
         }}
       >
         {(queryRef) => (
-          <MovieReviewsLoadableList
+          <MovieReviewsList
             userId={user?.id}
             movieId={id}
             queryRef={queryRef}

@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
-import { UserPage } from '@components/user/page';
-import { getCurrentUser } from '@services/user.service';
+import { getCurrentUser } from '@entities/user/api/server';
+import { UserPage } from '@/views/user';
 
 export const metadata: Metadata = {
   title: 'Profile',

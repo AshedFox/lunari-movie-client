@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import ResetPasswordForm from './_components/ResetPasswordForm';
+import { ResetPasswordForm } from '@features/reset-password';
 import Image from 'next/image';
 
 export const metadata: Metadata = {

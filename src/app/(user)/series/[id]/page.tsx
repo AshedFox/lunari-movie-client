@@ -1,8 +1,8 @@
-import { SeriesPage } from '@components/series/page';
-import { getCurrentUser } from '@services/user.service';
-import { fetchMovieUser } from '@services/movie-user.service';
-import { getOneSeries, getSeriesList } from '@services/series.service';
+import { getCurrentUser } from '@entities/user/server';
+import { fetchMovieUser } from '@entities/movie-user/server';
+import { getOneSeries, getSeriesList } from '@entities/series/server';
 import { Metadata } from 'next';
+import { SeriesPage } from '@/views/series';
 
 type Props = {
   params: Promise<{

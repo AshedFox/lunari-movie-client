@@ -1,15 +1,14 @@
-import UpdateProfileForm from './_components/UpdateProfileForm';
-import UpdatePasswordForm from './_components/UpdatePasswordForm';
-import LogoutButton from '@components/common/LogoutButton';
-import ManageSubscriptionButton from './_components/ManageSubscriptionButton';
 import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getClient } from '@lib/apollo/rsc-client';
+import { getCurrentUser } from '@entities/user/api/server';
+import { getCountries } from '@entities/country/server';
+import { SortDirectionEnum } from '@shared/api/graphql/graphql';
 import {
-  GetCountriesDocument,
-  SortDirectionEnum,
-} from '@lib/graphql/generated/graphql';
-import { getCurrentUser } from '@services/user.service';
+  ManageSubscriptionButton,
+  UpdatePasswordForm,
+  UpdateProfileForm,
+} from '@features/update-user';
+import { LogoutButton } from '@features/logout';
 
 export const metadata: Metadata = {
   title: 'Settings',
@@ -22,26 +21,15 @@ const Page = async () => {
     redirect('/login?from=/users/me/settings');
   }
 
-  const { data, error } = await getClient().query({
-    query: GetCountriesDocument,
-    variables: {
-      sort: {
-        name: {
-          direction: SortDirectionEnum.DESC,
-        },
-      },
-    },
+  const countries = await getCountries({
+    name: { direction: SortDirectionEnum.ASC },
   });
-
-  if (!data || error) {
-    throw new Error(error?.message ?? 'Failed to fetch');
-  }
 
   return (
     <div className="py-10 flex flex-col gap-6 overflow-y-auto container">
       <h1 className="text-4xl font-bold">Settings</h1>
       <div className="grid grid-flow-row gap-4">
-        <UpdateProfileForm user={user} countries={data.getAllCountries} />
+        <UpdateProfileForm user={user} countries={countries} />
         <UpdatePasswordForm />
       </div>
       <div className="flex flex-col gap-3">

@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ACCESS_COOKIE_KEY, REFRESH_COOKIE_KEY } from '@lib/auth/constants';
-import { resetAuthCookies, setAuthCookies } from '@lib/auth/cookie';
-import { getClient } from '@lib/apollo/rsc-client';
-import { RefreshDocument } from '@lib/graphql/generated/graphql';
-import { isGuestRoute, isPrivateRoute } from '@lib/routes';
+import { resetAuthCookies, setAuthCookies } from '@shared/lib/auth/cookie';
+import { isGuestRoute, isPrivateRoute } from '@shared/config/routes';
+import {
+  REFRESH_COOKIE_KEY,
+  ACCESS_COOKIE_KEY,
+} from '@shared/lib/auth/constants';
+import { refresh } from '@features/refresh/server';
 
-async function refresh(req: NextRequest, res: NextResponse): Promise<boolean> {
+async function makeRefresh(
+  req: NextRequest,
+  res: NextResponse,
+): Promise<boolean> {
   const refreshToken = req.cookies.get(REFRESH_COOKIE_KEY)?.value;
 
   if (!refreshToken) {
@@ -13,26 +18,16 @@ async function refresh(req: NextRequest, res: NextResponse): Promise<boolean> {
     return false;
   }
 
-  const { data, error } = await getClient().mutate({
-    mutation: RefreshDocument,
-    variables: {
-      token: refreshToken,
-    },
-    errorPolicy: 'all',
-  });
+  try {
+    const { accessToken, refreshToken: newRefreshToken } =
+      await refresh(refreshToken);
 
-  if (error || !data) {
+    await setAuthCookies(accessToken, newRefreshToken, res.cookies);
+    return true;
+  } catch {
     await resetAuthCookies(res.cookies);
     return false;
   }
-
-  await setAuthCookies(
-    data.refresh.accessToken,
-    data.refresh.refreshToken,
-    res.cookies,
-  );
-
-  return true;
 }
 
 export async function middleware(req: NextRequest) {
@@ -40,7 +35,7 @@ export async function middleware(req: NextRequest) {
   let accessToken = req.cookies.get(ACCESS_COOKIE_KEY)?.value;
 
   if (!accessToken) {
-    await refresh(req, res);
+    await makeRefresh(req, res);
     accessToken = res.cookies.get(ACCESS_COOKIE_KEY)?.value;
   }
 

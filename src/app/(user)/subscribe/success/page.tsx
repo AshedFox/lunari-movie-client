@@ -1,7 +1,7 @@
-import { buttonVariants } from '@components/ui/button';
-import { Frown, Smile } from 'lucide-react';
+import { activateSubscriptionAction } from '@features/activate-subscription';
+import { buttonVariants } from '@shared/ui/button';
+import { Smile } from 'lucide-react';
 import Link from 'next/link';
-import { activateSubscription } from './_actions';
 
 type Props = {
   searchParams: Promise<{
@@ -20,24 +20,7 @@ const Page = async ({ searchParams }: Props) => {
     );
   }
 
-  const isActivated = await activateSubscription(sessionId);
-
-  if (!isActivated) {
-    return (
-      <div className="flex flex-col gap-8 container py-10 items-center justify-center">
-        <Frown size={164} />
-        <h1 className="text-3xl font-semibold">
-          Failed to activate subscription
-        </h1>
-        <Link
-          className={buttonVariants({ variant: 'outline' })}
-          href="/subscribe"
-        >
-          Return to Subscribe page
-        </Link>
-      </div>
-    );
-  }
+  await activateSubscriptionAction(sessionId);
 
   return (
     <div className="flex flex-col gap-8 container py-10 items-center justify-center">

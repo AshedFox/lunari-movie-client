@@ -1,9 +1,9 @@
-import { VideoPlayer } from '@components/common/video-player';
-import { buttonVariants } from '@components/ui/button';
-import { getCurrentUser } from '@services/user.service';
-import { getWatchEpisode } from '@services/episode.service';
-import { hasPurchase } from '@services/purchase.service';
-import { hasActiveSubscription } from '@services/subscription.service';
+import { VideoPlayer } from '@shared/ui/video-player';
+import { buttonVariants } from '@shared/ui/button';
+import { getCurrentUser } from '@entities/user/server';
+import { getWatchEpisode } from '@entities/episode/server';
+import { hasPurchase } from '@entities/purchase/server';
+import { hasActiveSubscription } from '@entities/subscription/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';

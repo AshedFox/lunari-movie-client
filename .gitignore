@@ -44,4 +44,4 @@ yarn-error.log*
 next-env.d.ts
 
 # generated gql files
-src/lib/graphql/generated
+src/shared/api/graphql

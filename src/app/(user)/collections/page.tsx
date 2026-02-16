@@ -1,26 +1,26 @@
-import { PAGE_SIZE } from './_constants';
-import { pageSchema } from '@lib/validation/page-schema';
-import CollectionsGrid from './_components/CollectionsGrid';
-import { Paginator } from '@components/common/Paginator';
-import {
-  CollectionsFilters,
-  filterSchema,
-  parseSearchToFilter,
-} from '@components/collection/filter';
-import { Button } from '@components/ui/button';
+import { Button } from '@shared/ui/button';
 import {
   DrawerTrigger,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   Drawer,
-} from '@components/ui/drawer';
+} from '@shared/ui/drawer';
+
+import { getCollections } from '@entities/collection/api/server';
+import { pageSchema } from '@shared/lib/zod';
 import {
+  collectionFilterSchema,
+  CollectionsFilters,
+  parseSearchToFilter,
+} from '@features/filter-collections';
+import {
+  collectionSortSchema,
   CollectionsSort,
   parseSearchToSort,
-  sortSchema,
-} from '@components/collection/sort';
-import { getCollections } from '@services/collection.service';
+} from '@features/sort-collections';
+import { Paginator } from '@features/pagination';
+import { CollectionsGrid, DEFAULT_PAGE_SIZE } from '@entities/collection';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -29,8 +29,8 @@ type Props = {
 const Page = async ({ searchParams }: Props) => {
   const search = await searchParams;
   const page = pageSchema.parse(search.page);
-  const filter = filterSchema.parse(search);
-  const sort = sortSchema.parse(search.sort);
+  const filter = collectionFilterSchema.parse(search);
+  const sort = collectionSortSchema.parse(search.sort);
 
   const collectionsData = await getCollections(
     parseSearchToFilter(filter),
@@ -81,7 +81,7 @@ const Page = async ({ searchParams }: Props) => {
             className="mt-auto"
             currentPage={page}
             totalPages={Math.ceil(
-              collectionsData.pageInfo.totalCount / PAGE_SIZE,
+              collectionsData.pageInfo.totalCount / DEFAULT_PAGE_SIZE,
             )}
             showNextPrev
           />

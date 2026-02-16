@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button } from '@components/ui/button';
+import { Button } from '@shared/ui/button';
 import { RefreshCw } from 'lucide-react';
 
 export default function FilmsError({
