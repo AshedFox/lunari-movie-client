@@ -6,9 +6,14 @@ import {
   GetCollectionReviewsDocument,
   HasCollectionReviewDocument,
 } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DEFAULT_LIMIT } from '../config';
 
 export const hasCollectionReview = async (collectionId: number) => {
+  'use cache: private';
+  cacheLife('hours');
+  cacheTag(`collections-${collectionId}-reviews`);
+
   const { data } = await getClient().query({
     query: HasCollectionReviewDocument,
     variables: { collectionId },
@@ -23,6 +28,10 @@ export const getCollectionReviews = async (
   limit: number = DEFAULT_LIMIT,
   sort?: CollectionReviewSort,
 ) => {
+  'use cache: private';
+  cacheLife('hours');
+  cacheTag(`collections-${collectionId}-reviews`);
+
   const { data } = await getClient().query({
     query: GetCollectionReviewsDocument,
     variables: { collectionId, limit, cursor, sort },

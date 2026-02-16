@@ -2,6 +2,7 @@ import 'server-only';
 
 import { getClient } from '@shared/api/apollo/server';
 import { GetCollectionMoviesDocument } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DEFAULT_LIMIT } from '../config';
 
 export const getCollectionMovies = async (
@@ -9,6 +10,10 @@ export const getCollectionMovies = async (
   cursor?: string,
   limit: number = DEFAULT_LIMIT,
 ) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('movies');
+
   const { data } = await getClient().query({
     query: GetCollectionMoviesDocument,
     variables: {

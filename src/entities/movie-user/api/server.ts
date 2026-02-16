@@ -5,8 +5,13 @@ import {
   GetMovieUserDocument,
   GetUserBookmarksDocument,
 } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 
 export const getMovieUser = async (userId: string, movieId: string) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`movies-${movieId}-users-${userId}`);
+
   const { data } = await getClient().query({
     query: GetMovieUserDocument,
     variables: { movieId, userId },
@@ -17,6 +22,10 @@ export const getMovieUser = async (userId: string, movieId: string) => {
 };
 
 export const fetchMovieUser = async (userId: string, movieId: string) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`movies-${movieId}-users-${userId}`);
+
   try {
     const { data } = await getClient().query({
       query: GetMovieUserDocument,
@@ -35,6 +44,10 @@ export const getUserBookmarks = async (
   limit: number,
   offset: number,
 ) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`users-${userId}-movies`);
+
   const { data } = await getClient().query({
     query: GetUserBookmarksDocument,
     variables: { userId, limit, offset },

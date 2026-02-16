@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { cacheLife, cacheTag } from 'next/cache';
 import { getClient } from '@shared/api/apollo/server';
 import {
   GetAllStudiosDocument,
@@ -14,6 +15,10 @@ export const getStudios = async (
   page?: number,
   sort?: StudioSort,
 ) => {
+  'use cache';
+  cacheLife('days');
+  cacheTag('studios');
+
   const { data } = await getClient().query({
     query: GetStudiosDocument,
     variables: {
@@ -32,6 +37,10 @@ export const getAllStudios = async (
   filter?: StudioFilter,
   sort?: StudioSort,
 ) => {
+  'use cache';
+  cacheLife('days');
+  cacheTag('studios');
+
   const { data } = await getClient().query({
     query: GetAllStudiosDocument,
     variables: { filter, sort },

@@ -9,9 +9,15 @@ import {
   GetWatchFilmDocument,
   GetFilmTabsInfoDocument,
 } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DEFAULT_PAGE_SIZE } from '../config';
 
 export const getFilm = async (id: string) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`films-${id}`);
+  cacheTag(`movies-${id}`);
+
   const { data } = await getClient().query({
     query: GetFilmDocument,
     variables: { id },
@@ -22,6 +28,11 @@ export const getFilm = async (id: string) => {
 };
 
 export const getWatchFilm = async (id: string) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`films-${id}`);
+  cacheTag(`movies-${id}`);
+
   const { data } = await getClient().query({
     query: GetWatchFilmDocument,
     variables: { id },
@@ -36,6 +47,10 @@ export const getFilms = async (
   page?: number,
   sort?: FilmSort,
 ) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('films');
+
   const { data } = await getClient().query({
     query: GetFilmsDocument,
     variables: {
@@ -51,6 +66,11 @@ export const getFilms = async (
 };
 
 export const getFilmTabsInfo = async (id: string) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`films-${id}`);
+  cacheTag(`movies-${id}`);
+
   const { data } = await getClient().query({
     query: GetFilmTabsInfoDocument,
     variables: { id },

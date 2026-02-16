@@ -8,9 +8,14 @@ import {
   SeriesFilter,
   SeriesSort,
 } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DEFAULT_PAGE_SIZE } from '../config';
 
 export const getOneSeries = async (id: string) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`series-${id}`);
+
   const { data } = await getClient().query({
     query: GetOneSeriesDocument,
     variables: { id },
@@ -25,6 +30,10 @@ export const getSeriesList = async (
   page?: number,
   sort?: SeriesSort,
 ) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('series');
+
   const { data } = await getClient().query({
     query: GetSeriesListDocument,
     variables: {
@@ -40,6 +49,10 @@ export const getSeriesList = async (
 };
 
 export const getSeriesTabsInfo = async (id: string) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`series-${id}`);
+
   const { data } = await getClient().query({
     query: GetSeriesTabsInfoDocument,
     variables: { id },
