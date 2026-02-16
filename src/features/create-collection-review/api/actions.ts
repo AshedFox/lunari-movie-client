@@ -9,7 +9,7 @@ export async function createCollectionReviewAction(
 ) {
   const data = await createCollectionReview(input);
 
-  revalidateTag(`collections-${input.collectionId}-reviews`);
+  revalidateTag(`collections-${input.collectionId}-reviews`, 'max');
 
   return data;
 }

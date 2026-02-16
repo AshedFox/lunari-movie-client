@@ -9,7 +9,7 @@ export async function addCollectionMovieAction(
 ) {
   const data = await addCollectionMovie(collectionId, movieId);
 
-  revalidateTag(`collections-${collectionId}-movies`);
+  revalidateTag(`collections-${collectionId}-movies`, 'max');
 
   return data;
 }
@@ -20,7 +20,7 @@ export async function deleteCollectionMovieAction(
 ) {
   const data = await deleteCollectionMovie(collectionId, movieId);
 
-  revalidateTag(`collections-${collectionId}-movies`);
+  revalidateTag(`collections-${collectionId}-movies`, 'max');
 
   return data;
 }

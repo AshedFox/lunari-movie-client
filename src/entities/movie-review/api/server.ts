@@ -6,9 +6,14 @@ import {
   HasMovieReviewDocument,
   MovieReviewSort,
 } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DEFAULT_LIMIT } from '../config';
 
 export const hasMovieReview = async (movieId: string) => {
+  'use cache: private';
+  cacheLife('hours');
+  cacheTag(`movies-${movieId}-reviews`);
+
   const { data } = await getClient().query({
     query: HasMovieReviewDocument,
     variables: { movieId },
@@ -23,6 +28,10 @@ export const getMovieReviews = async (
   limit: number = DEFAULT_LIMIT,
   sort?: MovieReviewSort,
 ) => {
+  'use cache: private';
+  cacheLife('hours');
+  cacheTag(`movies-${movieId}-reviews`);
+
   const { data } = await getClient().query({
     query: GetMovieReviewsDocument,
     variables: { movieId, limit, cursor, sort },

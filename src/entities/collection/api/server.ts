@@ -8,9 +8,14 @@ import {
   GetCollectionsDocument,
   GetCollectionTabsInfoDocument,
 } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DEFAULT_PAGE_SIZE } from '../config';
 
 export const getCollection = async (id: number) => {
+  'use cache';
+  cacheTag(`collections-${id}`);
+  cacheLife('hours');
+
   const { data } = await getClient().query({
     query: GetCollectionDocument,
     variables: { id },
@@ -25,6 +30,10 @@ export const getCollections = async (
   page?: number,
   sort?: CollectionSort,
 ) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('collections');
+
   const { data } = await getClient().query({
     query: GetCollectionsDocument,
     variables: {
@@ -45,6 +54,10 @@ export const getUserCollections = async (
   page?: number,
   sort?: CollectionSort,
 ) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`users-${userId}-collections`);
+
   const { data } = await getClient().query({
     query: GetCollectionsDocument,
     variables: {
@@ -60,6 +73,10 @@ export const getUserCollections = async (
 };
 
 export const getCollectionTabsInfo = async (id: number) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag(`collections-${id}`);
+
   const { data } = await getClient().query({
     query: GetCollectionTabsInfoDocument,
     variables: { id },

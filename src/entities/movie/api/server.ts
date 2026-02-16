@@ -7,6 +7,7 @@ import {
   MovieFilter,
   MovieSort,
 } from '@shared/api/graphql/graphql';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DEFAULT_PAGE_SIZE } from '../config';
 
 export const getMovies = async (
@@ -14,6 +15,10 @@ export const getMovies = async (
   page?: number,
   sort?: MovieSort,
 ) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('movies');
+
   const { data } = await getClient().query({
     query: GetMoviesDocument,
     variables: {
@@ -29,6 +34,10 @@ export const getMovies = async (
 };
 
 export const getPopularMovies = async (page?: number) => {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('movies-popular');
+
   const { data } = await getClient().query({
     query: GetPopularMoviesDocument,
     variables: {

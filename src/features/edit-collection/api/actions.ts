@@ -1,7 +1,7 @@
 'use server';
 
 import { UpdateCollectionInput } from '@shared/api/graphql/graphql';
-import { revalidateTag } from 'next/cache';
+import { revalidateTag, updateTag } from 'next/cache';
 import { updateCollection } from './server';
 
 export async function updateCollectionAction(
@@ -10,7 +10,8 @@ export async function updateCollectionAction(
 ) {
   const data = await updateCollection(id, input);
 
-  revalidateTag(`collection-${id}`);
+  revalidateTag('collections', 'max');
+  updateTag(`collection-${id}`);
 
   return data;
 }

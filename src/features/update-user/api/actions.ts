@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { updateAvatar, updatePassword, updateProfile } from './server';
 import { UpdateUserInput } from '@shared/api/graphql/graphql';
 
@@ -9,18 +9,18 @@ export async function updatePasswordAction(
   newPassword: string,
 ) {
   const data = await updatePassword(oldPassword, newPassword);
-  revalidateTag('current-user');
+  updateTag('current-user');
   return data;
 }
 
 export async function updateProfileAction(input: UpdateUserInput) {
   const data = await updateProfile(input);
-  revalidateTag('current-user');
+  updateTag('current-user');
   return data;
 }
 
 export async function updateAvatarAction(file: File) {
   const data = await updateAvatar(file);
-  revalidateTag('current-user');
+  updateTag('current-user');
   return data;
 }

@@ -7,7 +7,7 @@ import { createCollection } from './server';
 export async function createCollectionAction(input: CreateCollectionInput) {
   const data = await createCollection(input);
 
-  revalidateTag('collections');
+  revalidateTag('collections', 'max');
 
   return data;
 }

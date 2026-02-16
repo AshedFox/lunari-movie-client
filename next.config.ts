@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       ? [new URL(process.env.NEXT_PUBLIC_IMAGES_URL)]
       : undefined,
   },
+  cacheComponents: true,
 };
 
 export default nextConfig;
