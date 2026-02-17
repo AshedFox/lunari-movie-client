@@ -1,5 +1,6 @@
-import { Badge } from '@shared/ui/badge';
+import { Badge, BadgeProps } from '@shared/ui/badge';
 import { DateBadge } from '@shared/ui/date-badge';
+import { DateTimeFormat } from '@shared/lib/format/formatters';
 
 type MovieDateSource = {
   __typename?: string;
@@ -11,9 +12,16 @@ type MovieDateSource = {
 type Props = {
   movie: MovieDateSource;
   className?: string;
+  format?: DateTimeFormat | ({} & string);
+  size?: BadgeProps['size'];
 };
 
-export const MovieReleaseBadge = ({ movie, className }: Props) => {
+export const MovieReleaseBadge = ({
+  movie,
+  className,
+  format = 'short',
+  size = 'sm',
+}: Props) => {
   const isSeries = movie.__typename === 'Series';
 
   const date = isSeries ? undefined : movie.releaseDate;
@@ -22,7 +30,7 @@ export const MovieReleaseBadge = ({ movie, className }: Props) => {
 
   if (!date && !fromDate) {
     return (
-      <Badge variant="secondary" className={className}>
+      <Badge variant="secondary" className={className} size={size}>
         Soon
       </Badge>
     );
@@ -34,6 +42,8 @@ export const MovieReleaseBadge = ({ movie, className }: Props) => {
       fromDate={fromDate!}
       toDate={toDate}
       className={className}
+      format={format}
+      size={size}
     />
   );
 };

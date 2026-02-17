@@ -2,40 +2,38 @@ import { Badge, BadgeProps } from '@shared/ui/badge';
 import { Calendar } from 'lucide-react';
 import { FormattedDate } from '@shared/ui/formatted-date';
 import { FormattedDateRange } from '@shared/ui/formatted-date-range';
-import { cn } from '@shared/lib/utils';
+import { DateTimeFormat } from '@shared/lib/format';
 
 type Props = BadgeProps & {
   date?: string | Date;
   fromDate?: string | Date;
   toDate?: string | Date | null;
-  hideIcon?: boolean;
+  format?: DateTimeFormat | ({} & string);
 };
 
 export const DateBadge = ({
   date,
   fromDate,
   toDate,
-  className,
   variant = 'secondary',
-  hideIcon,
-  children,
+  format,
   ...props
 }: Props) => {
-  if (!date && !fromDate && !children) return null;
+  if (!date && !fromDate) {
+    return null;
+  }
 
   return (
-    <Badge
-      variant={variant}
-      className={cn('px-3 py-2 gap-2', className)}
-      {...props}
-    >
-      {!hideIcon && <Calendar size={16} />}
-      {children ? (
-        children
-      ) : date ? (
-        <FormattedDate date={date} />
+    <Badge variant={variant} {...props}>
+      <Calendar />
+      {date ? (
+        <FormattedDate date={date} format={format} />
       ) : (
-        <FormattedDateRange fromDate={fromDate!} toDate={toDate} />
+        <FormattedDateRange
+          fromDate={fromDate!}
+          toDate={toDate}
+          format={format}
+        />
       )}
     </Badge>
   );
