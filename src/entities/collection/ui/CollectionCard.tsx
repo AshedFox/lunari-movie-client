@@ -1,7 +1,8 @@
 import { DATE_FORMATS } from '@shared/lib/format/formatters';
 import { FormattedDateRelative } from '@shared/ui/formatted-date-relative';
+import { RatingBadge } from '@shared/ui/rating-badge';
 import { format } from 'date-fns';
-import { CheckCircle, Star } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CollectionListItemFragment } from '@shared/api/graphql/graphql';
@@ -30,10 +31,7 @@ export const CollectionCard = ({ collection }: Props) => {
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-between px-6 pt-6 pb-2">
           <div className="flex justify-between items-start">
             {/* Rating */}
-            <div className="flex items-center gap-1 px-2 py-1 bg-yellow-500/40 text-primary-foreground backdrop-blur rounded-md font-semibold text-sm">
-              <Star className="text-yellow-500" fill="currentColor" size={16} />
-              {collection.rating === 0 ? '-' : collection.rating.toFixed(1)}
-            </div>
+            <RatingBadge rating={collection.rating} />
 
             {/* Is system */}
             {collection.isSystem && (
