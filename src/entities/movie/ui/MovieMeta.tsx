@@ -12,11 +12,11 @@ export const MovieMeta = ({ movie }: Props) => {
   return (
     <>
       {/* Release date */}
-      <MovieReleaseBadge movie={movie} />
+      <MovieReleaseBadge size="lg" movie={movie} format="long" />
 
       {/* Age restriction */}
       {movie.ageRestriction && (
-        <Badge variant={getAgeColor(movie.ageRestriction)}>
+        <Badge size="lg" variant={getAgeColor(movie.ageRestriction)}>
           {movie.ageRestriction}
         </Badge>
       )}

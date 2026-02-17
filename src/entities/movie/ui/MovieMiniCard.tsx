@@ -57,7 +57,10 @@ export const MovieMiniCard = ({ item, className }: Props) => {
 
           {/* Age restriction */}
           {item.ageRestriction && (
-            <Badge variant={getAgeColor(item.ageRestriction)}>
+            <Badge
+              className="ml-auto"
+              variant={getAgeColor(item.ageRestriction)}
+            >
               {item.ageRestriction}
             </Badge>
           )}
@@ -75,7 +78,7 @@ export const MovieMiniCard = ({ item, className }: Props) => {
         </h3>
 
         {/* Release date */}
-        <MovieReleaseBadge movie={item} />
+        <MovieReleaseBadge movie={item} format="yyyy" />
 
         {/* Genres */}
         {item.genres.length > 0 && (
