@@ -8,7 +8,12 @@ type Props = Omit<React.ComponentProps<'input'>, 'value'> & {
   value: number;
 };
 
-const Rating = ({ className, value, onRatingChange, ...props }: Props) => {
+export const RatingInput = ({
+  className,
+  value,
+  onRatingChange,
+  ...props
+}: Props) => {
   const [hoveredIndex, setHoveredIndex] = useState<number>();
 
   return (
@@ -33,5 +38,3 @@ const Rating = ({ className, value, onRatingChange, ...props }: Props) => {
     </div>
   );
 };
-
-export { Rating as Rating };
