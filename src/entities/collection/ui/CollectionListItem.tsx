@@ -1,8 +1,9 @@
 import { DATE_FORMATS } from '@shared/lib/format/formatters';
 import { FormattedDate } from '@shared/ui/formatted-date';
 import { FormattedDateRelative } from '@shared/ui/formatted-date-relative';
+import { RatingBadge } from '@shared/ui/rating-badge';
 import { format } from 'date-fns';
-import { CameraOff, Clock, Star } from 'lucide-react';
+import { CameraOff, Clock } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CollectionListItemFragment } from '@shared/api/graphql/graphql';
@@ -48,13 +49,8 @@ export const CollectionListItem = ({ collection, actionsSlot }: Props) => {
           </div>
         )}
         <div className="flex items-center gap-2 text-sm font-semibold">
-          <span
-            className="flex items-center gap-1"
-            title={`${collection.rating} with total ${collection.reviewsCount} reviews`}
-          >
-            <Star size={12} className="text-yellow-500" fill="currentColor" />
-            {collection.rating === 0 ? '-' : collection.rating.toFixed(1)}
-          </span>
+          <RatingBadge rating={collection.rating} />
+
           <span className="flex items-center text-muted-foreground text-sm">
             <Clock size={12} className="mr-1" />
             <span

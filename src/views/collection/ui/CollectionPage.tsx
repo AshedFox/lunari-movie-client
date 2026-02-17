@@ -5,7 +5,7 @@ import { CollectionListsButtons } from '@features/manage-collection-user';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { buttonVariants } from '@shared/ui/button';
-import { CollectionHeader } from '@entities/collection';
+import { CoverHeader } from '@shared/ui/cover-header';
 import {
   CollectionFragment,
   CollectionUserFragment,
@@ -21,7 +21,7 @@ type Props = {
 export const CollectionPage = ({ collection, collectionUser, user }: Props) => {
   return (
     <div className="space-y-8">
-      <CollectionHeader
+      <CoverHeader
         title={collection.name}
         coverUrl={collection.cover?.url}
         rating={collection.rating}
