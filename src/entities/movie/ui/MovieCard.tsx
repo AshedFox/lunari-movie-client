@@ -1,8 +1,6 @@
 import { Badge } from '@shared/ui/badge';
 import { ScrollArea, ScrollBar } from '@shared/ui/scroll-area';
-import { FormattedDate } from '@shared/ui/formatted-date';
-import { FormattedDateRange } from '@shared/ui/formatted-date-range';
-import { Film, Star, Tv } from 'lucide-react';
+import { Film, Tv } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -10,30 +8,31 @@ import {
   SeriesListItemFragment,
 } from '@shared/api/graphql/graphql';
 
+import { RatingBadge } from '@shared/ui/rating-badge';
+import { getMovieHref, getAgeColor } from '../lib';
+import { cn } from '@shared/lib/utils';
+import { MovieReleaseBadge } from './MovieReleaseBadge';
+
 type Props = {
   item: FilmListItemFragment | SeriesListItemFragment;
+  className?: string;
 };
 
-export const MovieCard = ({ item }: Props) => {
+export const MovieCard = ({ item, className }: Props) => {
   const isSeries = item.__typename === 'Series';
-  const href = `/${isSeries ? 'series' : 'films'}/${item.id}`;
-
   const series = isSeries ? (item as SeriesListItemFragment) : null;
-  const film = !isSeries ? (item as FilmListItemFragment) : null;
 
-  const releaseComp = isSeries
-    ? series?.startReleaseDate && (
-        <FormattedDateRange
-          fromDate={series.startReleaseDate}
-          toDate={series.endReleaseDate}
-        />
-      )
-    : film?.releaseDate && <FormattedDate date={film.releaseDate} />;
+  const href = getMovieHref(item.id, item.__typename);
 
   const NoImageIcon = isSeries ? Tv : Film;
 
   return (
-    <article className="bg-card text-card-foreground rounded-xl shadow-md overflow-hidden border flex flex-col h-full group">
+    <article
+      className={cn(
+        'bg-card text-card-foreground rounded-xl shadow-md overflow-hidden border flex flex-col h-full group',
+        className,
+      )}
+    >
       {/* Cover */}
       <Link
         href={href}
@@ -56,14 +55,13 @@ export const MovieCard = ({ item }: Props) => {
         {/* Badges */}
         <div className="absolute top-0 left-0 p-4 flex w-full gap-2 z-10 justify-between">
           {/* Rating */}
-          {!!item.rating && (
-            <Badge className="bg-yellow-500">
-              <Star fill="currentColor" />
-              {item.rating.toFixed(1)}
+          {!!item.rating && <RatingBadge rating={item.rating} />}
+          {/* Age restriction */}
+          {item.ageRestriction && (
+            <Badge variant={getAgeColor(item.ageRestriction)}>
+              {item.ageRestriction}
             </Badge>
           )}
-          {/* Age restriction */}
-          <Badge className="ml-auto bg-red-600">{item.ageRestriction}</Badge>
         </div>
       </Link>
 
@@ -78,7 +76,7 @@ export const MovieCard = ({ item }: Props) => {
 
           {/* Release date */}
           <div className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
-            {releaseComp && <span>{releaseComp}</span>}
+            <MovieReleaseBadge movie={item} />
 
             {/* Series-specific counts */}
             {series && (

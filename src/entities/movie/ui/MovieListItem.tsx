@@ -2,46 +2,42 @@ import {
   FilmListItemFragment,
   SeriesListItemFragment,
 } from '@shared/api/graphql/graphql';
-import { FormattedDate } from '@shared/ui/formatted-date';
-import { FormattedDateRange } from '@shared/ui/formatted-date-range';
-import { Clock, Film, Star, Tv } from 'lucide-react';
+import { Film, Tv } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getMovieHref } from '../lib';
+import { RatingBadge } from '@shared/ui/rating-badge';
+
+import { Badge } from '@shared/ui/badge';
+import { MovieReleaseBadge } from './MovieReleaseBadge';
 
 type Props = {
   movie: FilmListItemFragment | SeriesListItemFragment;
 };
 
 export const MovieListItem = ({ movie }: Props) => {
-  const href =
-    movie.__typename === 'Film' ? `/films/${movie.id}` : `/series/${movie.id}`;
+  const isSeries = movie.__typename === 'Series';
 
-  const releaseDate =
-    movie.__typename === 'Film' ? (
-      movie.releaseDate && (
-        <FormattedDate date={movie.releaseDate} variant="date" format="long" />
-      )
-    ) : (
-      <FormattedDateRange
-        fromDate={movie.startReleaseDate}
-        toDate={movie.endReleaseDate}
-        variant="date"
-        format="long"
-      />
-    );
+  const href = getMovieHref(movie.id, movie.__typename);
+
+  const MovieIcon = isSeries ? Tv : Film;
 
   return (
     <div className="grid rounded-lg border grid-cols-[auto_1fr] auto-rows-fr overflow-hidden @container">
-      {movie.cover && (
-        <div className="relative w-36 @md:w-44">
+      <div className="relative w-36 @md:w-44">
+        {movie.cover ? (
           <Image
             src={movie.cover?.url}
             alt="cover"
             fill
             className="object-cover"
           />
-        </div>
-      )}
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <MovieIcon className="h-10 w-10 text-muted-foreground" />
+          </div>
+        )}
+      </div>
       <div className="flex flex-col gap-1.5 py-3 px-5">
         <div className="flex justify-between">
           <h2 className="font-bold text-xl truncate">
@@ -52,31 +48,17 @@ export const MovieListItem = ({ movie }: Props) => {
               {movie.title}
             </Link>
           </h2>
-          {movie.__typename === 'Film' ? (
-            <div title="film">
-              <Film size={20} />
-            </div>
-          ) : (
-            <div title="series">
-              <Tv size={20} />
-            </div>
-          )}
+          <Badge variant="secondary" size="md">
+            <MovieIcon />
+          </Badge>
         </div>
 
         <div className="line-clamp-3 text-sm text-muted-foreground">
           {movie.description}
         </div>
         <div className="flex items-center gap-2 text-sm">
-          <span className="flex items-center gap-1 font-semibold">
-            <Star size={12} className="text-yellow-500" fill="currentColor" />
-            {movie.rating}
-          </span>
-          {releaseDate && (
-            <span className="flex items-center gap-1 text-muted-foreground">
-              <Clock size={12} />
-              {releaseDate}
-            </span>
-          )}
+          <RatingBadge rating={movie.rating} />
+          <MovieReleaseBadge movie={movie} />
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { Star } from 'lucide-react';
 import {
   FilmMiniCardFragment,
   SeriesMiniCardFragment,
 } from '@shared/api/graphql/graphql';
 import { ReactNode } from 'react';
+import { RatingBadge } from '@shared/ui/rating-badge';
 
 type Props = {
   movie: FilmMiniCardFragment | SeriesMiniCardFragment;
@@ -34,16 +34,7 @@ export const MovieHero = ({ movie, actionSlot, labelSlot }: Props) => {
         <div className="max-w-2xl space-y-4">
           <div className="flex items-center gap-2">
             {labelSlot}
-            {!!movie.rating && (
-              <span className="flex items-center gap-1 font-semibold">
-                <Star
-                  size={12}
-                  className="text-yellow-500"
-                  fill="currentColor"
-                />
-                {movie.rating}
-              </span>
-            )}
+            {!!movie.rating && <RatingBadge size="lg" rating={movie.rating} />}
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight @sm:text-6xl @md:text-7xl">
