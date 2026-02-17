@@ -3,11 +3,8 @@ import type { Metadata } from 'next';
 import { getCurrentUser } from '@entities/user/api/server';
 import { getCountries } from '@entities/country/server';
 import { SortDirectionEnum } from '@shared/api/graphql/graphql';
-import {
-  ManageSubscriptionButton,
-  UpdatePasswordForm,
-  UpdateProfileForm,
-} from '@features/update-user';
+import { UpdatePasswordForm, UpdateProfileForm } from '@features/update-user';
+import { ManageSubscriptionButton } from '@features/manage-subscription';
 import { LogoutButton } from '@features/logout';
 
 export const metadata: Metadata = {
