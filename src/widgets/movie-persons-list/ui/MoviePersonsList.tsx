@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@shared/ui/avatar';
 import {
   QueryRef,
   useQueryRefHandlers,
