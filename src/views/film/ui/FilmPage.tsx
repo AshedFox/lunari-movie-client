@@ -1,14 +1,12 @@
-import { Calendar } from 'lucide-react';
-import { FormattedDate } from '@shared/ui/formatted-date';
-import { MovieListsButtons } from '@features/manage-movie-user/ui';
+import { MovieMeta } from '@entities/movie';
+import { MovieListsButtons } from '@features/manage-movie-user';
 import { WatchButton } from '@features/watch-film';
-import { Badge } from '@shared/ui/badge';
 import {
   FilmFragment,
   MovieUserFragment,
   UserProfileFragment,
 } from '@shared/api/graphql/graphql';
-import { MovieHeader } from '@entities/movie';
+import { CoverHeader } from '@shared/ui/cover-header';
 
 type Props = {
   film: FilmFragment;
@@ -19,7 +17,7 @@ type Props = {
 export const FilmPage = ({ film, movieUser, user }: Props) => {
   return (
     <div className="space-y-8">
-      <MovieHeader
+      <CoverHeader
         title={film.title}
         rating={film.rating}
         coverUrl={film.cover?.url}
@@ -35,31 +33,7 @@ export const FilmPage = ({ film, movieUser, user }: Props) => {
             )}
           </>
         }
-        metaSlot={
-          <>
-            {/* Release date */}
-            {film.releaseDate && (
-              <Badge variant="secondary" className="px-3 py-2">
-                <Calendar />
-                <FormattedDate date={film.releaseDate} />
-              </Badge>
-            )}
-
-            {/* Age restriction */}
-            {film.ageRestriction && (
-              <Badge className="bg-red-600 px-3 py-2">
-                {film.ageRestriction}
-              </Badge>
-            )}
-
-            {/* Genres */}
-            <div className="flex flex-wrap gap-2">
-              {film.genres.map((genre) => (
-                <Badge key={genre.id}>{genre.name}</Badge>
-              ))}
-            </div>
-          </>
-        }
+        metaSlot={<MovieMeta movie={film} />}
       />
     </div>
   );

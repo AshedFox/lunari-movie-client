@@ -9,6 +9,7 @@ import { DateBadge } from '@shared/ui/date-badge';
 import { InfiniteScrollLoader } from '@shared/ui/infinite-scroll';
 import { useTransition } from 'react';
 import { GetUserReviewsDocument } from '@shared/api/graphql/graphql';
+import { getMovieHref } from '@entities/movie';
 
 interface UserReviewsTabProps {
   userId: string;
@@ -65,7 +66,10 @@ export function UserReviewsTab({ userId }: UserReviewsTabProps) {
       <div className="space-y-4 py-4">
         {reviews.map((review) => {
           const isSeries = review.movie.__typename === 'Series';
-          const href = `/${isSeries ? 'series' : 'films'}/${review.movie.id}`;
+          const href = getMovieHref(
+            review.movie.id,
+            isSeries ? 'Series' : 'Film',
+          );
           const NoImageIcon = isSeries ? Tv : Film;
 
           return (

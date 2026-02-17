@@ -1,7 +1,5 @@
 import { Badge } from '@shared/ui/badge';
-import { FormattedDate } from '@shared/ui/formatted-date';
-import { FormattedDateRange } from '@shared/ui/formatted-date-range';
-import { Film, Star, Tv } from 'lucide-react';
+import { Film, Tv } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@shared/lib/utils';
@@ -9,6 +7,10 @@ import {
   FilmMiniCardFragment,
   SeriesMiniCardFragment,
 } from '@shared/api/graphql/graphql';
+import { getMovieHref, getAgeColor } from '../lib';
+import { MovieReleaseBadge } from './MovieReleaseBadge';
+
+import { RatingBadge } from '@shared/ui/rating-badge';
 
 type Props = {
   item: FilmMiniCardFragment | SeriesMiniCardFragment;
@@ -17,19 +19,8 @@ type Props = {
 
 export const MovieMiniCard = ({ item, className }: Props) => {
   const isSeries = item.__typename === 'Series';
-  const href = `/${isSeries ? 'series' : 'films'}/${item.id}`;
 
-  const series = isSeries ? (item as SeriesMiniCardFragment) : null;
-  const film = !isSeries ? (item as FilmMiniCardFragment) : null;
-
-  const releaseComp = isSeries
-    ? series?.startReleaseDate && (
-        <FormattedDateRange
-          fromDate={series.startReleaseDate}
-          toDate={series.endReleaseDate}
-        />
-      )
-    : film?.releaseDate && <FormattedDate date={film.releaseDate} />;
+  const href = getMovieHref(item.id, item.__typename);
 
   const NoImageIcon = isSeries ? Tv : Film;
 
@@ -62,15 +53,14 @@ export const MovieMiniCard = ({ item, className }: Props) => {
         {/* Badges */}
         <div className="absolute top-0 left-0 p-4 flex w-full gap-2 z-10 justify-between">
           {/* Rating */}
-          {!!item.rating && (
-            <Badge className="bg-yellow-500">
-              <Star fill="currentColor" />
-              {item.rating.toFixed(1)}
-            </Badge>
-          )}
+          {!!item.rating && <RatingBadge rating={item.rating} />}
 
           {/* Age restriction */}
-          <Badge className="ml-auto bg-red-600">{item.ageRestriction}</Badge>
+          {item.ageRestriction && (
+            <Badge variant={getAgeColor(item.ageRestriction)}>
+              {item.ageRestriction}
+            </Badge>
+          )}
         </div>
       </Link>
 
@@ -85,9 +75,7 @@ export const MovieMiniCard = ({ item, className }: Props) => {
         </h3>
 
         {/* Release date */}
-        {releaseComp && (
-          <div className="text-muted-foreground text-xs">{releaseComp}</div>
-        )}
+        <MovieReleaseBadge movie={item} />
 
         {/* Genres */}
         {item.genres.length > 0 && (

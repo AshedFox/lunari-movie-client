@@ -1,4 +1,4 @@
-import { MovieHero } from '@entities/movie';
+import { getMovieHref, MovieHero } from '@entities/movie';
 import { getPopularMovies } from '@entities/movie/server';
 import { buttonVariants } from '@shared/ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -25,11 +25,7 @@ export const HomeHero = async () => {
           className={buttonVariants({
             size: 'lg',
           })}
-          href={
-            mostPopularMovie.__typename === 'Series'
-              ? `/series/${mostPopularMovie.id}`
-              : `/films/${mostPopularMovie.id}`
-          }
+          href={getMovieHref(mostPopularMovie.id, mostPopularMovie.__typename)}
         >
           Explore Movie
           <ArrowRight className="h-5 w-5" />

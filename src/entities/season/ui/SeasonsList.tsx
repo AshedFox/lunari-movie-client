@@ -4,14 +4,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@shared/ui/accordion';
-import { FormattedDate } from '@shared/ui/formatted-date';
-import { FormattedDateRange } from '@shared/ui/formatted-date-range';
-import { Calendar, List, Play } from 'lucide-react';
+import { List, Play } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@shared/lib/utils';
 import { Badge } from '@shared/ui/badge';
 import { ScrollArea } from '@shared/ui/scroll-area';
+import { DateBadge } from '@shared/ui/date-badge';
 import {
   EpisodeListItemFragment,
   SeasonListItemFragment,
@@ -68,13 +67,10 @@ export const SeasonsList = ({ seasons, episodes }: Props) => {
                         {season.episodesCount} episodes
                       </Badge>
                       {season.startReleaseDate && (
-                        <Badge variant="secondary">
-                          <Calendar />
-                          <FormattedDateRange
-                            fromDate={season.startReleaseDate}
-                            toDate={season.endReleaseDate}
-                          />
-                        </Badge>
+                        <DateBadge
+                          fromDate={season.startReleaseDate}
+                          toDate={season.endReleaseDate}
+                        />
                       )}
                     </div>
                   </div>
@@ -164,10 +160,7 @@ export const SeasonsList = ({ seasons, episodes }: Props) => {
 
                               {/* Release date */}
                               {episode.releaseDate && (
-                                <Badge variant="secondary">
-                                  <Calendar />
-                                  <FormattedDate date={episode.releaseDate} />
-                                </Badge>
+                                <DateBadge date={episode.releaseDate} />
                               )}
                             </div>
 
