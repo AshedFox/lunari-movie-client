@@ -58,7 +58,7 @@ export const MovieListItem = ({ movie }: Props) => {
         </div>
         <div className="flex items-center gap-2 text-sm">
           <RatingBadge rating={movie.rating} />
-          <MovieReleaseBadge movie={movie} />
+          <MovieReleaseBadge movie={movie} format="short" />
         </div>
       </div>
     </div>

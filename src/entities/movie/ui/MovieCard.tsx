@@ -58,7 +58,10 @@ export const MovieCard = ({ item, className }: Props) => {
           {!!item.rating && <RatingBadge rating={item.rating} />}
           {/* Age restriction */}
           {item.ageRestriction && (
-            <Badge variant={getAgeColor(item.ageRestriction)}>
+            <Badge
+              className="ml-auto"
+              variant={getAgeColor(item.ageRestriction)}
+            >
               {item.ageRestriction}
             </Badge>
           )}
@@ -76,7 +79,7 @@ export const MovieCard = ({ item, className }: Props) => {
 
           {/* Release date */}
           <div className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
-            <MovieReleaseBadge movie={item} />
+            <MovieReleaseBadge movie={item} format="short" />
 
             {/* Series-specific counts */}
             {series && (
