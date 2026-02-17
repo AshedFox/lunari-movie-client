@@ -1,14 +1,12 @@
-import { Calendar } from 'lucide-react';
+import { MovieMeta } from '@entities/movie';
 import {
   MovieUserFragment,
   SeriesFragment,
   UserProfileFragment,
 } from '@shared/api/graphql/graphql';
-import { FormattedDateRange } from '@shared/ui/formatted-date-range';
-import { MovieListsButtons } from '@features/manage-movie-user/ui';
-import { Badge } from '@shared/ui/badge';
-import { SeasonsList } from '@entities/season/ui/SeasonsList';
-import { MovieHeader } from '@entities/movie';
+import { MovieListsButtons } from '@features/manage-movie-user';
+import { SeasonsList } from '@entities/season';
+import { CoverHeader } from '@shared/ui/cover-header';
 
 type Props = {
   series: SeriesFragment;
@@ -19,7 +17,7 @@ type Props = {
 export const SeriesPage = ({ series, movieUser, user }: Props) => {
   return (
     <div className="space-y-8">
-      <MovieHeader
+      <CoverHeader
         title={series.title}
         rating={series.rating}
         coverUrl={series.cover?.url}
@@ -28,34 +26,7 @@ export const SeriesPage = ({ series, movieUser, user }: Props) => {
             <MovieListsButtons movieUser={movieUser} movieId={series.id} />
           )
         }
-        metaSlot={
-          <>
-            {/* Release date */}
-            {series.startReleaseDate && (
-              <Badge variant="secondary" className="px-3 py-2">
-                <Calendar />
-                <FormattedDateRange
-                  fromDate={series.startReleaseDate}
-                  toDate={series.endReleaseDate}
-                />
-              </Badge>
-            )}
-
-            {/* Age restriction */}
-            {series.ageRestriction && (
-              <Badge className="bg-red-600 px-3 py-2">
-                {series.ageRestriction}
-              </Badge>
-            )}
-
-            {/* Genres */}
-            <div className="flex flex-wrap gap-2">
-              {series.genres.map((genre) => (
-                <Badge key={genre.id}>{genre.name}</Badge>
-              ))}
-            </div>
-          </>
-        }
+        metaSlot={<MovieMeta movie={series} />}
       />
 
       <main className="container">
