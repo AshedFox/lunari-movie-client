@@ -1,11 +1,11 @@
 'use client';
 
 import { useSuspenseQuery } from '@apollo/client/react';
-import { Badge } from '@shared/ui/badge';
-import { Star, Film, Tv } from 'lucide-react';
+import { RatingBadge } from '@shared/ui/rating-badge';
+import { Film, Tv } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FormattedDateRelative } from '@shared/ui/formatted-date-relative';
+import { DateBadge } from '@shared/ui/date-badge';
 import { InfiniteScrollLoader } from '@shared/ui/infinite-scroll';
 import { useTransition } from 'react';
 import { GetUserReviewsDocument } from '@shared/api/graphql/graphql';
@@ -101,16 +101,11 @@ export function UserReviewsTab({ userId }: UserReviewsTabProps) {
                   >
                     {review.movie.title}
                   </Link>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1.5">
-                    <FormattedDateRelative date={review.createdAt} />
-                  </div>
+                  <DateBadge date={review.createdAt} />
                 </div>
 
                 {/* Rating Badge */}
-                <Badge className="bg-yellow-500">
-                  <Star size={10} fill="currentColor" />
-                  {review.mark}
-                </Badge>
+                <RatingBadge rating={review.mark} />
               </div>
 
               {/* Review Content */}
