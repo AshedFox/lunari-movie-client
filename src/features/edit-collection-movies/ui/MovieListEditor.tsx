@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@apollo/client/react';
-import { MovieListItem } from '@entities/movie/ui/MovieListItem';
+import { MovieListItem } from '@entities/movie';
 import {
   FilmListItemFragment,
   SeriesListItemFragment,
