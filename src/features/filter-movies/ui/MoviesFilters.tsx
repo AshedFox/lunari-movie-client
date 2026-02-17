@@ -3,8 +3,8 @@
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form } from '@shared/ui/form';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@shared/ui/button';
+import { useFilterForm } from '@shared/lib/hooks/use-filter-form';
 import { BaseMoviesFilters } from './BaseMoviesFilters';
 import { EMPTY_FILTERS } from '../config';
 import { FilterFormInput } from '../model/types';
@@ -25,10 +25,6 @@ export const MoviesFilters = ({
   genres,
   formInit = EMPTY_FILTERS,
 }: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const countriesOptions = useMemo(
     () =>
       countries.map((country) => ({ value: country.id, label: country.name })),
@@ -51,12 +47,6 @@ export const MoviesFilters = ({
     defaultValues: formInit,
   });
 
-  const resetParams = (params: URLSearchParams) => {
-    Object.keys(form.getValues()).forEach((key) => {
-      params.delete(key);
-    });
-  };
-
   const setParams = (params: URLSearchParams, input: FilterFormInput) => {
     Object.entries(input).forEach(([key, value]) => {
       if (typeof value === 'string' && value !== '') {
@@ -76,22 +66,11 @@ export const MoviesFilters = ({
     });
   };
 
-  const onSubmit = (input: FilterFormInput) => {
-    const params = new URLSearchParams(searchParams);
-
-    resetParams(params);
-    setParams(params, input);
-    params.delete('page');
-
-    router.push(`${pathname}?${params}`);
-  };
-
-  const handleReset = () => {
-    const params = new URLSearchParams(searchParams);
-    resetParams(params);
-    router.push(`${pathname}?${params}`);
-    form.reset(EMPTY_FILTERS);
-  };
+  const { onSubmit, handleReset } = useFilterForm({
+    form,
+    setParams,
+    defaultValues: EMPTY_FILTERS,
+  });
 
   return (
     <Form {...form}>
