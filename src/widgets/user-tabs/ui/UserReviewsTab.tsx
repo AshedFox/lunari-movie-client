@@ -1,21 +1,20 @@
 'use client';
 
 import { useSuspenseQuery } from '@apollo/client/react';
-import { RatingBadge } from '@shared/ui/rating-badge';
 import { Film, Tv } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { DateBadge } from '@shared/ui/date-badge';
 import { InfiniteScrollLoader } from '@shared/ui/infinite-scroll';
 import { useTransition } from 'react';
 import { GetUserReviewsDocument } from '@shared/api/graphql/graphql';
 import { getMovieHref } from '@entities/movie';
+import { ReviewListItem } from '@shared/ui/review-list-item';
 
-interface UserReviewsTabProps {
+type Props = {
   userId: string;
-}
+};
 
-export function UserReviewsTab({ userId }: UserReviewsTabProps) {
+export const UserReviewsTab = ({ userId }: Props) => {
   const { data, fetchMore } = useSuspenseQuery(GetUserReviewsDocument, {
     variables: { userId, limit: 20 },
   });
@@ -66,22 +65,15 @@ export function UserReviewsTab({ userId }: UserReviewsTabProps) {
       <div className="space-y-4 py-4">
         {reviews.map((review) => {
           const isSeries = review.movie.__typename === 'Series';
-          const href = getMovieHref(
-            review.movie.id,
-            isSeries ? 'Series' : 'Film',
-          );
+          const href = getMovieHref(review.movieId, review.movie.__typename);
           const NoImageIcon = isSeries ? Tv : Film;
 
           return (
-            <div
+            <ReviewListItem
               key={review.id}
-              className="group flex flex-col gap-4 p-5 border rounded-xl bg-card/40"
-            >
-              {/* Movie Context */}
-              <div className="flex gap-4 items-start border-b border-border/40 pb-4">
-                {/* Movie Cover */}
+              avatarSlot={
                 <Link href={href} className="shrink-0">
-                  <div className="relative aspect-[2/3] h-16 rounded-md overflow-hidden bg-muted">
+                  <div className="relative aspect-[2/3] h-24 rounded-md overflow-hidden bg-muted">
                     {review.movie.cover ? (
                       <Image
                         src={review.movie.cover.url}
@@ -96,27 +88,24 @@ export function UserReviewsTab({ userId }: UserReviewsTabProps) {
                     )}
                   </div>
                 </Link>
-
-                {/* Movie Details */}
-                <div className="flex-1 min-w-0">
+              }
+              authorSlot={
+                <>
+                  <span className="text-muted-foreground select-none">
+                    {isSeries ? 'Series' : 'Film'}{' '}
+                  </span>
                   <Link
                     href={href}
                     className="font-heading font-semibold text-lg leading-tight text-foreground transition-colors group-hover:text-primary truncate"
                   >
                     {review.movie.title}
                   </Link>
-                  <DateBadge date={review.createdAt} />
-                </div>
-
-                {/* Rating Badge */}
-                <RatingBadge rating={review.mark} />
-              </div>
-
-              {/* Review Content */}
-              <div className="text-sm text-foreground/90 leading-relaxed">
-                <p className="line-clamp-4">{review.text}</p>
-              </div>
-            </div>
+                </>
+              }
+              rating={review.mark}
+              text={review.text ?? ''}
+              createdAt={review.createdAt}
+            />
           );
         })}
       </div>
@@ -127,4 +116,4 @@ export function UserReviewsTab({ userId }: UserReviewsTabProps) {
       />
     </>
   );
-}
+};
