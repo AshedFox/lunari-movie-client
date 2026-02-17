@@ -1,7 +1,7 @@
 'use client';
 
 import { useSuspenseQuery } from '@apollo/client/react';
-import { CollectionCard } from '@entities/collection/ui/CollectionCard';
+import { CollectionCard } from '@entities/collection';
 import { GetCollectionsDocument } from '@shared/api/graphql/graphql';
 import { InfiniteScrollLoader } from '@shared/ui/infinite-scroll';
 import { useTransition } from 'react';
