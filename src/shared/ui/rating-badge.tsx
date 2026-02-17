@@ -8,9 +8,13 @@ type Props = {
   size?: 'sm' | 'md' | 'lg';
 };
 
-export const RatingBadge = ({ rating, className, size = 'md' }: Props) => {
+export const RatingBadge = ({ rating, className, size = 'sm' }: Props) => {
   return (
-    <Badge variant="outline" className={cn(className)} size={size}>
+    <Badge
+      variant="ghost"
+      className={cn('bg-yellow-500', className)}
+      size={size}
+    >
       <Star fill="currentColor" />
       <span>{rating === 0 ? '-' : rating.toFixed(1)}</span>
     </Badge>
