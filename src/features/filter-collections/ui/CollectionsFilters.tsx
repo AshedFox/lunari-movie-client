@@ -8,18 +8,14 @@ import {
   FormItem,
   FormLabel,
 } from '@shared/ui/form';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@shared/ui/button';
 import { FilterFormInput } from '../model/types';
+import { useFilterForm } from '@shared/lib/hooks/use-filter-form';
 import { Input } from '@shared/ui/input';
 import { Option } from '@shared/ui/multi-select';
 import { Combobox } from '@shared/ui/combobox';
 import { EMPTY_FILTERS } from '../config';
-import { cn } from '@shared/lib/utils';
-import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/popover';
-import { Calendar } from '@shared/ui/calendar';
-import { CalendarIcon } from 'lucide-react';
-import { addYears, format } from 'date-fns';
+import { DateRangeField } from '@shared/ui/date-range-field';
 
 type Props = {
   formInit?: FilterFormInput;
@@ -31,19 +27,9 @@ const COLLECTION_TYPE_OPTIONS: Option[] = [
 ];
 
 export const CollectionsFilters = ({ formInit = EMPTY_FILTERS }: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const form = useForm<FilterFormInput>({
     defaultValues: formInit,
   });
-
-  const resetParams = (params: URLSearchParams) => {
-    Object.keys(form.getValues()).forEach((key) => {
-      params.delete(key);
-    });
-  };
 
   const setParams = (params: URLSearchParams, input: FilterFormInput) => {
     Object.entries(input).forEach(([key, value]) => {
@@ -62,22 +48,11 @@ export const CollectionsFilters = ({ formInit = EMPTY_FILTERS }: Props) => {
     });
   };
 
-  const onSubmit = (input: FilterFormInput) => {
-    const params = new URLSearchParams(searchParams);
-
-    resetParams(params);
-    setParams(params, input);
-    params.delete('page');
-
-    router.push(`${pathname}?${params}`);
-  };
-
-  const handleReset = () => {
-    const params = new URLSearchParams(searchParams);
-    resetParams(params);
-    router.push(`${pathname}?${params}`);
-    form.reset(EMPTY_FILTERS);
-  };
+  const { onSubmit, handleReset } = useFilterForm({
+    form,
+    setParams,
+    defaultValues: EMPTY_FILTERS,
+  });
 
   return (
     <Form {...form}>
@@ -94,103 +69,15 @@ export const CollectionsFilters = ({ formInit = EMPTY_FILTERS }: Props) => {
             </FormItem>
           )}
         />
-        <FormField
+        <DateRangeField
           control={form.control}
           name="createdAt"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Created At</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'font-normal justify-start text-left',
-                        !field.value && 'text-muted-foreground',
-                      )}
-                    >
-                      <CalendarIcon />
-                      {field.value?.from ? (
-                        field.value.to ? (
-                          <>
-                            {format(field.value.from, 'LLL dd, y')} -{' '}
-                            {format(field.value.to, 'LLL dd, y')}
-                          </>
-                        ) : (
-                          format(field.value.from, 'LLL dd, y')
-                        )
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="range"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > addYears(new Date(), 10) ||
-                      date < new Date('1900-01-01')
-                    }
-                    numberOfMonths={2}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </FormItem>
-          )}
+          label="Created At"
         />
-        <FormField
+        <DateRangeField
           control={form.control}
           name="updatedAt"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Last Modified</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'font-normal justify-start text-left',
-                        !field.value && 'text-muted-foreground',
-                      )}
-                    >
-                      <CalendarIcon />
-                      {field.value?.from ? (
-                        field.value.to ? (
-                          <>
-                            {format(field.value.from, 'LLL dd, y')} -{' '}
-                            {format(field.value.to, 'LLL dd, y')}
-                          </>
-                        ) : (
-                          format(field.value.from, 'LLL dd, y')
-                        )
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="range"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > addYears(new Date(), 10) ||
-                      date < new Date('1900-01-01')
-                    }
-                    numberOfMonths={2}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </FormItem>
-          )}
+          label="Last Modified"
         />
         <FormField
           control={form.control}
