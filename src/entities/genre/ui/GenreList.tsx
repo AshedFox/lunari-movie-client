@@ -16,14 +16,9 @@ export const GenreList = ({ genres, title }: Props) => {
         <ScrollArea className="rounded-md border">
           <div className="flex space-x-2 p-4">
             {genres.map((genre) => (
-              <Link key={genre.id} href={`/films?genres=${genre.id}`}>
-                <Badge
-                  variant="secondary"
-                  className="cursor-pointer px-4 py-2 text-sm hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  {genre.name}
-                </Badge>
-              </Link>
+              <Badge key={genre.id} variant="secondary" size="lg" asChild>
+                <Link href={`/films?genres=${genre.id}`}>{genre.name}</Link>
+              </Badge>
             ))}
           </div>
           <ScrollBar orientation="horizontal" />
