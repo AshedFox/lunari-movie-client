@@ -1,29 +1,22 @@
-import { CreateCollectionReviewForm } from '@features/create-collection-review';
-import { Button } from '@shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@shared/ui/dialog';
+'use client';
 
-export const CreateCollectionReviewDialog = ({
-  collectionId,
-}: {
+import { useState } from 'react';
+import { CreateCollectionReviewForm } from './CreateCollectionReviewForm';
+import { ReviewDialog } from '@entities/review';
+
+type Props = {
   collectionId: number;
-}) => {
+};
+
+export const CreateCollectionReviewDialog = ({ collectionId }: Props) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Write review</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Write review</DialogTitle>
-        </DialogHeader>
-        <CreateCollectionReviewForm collectionId={collectionId} />
-      </DialogContent>
-    </Dialog>
+    <ReviewDialog open={open} onOpenChange={setOpen} title="Write a review">
+      <CreateCollectionReviewForm
+        collectionId={collectionId}
+        onSuccess={() => setOpen(false)}
+      />
+    </ReviewDialog>
   );
 };

@@ -1,25 +1,22 @@
-import { CreateMovieReviewForm } from '@features/create-movie-review';
-import { Button } from '@shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@shared/ui/dialog';
+'use client';
 
-export const CreateMovieReviewDialog = ({ movieId }: { movieId: string }) => {
+import { useState } from 'react';
+import { CreateMovieReviewForm } from './CreateMovieReviewForm';
+import { ReviewDialog } from '@entities/review';
+
+type Props = {
+  movieId: string;
+};
+
+export const CreateMovieReviewDialog = ({ movieId }: Props) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Write review</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Write review</DialogTitle>
-        </DialogHeader>
-        <CreateMovieReviewForm movieId={movieId} />
-      </DialogContent>
-    </Dialog>
+    <ReviewDialog open={open} onOpenChange={setOpen} title="Write a review">
+      <CreateMovieReviewForm
+        movieId={movieId}
+        onSuccess={() => setOpen(false)}
+      />
+    </ReviewDialog>
   );
 };
