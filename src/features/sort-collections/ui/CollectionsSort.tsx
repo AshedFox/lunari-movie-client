@@ -1,18 +1,10 @@
 'use client';
 
-import { buttonVariants } from '@shared/ui/button';
-import { cn } from '@shared/lib/utils';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useCallback } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import { SortSelect } from '@shared/ui/sort-select';
 import { SORT_VARIANTS, SORT_OPTIONS } from '../config/constants';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@shared/ui/select';
 
 type Props = {
   currentSort?: string;
@@ -34,30 +26,16 @@ export const CollectionsSort = ({ currentSort }: Props) => {
     [searchParams],
   );
 
+  const onValueChange = (value: string) => {
+    router.replace(`${pathname}?${createQueryString('sort', value)}`);
+  };
+
   return (
-    <Select
-      defaultValue={currentSort ?? SORT_VARIANTS[0]}
-      onValueChange={(value) => {
-        router.replace(`${pathname}?${createQueryString('sort', value)}`);
-      }}
-    >
-      <SelectTrigger
-        className={cn(
-          buttonVariants({ variant: 'outline' }),
-          'ml-auto w-fit min-w-28',
-        )}
-      >
-        <SelectValue placeholder="Sort" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {Object.entries(SORT_OPTIONS).map(([value, label]) => (
-            <SelectItem key={value} value={value}>
-              {label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <SortSelect
+      currentSort={currentSort}
+      options={SORT_OPTIONS}
+      defaultSort={SORT_VARIANTS[0]}
+      onValueChange={onValueChange}
+    />
   );
 };
